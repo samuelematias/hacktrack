@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import './home_bloc.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomePage extends StatelessWidget {
   final appName = 'HackTrack';
   @override
   Widget build(BuildContext context) {
