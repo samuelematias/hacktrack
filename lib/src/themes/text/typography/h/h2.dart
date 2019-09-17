@@ -12,7 +12,8 @@ class H2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: Theme.of(context).accentTextTheme.title,
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.display1,
     );
   }
 }

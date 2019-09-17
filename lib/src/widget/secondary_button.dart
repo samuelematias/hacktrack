@@ -13,7 +13,7 @@ class SecondaryButton extends StatelessWidget {
       @required this.onPress,
       this.borderColor = const Color(0xffc7c3fa),
       this.label = '',
-      this.width = 90.0,
+      this.width = 250.0,
       this.height = 40.0,
       this.buttonColor = Colors.white})
       : super(key: key);
@@ -23,8 +23,8 @@ class SecondaryButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Container(
-        width: 250.0,
-        height: 40.0,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           border: Border.all(
             color: borderColor,

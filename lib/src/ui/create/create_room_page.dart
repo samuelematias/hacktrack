@@ -6,6 +6,7 @@ import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/p/p2.dart';
 import '../../themes/text/typography/p/p3.dart';
 import '../../util/metrics.dart';
+import '../../util/routes.dart';
 import '../../widget/input.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
@@ -28,7 +29,8 @@ class CreateRoomPage extends StatelessWidget {
 
   Widget _bodyWidget(BuildContext context) {
     FocusNode _focusNode = FocusNode();
-    final _inputController = TextEditingController();
+    final _inputController1 = TextEditingController();
+    final _inputController2 = TextEditingController();
     double leftOverFlow = -5.0;
     double rightOverFlow = -5.0;
     double bottomOverFlow = 0.0;
@@ -68,7 +70,7 @@ class CreateRoomPage extends StatelessWidget {
                             context: context,
                             hint: "Handle name",
                             autofocus: true,
-                            inputController: _inputController,
+                            inputController: _inputController1,
                             textInputAction: TextInputAction.next,
                             onEditingComplete: () =>
                                 FocusScope.of(context).requestFocus(_focusNode),
@@ -110,7 +112,7 @@ class CreateRoomPage extends StatelessWidget {
                               context: context,
                               hint: "Hackathon name",
                               focusNode: _focusNode,
-                              inputController: _inputController,
+                              inputController: _inputController2,
                             ),
                           ),
                           Padding(
@@ -138,7 +140,9 @@ class CreateRoomPage extends StatelessWidget {
                   bottom: bottomOverFlow,
                   child: PrimaryButton(
                     label: "Create",
-                    onPress: () {},
+                    onPress: () => Navigator.of(context).pushNamed(
+                      RoutesNames.createCodes,
+                    ),
                   ),
                 ),
               ],

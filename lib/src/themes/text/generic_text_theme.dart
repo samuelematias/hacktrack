@@ -10,6 +10,11 @@ class GenericTextTheme extends TextTheme {
             fontSize: space_fire_bush,
             fontWeight: FontWeight.bold,
           ),
+          display1: TextStyle(
+            fontSize: space_golden_dream,
+            color: black,
+            fontWeight: FontWeight.bold,
+          ),
           body1: TextStyle(
             fontSize: space_dodger_blue,
             color: black,

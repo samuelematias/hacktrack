@@ -12,5 +12,7 @@ Color red = Convert.hexToDartColor('#D3455B');
 Color lightRed = Convert.hexToDartColor('#EDB4BD');
 Color green = Convert.hexToDartColor('#1AAE9F');
 Color lightGreen = Convert.hexToDartColor('#A3DED8');
+Color mustard = Convert.hexToDartColor('#EFA544');
+Color lightMustard = Convert.hexToDartColor('#F8DBB4');
 Color overlay = Color.fromRGBO(0, 0, 0, 0.24);
 Color overlay35 = Color.fromRGBO(0, 0, 0, 0.35);
