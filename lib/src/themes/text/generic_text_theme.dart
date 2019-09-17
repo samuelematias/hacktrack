@@ -20,6 +20,11 @@ class GenericTextTheme extends TextTheme {
             color: lightGrey,
             fontWeight: FontWeight.w600,
           ),
+          caption: TextStyle(
+            fontSize: space_golden_dream,
+            color: red,
+            fontWeight: FontWeight.w600,
+          ),
           button: TextStyle(
             fontSize: space_golden_dream,
             color: white,

@@ -4,9 +4,11 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/p/p2.dart';
+import '../../themes/text/typography/p/p3.dart';
 import '../../util/metrics.dart';
 import '../../widget/input.dart';
 import '../../widget/primary_appbar.dart';
+import '../../widget/primary_button.dart';
 
 class JoinPage extends StatelessWidget {
   @override
@@ -26,53 +28,75 @@ class JoinPage extends StatelessWidget {
 
   Widget _bodyWidget(BuildContext context) {
     final _inputController = TextEditingController();
+    double leftOverFlow = -5.0;
+    double rightOverFlow = -5.0;
+    double bottomOverFlow = 0.0;
+    bool wrongId = false;
 
     return SafeArea(
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        child: Container(
-          color: Colors.transparent,
-          width: Metrics.fullWidth(context),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  left: space_conifer,
-                  top: space_golden_dream,
-                  right: space_conifer,
+      child: Container(
+        width: Metrics.fullWidth(context),
+        child: Stack(
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: space_conifer,
+                    top: space_golden_dream,
+                    right: space_conifer,
+                  ),
+                  child: H1(
+                    text: "Enter your hackathon access code:",
+                  ),
                 ),
-                child: H1(
-                  text: "Enter your hackathon access code:",
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: space_geraldine,
+                    top: space_golden_dream,
+                    right: space_geraldine,
+                  ),
+                  child: Input(
+                    context: context,
+                    hint: "Access code",
+                    autofocus: true,
+                    // focusNode: _focusNode,
+                    inputController: _inputController,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: space_geraldine,
-                  top: space_golden_dream,
-                  right: space_geraldine,
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: space_heliotrope,
+                    top: space_dodger_blue,
+                    right: space_heliotrope,
+                  ),
+                  child: !wrongId
+                      ? P2(
+                          text:
+                              "This is the code your organizer has sent you. Please contact them if you do not have this code.",
+                        )
+                      : P3(
+                          text:
+                              "Wrong access code, please check your code and try again.",
+                        ),
                 ),
-                child: Input(
-                  context: context,
-                  hint: "Access code",
-                  autofocus: true,
-                  // focusNode: _focusNode,
-                  inputController: _inputController,
+              ],
+            ),
+            Stack(
+              children: <Widget>[
+                Positioned(
+                  left: leftOverFlow,
+                  right: rightOverFlow,
+                  bottom: bottomOverFlow,
+                  child: PrimaryButton(
+                    label: "Join",
+                    onPress: () {},
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: space_heliotrope,
-                  top: space_golden_dream,
-                  right: space_heliotrope,
-                ),
-                child: P2(
-                  text:
-                      "This is the code your organizer has sent you. Please contact them if you do not have this code.",
-                ),
-              ),
-            ],
-          ),
+              ],
+            )
+          ],
         ),
       ),
     );
