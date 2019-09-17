@@ -4,6 +4,7 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/p/p1.dart';
+import '../../util/routes.dart';
 import '../../widget/empty_appbar.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_button.dart';
@@ -14,11 +15,11 @@ class StartPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: EmptyAppBar(),
-      body: _bodyWidget(),
+      body: _bodyWidget(context),
     );
   }
 
-  Widget _bodyWidget() {
+  Widget _bodyWidget(BuildContext context) {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.all(space_golden_dream),
@@ -65,7 +66,8 @@ class StartPage extends StatelessWidget {
                   ),
                   child: SecondaryButton(
                     label: "Join a Hackathon",
-                    onPress: () {},
+                    onPress: () =>
+                        Navigator.of(context).pushNamed(RoutesNames.join),
                   ),
                 )
               ],
