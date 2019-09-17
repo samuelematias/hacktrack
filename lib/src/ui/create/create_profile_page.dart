@@ -7,7 +7,6 @@ import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_image_picker.dart';
 import '../../util/metrics.dart';
-import '../../util/routes.dart';
 import '../../widget/input.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';

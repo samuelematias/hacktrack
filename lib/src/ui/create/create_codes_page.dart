@@ -90,10 +90,6 @@ class CreateCodesPage extends StatelessWidget {
                         },
                       ),
                     ),
-                    // PrimaryButton(
-                    //   label: "Next",
-                    //   onPress: () {},
-                    // ),
                   ],
                 ),
               ),
