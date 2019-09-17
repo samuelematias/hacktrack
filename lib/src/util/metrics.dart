@@ -66,4 +66,8 @@ class Metrics {
     }
     return returnSize;
   }
+
+  static double fullWidth(BuildContext context) {
+    return MediaQuery.of(context).size.width;
+  }
 }
