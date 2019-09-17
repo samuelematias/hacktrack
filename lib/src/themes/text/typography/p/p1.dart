@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class H1 extends StatelessWidget {
+class P1 extends StatelessWidget {
   final String text;
 
-  const H1({
+  const P1({
     Key key,
     @required this.text,
   }) : super(key: key);
@@ -12,8 +12,8 @@ class H1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.title,
+      textAlign: TextAlign.left,
+      style: Theme.of(context).textTheme.body1,
     );
   }
 }

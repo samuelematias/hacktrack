@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../themes/color_palette.dart';
+import '../../themes/spacing/linear_scale.dart';
+import '../../themes/text/typography/h/h1.dart';
+import '../../themes/text/typography/p/p1.dart';
 import '../../widget/empty_appbar.dart';
+import '../../widget/primary_button.dart';
+import '../../widget/secondary_button.dart';
 
 class StartPage extends StatelessWidget {
   @override
@@ -15,9 +21,55 @@ class StartPage extends StatelessWidget {
   Widget _bodyWidget() {
     return SafeArea(
       child: Container(
+        padding: EdgeInsets.all(space_golden_dream),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text("Welcome to HackTrack"),
+            Center(
+              child: Icon(
+                Icons.computer,
+                color: purple,
+                size: space_magic_mint,
+              ),
+            ),
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(space_spring_green),
+                  child: H1(
+                    text:
+                        "Welcome to HackTrack, the ultimate hackathon manager.",
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: space_fire_bush,
+                    top: space_golden_dream,
+                  ),
+                  child: P1(
+                    text:
+                        "Bring every status report to a real time platform, shared by mentors and participants during the event.",
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                PrimaryButton(
+                  label: "Create your Hackathon",
+                  onPress: () {},
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: space_dodger_blue,
+                  ),
+                  child: SecondaryButton(
+                    label: "Join a Hackathon",
+                    onPress: () {},
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),

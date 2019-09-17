@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../color_palette.dart';
+import '../spacing/linear_scale.dart';
+
 class AccentTextTheme extends TextTheme {
   AccentTextTheme()
       : super(
-          title: TextStyle(
-            fontSize: 18.0,
-            fontStyle: FontStyle.normal,
-            color: Colors.red,
+          button: TextStyle(
+            fontSize: space_golden_dream,
+            color: purple,
+            fontWeight: FontWeight.w600,
           ),
         );
 }
