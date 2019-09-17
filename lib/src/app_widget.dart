@@ -17,7 +17,6 @@ class AppWidget extends StatelessWidget {
       title: appName,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         textTheme: GenericTextTheme(),
         accentTextTheme: AccentTextTheme(),
       ),
