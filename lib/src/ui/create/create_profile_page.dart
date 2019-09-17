@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
+import '../../util/custom_image_picker.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../widget/input.dart';
@@ -44,7 +47,7 @@ class CreateProfilePage extends StatelessWidget {
           children: <Widget>[
             SingleChildScrollView(
               child: Container(
-                height: 350,
+                height: 400,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
@@ -60,6 +63,71 @@ class CreateProfilePage extends StatelessWidget {
                           child: H4(
                             text:
                                 "Tell your mentors and colleagues more about you:",
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: space_golden_dream,
+                          ),
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                Stack(
+                                  children: <Widget>[
+                                    // Positioned(
+                                    //   left: 12.0,
+                                    //   top: 12.0,
+                                    //   child: Center(
+                                    //     child: Container(
+                                    //       // color: red,
+                                    //       child: Container(),
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    Center(
+                                      child: Container(
+                                        width: space_conifer,
+                                        height: space_conifer,
+                                        decoration: BoxDecoration(
+                                          color: overlay,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Container(
+                                          width: space_conifer,
+                                          height: space_conifer,
+                                          alignment: Alignment.center,
+                                          child: Icon(
+                                            Icons.camera_alt,
+                                            color: grey,
+                                          )),
+                                    ),
+                                    Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          return CustomImagePicker.show(context,
+                                              (File imageCropped) {
+                                            // setState(() {
+                                            //   _image = imageCropped;
+                                            // });
+                                          }, true);
+                                        },
+                                        child: Container(
+                                          width: space_conifer,
+                                          height: space_conifer,
+                                          decoration: BoxDecoration(
+                                            color: Colors.transparent,
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Padding(

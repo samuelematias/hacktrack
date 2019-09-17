@@ -41,5 +41,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to your camera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Gostaria de ter acesso à sua galeria de fotos para alterar a foto do seu perfil</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs access to your microphone</string>
 </dict>
 </plist>
