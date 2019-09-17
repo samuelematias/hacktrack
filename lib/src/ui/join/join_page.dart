@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
+import '../../themes/text/typography/p/p2.dart';
 import '../../util/metrics.dart';
+import '../../widget/input.dart';
 import '../../widget/primary_appbar.dart';
 
 class JoinPage extends StatelessWidget {
@@ -11,29 +13,66 @@ class JoinPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      appBar: PrimaryAppBar(),
+      appBar: PrimaryAppBar(
+        context: context,
+        onClickBackButton: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+          Navigator.pop(context);
+        },
+      ),
       body: _bodyWidget(context),
     );
   }
 
   Widget _bodyWidget(BuildContext context) {
+    final _inputController = TextEditingController();
+
     return SafeArea(
-      child: Container(
-        width: Metrics.fullWidth(context),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(
-                left: space_conifer,
-                top: space_golden_dream,
-                right: space_conifer,
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        child: Container(
+          color: Colors.transparent,
+          width: Metrics.fullWidth(context),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(
+                  left: space_conifer,
+                  top: space_golden_dream,
+                  right: space_conifer,
+                ),
+                child: H1(
+                  text: "Enter your hackathon access code:",
+                ),
               ),
-              child: H1(
-                text: "Enter your hackathon access code:",
+              Padding(
+                padding: EdgeInsets.only(
+                  left: space_geraldine,
+                  top: space_golden_dream,
+                  right: space_geraldine,
+                ),
+                child: Input(
+                  context: context,
+                  hint: "Access code",
+                  autofocus: true,
+                  // focusNode: _focusNode,
+                  inputController: _inputController,
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.only(
+                  left: space_heliotrope,
+                  top: space_golden_dream,
+                  right: space_heliotrope,
+                ),
+                child: P2(
+                  text:
+                      "This is the code your organizer has sent you. Please contact them if you do not have this code.",
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

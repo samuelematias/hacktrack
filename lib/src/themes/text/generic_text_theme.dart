@@ -12,6 +12,12 @@ class GenericTextTheme extends TextTheme {
           ),
           body1: TextStyle(
             fontSize: space_dodger_blue,
+            color: black,
+            fontWeight: FontWeight.w600,
+          ),
+          body2: TextStyle(
+            fontSize: space_dodger_blue,
+            color: lightGrey,
             fontWeight: FontWeight.w600,
           ),
           button: TextStyle(

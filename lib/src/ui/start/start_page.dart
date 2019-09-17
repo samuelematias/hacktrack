@@ -4,6 +4,7 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/p/p1.dart';
+import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../widget/empty_appbar.dart';
 import '../../widget/primary_button.dart';
@@ -15,13 +16,16 @@ class StartPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: EmptyAppBar(),
-      body: _bodyWidget(context),
+      body: SingleChildScrollView(
+        child: _bodyWidget(context),
+      ),
     );
   }
 
   Widget _bodyWidget(BuildContext context) {
     return SafeArea(
       child: Container(
+        height: Metrics.ph(context, 90),
         padding: EdgeInsets.all(space_golden_dream),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
