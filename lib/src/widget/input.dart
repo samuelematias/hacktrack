@@ -11,6 +11,8 @@ class Input extends TextField {
     Function onEditingComplete,
     bool autofocus = false,
     TextInputAction textInputAction = TextInputAction.done,
+    Color borderSideColorOnFocus = const Color(0xff6558f5),
+    Color borderSideUnFocus = const Color(0xff293845),
   }) : super(
           focusNode: focusNode,
           controller: inputController,
@@ -27,10 +29,10 @@ class Input extends TextField {
             labelStyle: TextStyle(color: black),
             border: OutlineInputBorder(),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: purple, width: 2.0),
+              borderSide: BorderSide(color: borderSideColorOnFocus, width: 2.0),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: black, width: 1.0),
+              borderSide: BorderSide(color: borderSideUnFocus, width: 1.0),
             ),
             fillColor: black,
           ),

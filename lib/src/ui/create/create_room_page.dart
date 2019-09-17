@@ -41,7 +41,7 @@ class CreateRoomPage extends StatelessWidget {
           children: <Widget>[
             SingleChildScrollView(
               child: Container(
-                height: Metrics.ph(context, 60),
+                height: Metrics.ph(context, !wrongId ? 60 : 65),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
@@ -72,6 +72,8 @@ class CreateRoomPage extends StatelessWidget {
                             textInputAction: TextInputAction.next,
                             onEditingComplete: () =>
                                 FocusScope.of(context).requestFocus(_focusNode),
+                            borderSideColorOnFocus: !wrongId ? purple : red,
+                            borderSideUnFocus: !wrongId ? black : red,
                           ),
                         ),
                         Padding(
@@ -86,7 +88,7 @@ class CreateRoomPage extends StatelessWidget {
                                 )
                               : P3(
                                   text:
-                                      "Wrong access code, please check your code and try again.",
+                                      "Handle name already in use, try another.",
                                 ),
                         ),
                       ],
