@@ -5,21 +5,19 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../util/metrics.dart';
-import '../../widget/primary_appbar.dart';
+import '../../util/routes.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
+import '../../widget/secondary_appbar.dart';
 
 class CreateCodesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      appBar: PrimaryAppBar(
+      appBar: SecondaryAppBar(
+        pageTitle: "Shawee",
         context: context,
-        onClickBackButton: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-          Navigator.pop(context);
-        },
       ),
       body: _bodyWidget(context),
     );
@@ -108,7 +106,9 @@ class CreateCodesPage extends StatelessWidget {
                   bottom: bottomOverFlow,
                   child: PrimaryButton(
                     label: "Next",
-                    onPress: () {},
+                    onPress: () => Navigator.of(context).pushNamed(
+                      RoutesNames.createProfile,
+                    ),
                   ),
                 ),
               ],

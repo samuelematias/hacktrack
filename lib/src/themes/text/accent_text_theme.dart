@@ -11,5 +11,10 @@ class AccentTextTheme extends TextTheme {
             color: purple,
             fontWeight: FontWeight.w600,
           ),
+          headline: TextStyle(
+            fontSize: space_fire_bush,
+            color: black,
+            fontWeight: FontWeight.w600,
+          ),
         );
 }

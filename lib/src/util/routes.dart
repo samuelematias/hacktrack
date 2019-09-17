@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../ui/create/create_codes_page.dart';
+import '../ui/create/create_profile_page.dart';
 import '../ui/create/create_room_page.dart';
 import '../ui/join/join_module.dart';
 import '../ui/start/start_module.dart';
@@ -26,6 +27,9 @@ class Routes extends MaterialPageRoute {
               case RoutesNames.createCodes:
                 return CreateCodesPage();
                 break;
+              case RoutesNames.createProfile:
+                return CreateProfilePage();
+                break;
               default:
                 break;
             }
@@ -39,4 +43,5 @@ class RoutesNames {
   static const String join = '/join';
   static const String createRoom = '/create/room';
   static const String createCodes = '/create/codes';
+  static const String createProfile = '/create/profile';
 }
