@@ -190,10 +190,8 @@ class CreateProfilePage extends StatelessWidget {
                   right: rightOverFlow,
                   bottom: bottomOverFlow,
                   child: PrimaryButton(
-                    label: "Create",
-                    onPress: () => Navigator.of(context).pushNamed(
-                      RoutesNames.createCodes,
-                    ),
+                    label: "Next",
+                    onPress: () {},
                   ),
                 ),
               ],
