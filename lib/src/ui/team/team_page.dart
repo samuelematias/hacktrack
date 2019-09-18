@@ -129,17 +129,15 @@ class TeamPage extends StatelessWidget {
   }
 
   Widget _buildContentListItem(Map<String, dynamic> data) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: space_dodger_blue,
-        ),
-        child: GestureDetector(
-          onTap: () => _launchLink(data["link"]),
-          child: ContentCard(
-            photo: data["photo"],
-            title: data["title"],
-          ),
+    return Padding(
+      padding: EdgeInsets.only(
+        top: space_dodger_blue,
+      ),
+      child: GestureDetector(
+        onTap: () => _launchLink(data["link"]),
+        child: ContentCard(
+          photo: data["photo"],
+          title: data["title"],
         ),
       ),
     );
