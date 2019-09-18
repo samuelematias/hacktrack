@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
@@ -34,26 +35,31 @@ class TeamPage extends StatelessWidget {
         "photo":
             "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
         'title': 'Content 1',
+        "link": "https://flutter.dev"
       },
       {
         "photo":
             "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
         'title': 'Content 2',
+        "link": "https://flutter.dev"
       },
       {
         "photo":
             "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
         'title': 'Content 3',
+        "link": "https://flutter.dev"
       },
       {
         "photo":
             "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
         'title': 'Content 4',
+        "link": "https://flutter.dev"
       },
       {
         "photo":
             "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
         'title': 'Content 5',
+        "link": "https://flutter.dev"
       },
     ];
 
@@ -129,7 +135,7 @@ class TeamPage extends StatelessWidget {
           top: space_dodger_blue,
         ),
         child: GestureDetector(
-          onTap: () {},
+          onTap: () => _launchLink(data["link"]),
           child: ContentCard(
             photo: data["photo"],
             title: data["title"],
@@ -137,5 +143,13 @@ class TeamPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _launchLink(String link) async {
+    if (await canLaunch(link)) {
+      await launch(link);
+    } else {
+      throw 'Could not launch $link';
+    }
   }
 }
