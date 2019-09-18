@@ -7,6 +7,7 @@ import '../ui/join/join_module.dart';
 import '../ui/start/start_module.dart';
 import '../ui/team/choose_team_page.dart';
 import '../ui/team/create_team_page.dart';
+import '../ui/team/team_page.dart';
 
 class Routes extends MaterialPageRoute {
   Routes({
@@ -38,6 +39,9 @@ class Routes extends MaterialPageRoute {
               case RoutesNames.createTeam:
                 return CreateTeamPage();
                 break;
+              case RoutesNames.team:
+                return TeamPage();
+                break;
               default:
                 break;
             }
@@ -54,4 +58,5 @@ class RoutesNames {
   static const String createProfile = '/create/profile';
   static const String chooseTeam = '/teams';
   static const String createTeam = '/teams/create';
+  static const String team = '/team';
 }

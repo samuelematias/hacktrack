@@ -8,7 +8,10 @@ class SecondaryAppBar extends AppBar {
   SecondaryAppBar({
     @required BuildContext context,
     @required String pageTitle,
+    bool hideHeaderRight = false,
+    bool showHeaderLeft = false,
     Function onClickBackButton,
+    Function onClickLeftButton,
   }) : super(
           iconTheme: IconThemeData(
             color: grey, //change your color here
@@ -18,17 +21,19 @@ class SecondaryAppBar extends AppBar {
             textAlign: TextAlign.center,
             style: Theme.of(context).accentTextTheme.headline,
           ),
-          leading: IconButton(
-            icon: Icon(
-              Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-              color: grey,
-            ),
-            onPressed: () {
-              onClickBackButton != null
-                  ? onClickBackButton()
-                  : Navigator.pop(context);
-            },
-          ),
+          leading: !hideHeaderRight
+              ? IconButton(
+                  icon: Icon(
+                    Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+                    color: grey,
+                  ),
+                  onPressed: () {
+                    onClickBackButton != null
+                        ? onClickBackButton()
+                        : Navigator.pop(context);
+                  },
+                )
+              : Container(),
           centerTitle: true,
           brightness: Brightness.light,
           backgroundColor: white,
@@ -41,5 +46,20 @@ class SecondaryAppBar extends AppBar {
               alignment: Alignment.center,
             ),
           ),
+          actions: [
+            showHeaderLeft
+                ? IconButton(
+                    icon: Icon(
+                      Icons.refresh,
+                      color: purple,
+                    ),
+                    onPressed: () {
+                      onClickLeftButton != null
+                          ? onClickLeftButton()
+                          : Navigator.pop(context);
+                    },
+                  )
+                : Container(),
+          ],
         );
 }

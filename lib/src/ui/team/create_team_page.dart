@@ -160,7 +160,7 @@ class CreateTeamPage extends StatelessWidget {
                   child: PrimaryButton(
                     label: "Create Team",
                     onPress: () => Navigator.of(context).pushNamed(
-                      RoutesNames.chooseTeam,
+                      RoutesNames.team,
                     ),
                   ),
                 ),
