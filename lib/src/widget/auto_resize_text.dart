@@ -19,6 +19,7 @@ class AutoResizeText extends StatelessWidget {
   final double paddingRight;
   final double paddingBottom;
   final BoxDecoration boxDecoration;
+  final FontWeight fontWeight;
 
   const AutoResizeText({
     Key key,
@@ -37,6 +38,7 @@ class AutoResizeText extends StatelessWidget {
     this.paddingRight = 0.0,
     this.paddingBottom = 0.0,
     this.boxDecoration,
+    this.fontWeight = FontWeight.w600,
   }) : super(key: key);
 
   @override
@@ -65,6 +67,7 @@ class AutoResizeText extends StatelessWidget {
                 fontSize: fontSize,
                 decoration: decoration,
                 height: lineHeight,
+                fontWeight: fontWeight,
               ),
               minFontSize: minFontSize,
               maxLines: maxLines,

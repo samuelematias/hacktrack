@@ -64,6 +64,7 @@ class CardTrack extends StatelessWidget {
                 textAlign: TextAlign.left,
                 textColor: aboutColor,
                 maxLines: 3,
+                fontWeight: FontWeight.normal,
               ),
             ),
             photo.isNotEmpty

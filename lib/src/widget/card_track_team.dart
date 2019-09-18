@@ -12,19 +12,27 @@ class CardTrackTeam extends StatelessWidget {
   final String stage;
   final String status;
   final String updatedAt;
+  final Color updatedAtColor;
   final String about;
   final Color aboutColor;
   final bool isDashed;
+  final IconData icon;
+  final Color iconColor;
+  final Color circleColor;
 
   const CardTrackTeam({
     Key key,
     this.photo = '',
-    this.stage = 'Problem',
-    this.status = 'Need help',
-    this.updatedAt = 'Updated 1h ago by Pedro Barcelar',
-    this.about = 'The team is very confused on what defines a good problem.',
+    this.stage = '',
+    this.status = '',
+    this.updatedAt = '',
+    this.updatedAtColor = const Color(0xffe8833a),
+    this.about = '',
     this.aboutColor = const Color(0xff293845),
     this.isDashed = false,
+    this.icon = Icons.group,
+    this.iconColor = const Color(0xffefa544),
+    this.circleColor = const Color(0xfff8dbb4),
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -58,9 +66,9 @@ class CardTrackTeam extends StatelessWidget {
                     right: space_dodger_blue,
                   ),
                   child: RowInfo(
-                    icon: Icons.star,
-                    iconColor: darkGrey,
-                    circleColor: heavyGrey,
+                    icon: icon,
+                    iconColor: iconColor,
+                    circleColor: circleColor,
                     title: "Team Fire",
                     subTitle: "5 participants",
                     buttonLabel: "Open",
@@ -86,7 +94,7 @@ class CardTrackTeam extends StatelessWidget {
                       text: updatedAt,
                       containerTextWidth: 185,
                       textAlign: TextAlign.right,
-                      textColor: lightGrey,
+                      textColor: updatedAtColor,
                       fontSize: space_dodger_blue,
                     )
                   ],
@@ -102,8 +110,9 @@ class CardTrackTeam extends StatelessWidget {
                   text: about,
                   containerTextWidth: 300,
                   textAlign: TextAlign.left,
-                  textColor: red,
+                  textColor: aboutColor,
                   maxLines: 3,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ],
