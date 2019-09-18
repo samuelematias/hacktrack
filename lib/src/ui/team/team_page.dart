@@ -112,7 +112,9 @@ class TeamPage extends StatelessWidget {
                 right: space_spring_green,
                 bottom: space_golden_dream,
               ),
-              child: CardTrackTeam(),
+              child: CardTrackTeam(
+                isDashed: true,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
