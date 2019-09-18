@@ -8,15 +8,15 @@ class SecondaryButton extends StatelessWidget {
   final double height;
   final Color buttonColor;
 
-  const SecondaryButton(
-      {Key key,
-      @required this.onPress,
-      this.borderColor = const Color(0xffc7c3fa),
-      this.label = '',
-      this.width = 250.0,
-      this.height = 40.0,
-      this.buttonColor = Colors.white})
-      : super(key: key);
+  const SecondaryButton({
+    Key key,
+    @required this.onPress,
+    this.borderColor = const Color(0xffc7c3fa),
+    this.label = '',
+    this.width = 250.0,
+    this.height = 40.0,
+    this.buttonColor = Colors.white,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
