@@ -6,7 +6,7 @@ import '../themes/spacing/linear_scale.dart';
 import 'auto_resize_text.dart';
 import 'card_shadow.dart';
 
-class CardTack extends StatelessWidget {
+class CardTrack extends StatelessWidget {
   final String photo;
   final String stage;
   final String status;
@@ -14,7 +14,7 @@ class CardTack extends StatelessWidget {
   final String about;
   final Color aboutColor;
 
-  const CardTack({
+  const CardTrack({
     Key key,
     this.photo = '',
     this.stage = '',

@@ -6,6 +6,7 @@ import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../widget/card_track.dart';
+import '../../widget/card_track_team.dart';
 import '../../widget/content_card.dart';
 import '../../widget/secondary_appbar.dart';
 
@@ -67,37 +68,51 @@ class TeamPage extends StatelessWidget {
     return SafeArea(
       child: Container(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(
-                left: space_dodger_blue,
-                top: space_golden_dream,
-                bottom: space_spring_green,
-              ),
-              child: H1(
-                text: "PROBLEM PHASE",
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: space_dodger_blue,
+                    top: space_golden_dream,
+                    bottom: space_spring_green,
+                  ),
+                  child: H1(
+                    text: "PROBLEM PHASE",
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: space_dodger_blue,
+                    top: space_dodger_blue,
+                  ),
+                  child: H4(
+                    text: "Helpful content for this phase:",
+                  ),
+                ),
+                _buildContentHorizontalList(context, contents),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: space_dodger_blue,
+                    top: space_golden_dream,
+                    bottom: space_spring_green,
+                  ),
+                  child: H1(
+                    text: "TRACK",
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: EdgeInsets.only(
-                left: space_dodger_blue,
-                top: space_dodger_blue,
-              ),
-              child: H4(
-                text: "Helpful content for this phase:",
-              ),
-            ),
-            _buildContentHorizontalList(context, contents),
-            Padding(
-              padding: EdgeInsets.only(
-                left: space_dodger_blue,
+                left: space_spring_green,
                 top: space_golden_dream,
-                bottom: space_spring_green,
+                right: space_spring_green,
+                bottom: space_golden_dream,
               ),
-              child: H1(
-                text: "TRACK",
-              ),
+              child: CardTrackTeam(),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -239,7 +254,7 @@ class TeamPage extends StatelessWidget {
         padding: EdgeInsets.only(
           top: isTheFirstPositionOfArray ? 0.0 : space_golden_dream,
         ),
-        child: CardTack(
+        child: CardTrack(
           photo: key["photo"],
           stage: key["stage"],
           status: key["status"],
