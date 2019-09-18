@@ -38,6 +38,7 @@ class CardTack extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 AutoResizeText(
                   text: stage,
@@ -48,7 +49,7 @@ class CardTack extends StatelessWidget {
                   containerTextWidth: 185,
                   textAlign: TextAlign.right,
                   textColor: lightGrey,
-                  // containerTexColor: purple,
+                  fontSize: space_dodger_blue,
                 )
               ],
             ),

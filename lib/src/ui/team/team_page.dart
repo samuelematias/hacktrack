@@ -67,36 +67,31 @@ class TeamPage extends StatelessWidget {
     return SafeArea(
       child: Container(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(
+                left: space_dodger_blue,
                 top: space_golden_dream,
                 bottom: space_spring_green,
               ),
               child: H1(
-                text: "IDEATION PHASE",
+                text: "PROBLEM PHASE",
               ),
             ),
             Padding(
               padding: EdgeInsets.only(
+                left: space_dodger_blue,
                 top: space_dodger_blue,
               ),
               child: H4(
                 text: "Helpful content for this phase:",
               ),
             ),
-            // GridView.count(
-            //   physics: NeverScrollableScrollPhysics(),
-            //   shrinkWrap: true,
-            //   crossAxisCount: 2,
-            //   padding: EdgeInsets.all(8.0),
-            //   crossAxisSpacing: 8.0,
-            //   mainAxisSpacing: 5.0,
-            //   children: _buildContentList(contents),
-            // ),
             _buildContentHorizontalList(context, contents),
             Padding(
               padding: EdgeInsets.only(
+                left: space_dodger_blue,
                 top: space_golden_dream,
                 bottom: space_spring_green,
               ),
@@ -138,25 +133,6 @@ class TeamPage extends StatelessWidget {
       ),
     );
   }
-
-  // List<Widget> _buildContentList(List<Map<String, dynamic>> contents) {
-  //   return contents.map((data) => _buildContentListItem(data)).toList();
-  // }
-
-  // Widget _buildContentListItem(Map<String, dynamic> data) {
-  //   return Padding(
-  //     padding: EdgeInsets.only(
-  //       top: space_dodger_blue,
-  //     ),
-  //     child: GestureDetector(
-  //       onTap: () => _launchLink(data["link"]),
-  //       child: ContentCard(
-  //         photo: data["photo"],
-  //         title: data["title"],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildContentHorizontalList(
     BuildContext context,
@@ -211,7 +187,7 @@ class TeamPage extends StatelessWidget {
         'photo': '',
         'stage': 'Problem',
         'status': 'Need help',
-        'updatedAt': 'Updated 1h ago by Pedro Bacelar',
+        'updatedAt': 'Updated 1h ago by Pedro',
         'about': 'The team is very confused on what defines a good problem.',
       },
       {
