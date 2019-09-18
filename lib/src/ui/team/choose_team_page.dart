@@ -4,6 +4,7 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/metrics.dart';
+import '../../util/routes.dart';
 import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
@@ -61,7 +62,9 @@ class ChooseTeamPage extends StatelessWidget {
                     ),
                     child: SecondaryButton(
                       label: "Create team",
-                      onPress: () {},
+                      onPress: () => Navigator.of(context).pushNamed(
+                        RoutesNames.createTeam,
+                      ),
                       width: Metrics.pw(context, 95),
                     ),
                   ),
