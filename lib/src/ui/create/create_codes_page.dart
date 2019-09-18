@@ -27,7 +27,6 @@ class CreateCodesPage extends StatelessWidget {
     double leftOverFlow = 20.0;
     double rightOverFlow = 20.0;
     double bottomOverFlow = 20.0;
-    bool wrongId = false;
     String _subTitle1 = "shawee-mentor-A2C7";
     String _subTitle2 = "shawee-partic-PI2C";
 
@@ -38,7 +37,6 @@ class CreateCodesPage extends StatelessWidget {
           children: <Widget>[
             SingleChildScrollView(
               child: Container(
-                height: Metrics.ph(context, !wrongId ? 60 : 65),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[

@@ -16,6 +16,7 @@ class RowInfo extends StatelessWidget {
   final String buttonLabel;
   final bool isSecondaryButton;
   final Function onPress;
+  final MainAxisAlignment rowMainAxisAlignment;
 
   const RowInfo({
     Key key,
@@ -27,6 +28,7 @@ class RowInfo extends StatelessWidget {
     this.subTitle = '',
     this.buttonLabel = '',
     this.isSecondaryButton = false,
+    this.rowMainAxisAlignment = MainAxisAlignment.spaceEvenly,
   }) : super(key: key);
 
   @override
@@ -36,7 +38,7 @@ class RowInfo extends StatelessWidget {
         Expanded(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: rowMainAxisAlignment,
             children: <Widget>[
               Row(
                 children: <Widget>[
