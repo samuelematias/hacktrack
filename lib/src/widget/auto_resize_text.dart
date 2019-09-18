@@ -5,6 +5,7 @@ import '../themes/spacing/linear_scale.dart';
 
 class AutoResizeText extends StatelessWidget {
   final String text;
+  final double fontSize;
   final Color textColor;
   final TextAlign textAlign;
   final double containerTextWidth;
@@ -22,11 +23,12 @@ class AutoResizeText extends StatelessWidget {
   const AutoResizeText({
     Key key,
     @required this.text,
-    this.textColor = const Color(0xff3f3e3e),
-    this.textAlign = TextAlign.center,
-    this.containerTextWidth = 27.0,
+    this.fontSize = space_golden_dream,
+    this.textColor = const Color(0xff293845),
+    this.textAlign = TextAlign.left,
+    this.containerTextWidth = 100.0,
     this.containerTexColor = const Color(0xffffffff),
-    this.minFontSize = 12,
+    this.minFontSize = space_dodger_blue,
     this.maxLines = 1,
     this.decoration = TextDecoration.none,
     this.lineHeight = 1,
@@ -40,7 +42,7 @@ class AutoResizeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: space_heliotrope,
+      width: containerTextWidth,
       padding: EdgeInsets.only(
         top: paddingTop,
         left: paddingLeft,
@@ -60,7 +62,7 @@ class AutoResizeText extends StatelessWidget {
               textAlign: textAlign,
               style: TextStyle(
                 color: textColor,
-                fontSize: space_golden_dream,
+                fontSize: fontSize,
                 decoration: decoration,
                 height: lineHeight,
               ),

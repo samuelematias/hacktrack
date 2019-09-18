@@ -5,6 +5,7 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/h/h4.dart';
+import '../../widget/card_track.dart';
 import '../../widget/content_card.dart';
 import '../../widget/secondary_appbar.dart';
 
@@ -93,11 +94,21 @@ class TeamPage extends StatelessWidget {
             //   mainAxisSpacing: 5.0,
             //   children: _buildContentList(contents),
             // ),
-            Container(
-              // margin: EdgeInsets.only(
-              //   left: space_dodger_blue,
-              // ),
-              child: _buildContentHorizontalList(context, contents),
+            _buildContentHorizontalList(context, contents),
+            Padding(
+              padding: EdgeInsets.only(
+                top: space_golden_dream,
+                bottom: space_spring_green,
+              ),
+              child: H1(
+                text: "TRACK",
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: space_spring_green,
+              ),
+              child: buildTrackList(context),
             ),
             Padding(
               padding: EdgeInsets.all(space_geraldine),
@@ -192,5 +203,75 @@ class TeamPage extends StatelessWidget {
     } else {
       throw 'Could not launch $link';
     }
+  }
+
+  Widget buildTrackList(BuildContext context) {
+    List<Map<String, dynamic>> tracks = [
+      {
+        'photo': '',
+        'stage': 'Problem',
+        'status': 'Need help',
+        'updatedAt': 'Updated 1h ago by Pedro Bacelar',
+        'about': 'The team is very confused on what defines a good problem.',
+      },
+      {
+        'photo':
+            'https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg',
+        'stage': 'Ideation',
+        'status': 'Killin it',
+        'updatedAt': 'Updated 1h ago by Pedro Bacelar',
+        'about': 'Finally found a good idea! Moving to next phase.',
+      },
+      {
+        'photo': '',
+        'stage': 'Ideation',
+        'status': 'Need help',
+        'updatedAt': 'Updated 1h ago by Pedro Bacelar',
+        'about': 'Having issues to generate good ideas.',
+      },
+    ];
+
+    return Container(
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: tracks.length,
+        itemBuilder: (context, index) {
+          var key = tracks.elementAt(index);
+          return buildTrackListItem(
+            context,
+            key,
+            tracks,
+            index,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildTrackListItem(
+    BuildContext context,
+    Map<String, dynamic> key,
+    List<Map<String, dynamic>> tracks,
+    int index,
+  ) {
+    final bool isTheFirstPositionOfArray = index == 0;
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        color: Colors.transparent,
+        padding: EdgeInsets.only(
+          top: isTheFirstPositionOfArray ? 0.0 : space_golden_dream,
+        ),
+        child: CardTack(
+          photo: key["photo"],
+          stage: key["stage"],
+          status: key["status"],
+          updatedAt: key["updatedAt"],
+          about: key["about"],
+          aboutColor: key["status"] == 'Killin it' ? green : red,
+        ),
+      ),
+    );
   }
 }
