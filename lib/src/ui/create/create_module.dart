@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'create_bloc.dart';
 import 'create_room_page.dart';
 
-class StartModule extends ModuleWidget {
+class CreateModule extends ModuleWidget {
   @override
   List<Bloc> get blocs => [
         Bloc((i) => CreateBloc()),
@@ -16,5 +16,5 @@ class StartModule extends ModuleWidget {
   @override
   Widget get view => CreateRoomPage();
 
-  static Inject get to => Inject<StartModule>.of();
+  static Inject get to => Inject<CreateModule>.of();
 }

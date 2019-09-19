@@ -30,8 +30,9 @@ class CreateProfilePage extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
-    FocusNode _focusNode1 = FocusNode();
+    // FocusNode _focusNode1 = FocusNode();
     FocusNode _focusNode2 = FocusNode();
+    FocusNode _focusNode3 = FocusNode();
     final _inputController1 = TextEditingController();
     final _inputController2 = TextEditingController();
     final _inputController3 = TextEditingController();
@@ -143,7 +144,7 @@ class CreateProfilePage extends StatelessWidget {
                             inputController: _inputController1,
                             textInputAction: TextInputAction.next,
                             onEditingComplete: () => FocusScope.of(context)
-                                .requestFocus(_focusNode1),
+                                .requestFocus(_focusNode2),
                             borderSideColorOnFocus: !wrongId ? purple : red,
                             borderSideUnFocus: !wrongId ? black : red,
                           ),
@@ -157,11 +158,11 @@ class CreateProfilePage extends StatelessWidget {
                           child: Input(
                             context: context,
                             hint: "Role (Designer, Front End, etc.)",
-                            focusNode: _focusNode1,
+                            // focusNode: _focusNode2,
                             inputController: _inputController2,
                             textInputAction: TextInputAction.next,
                             onEditingComplete: () => FocusScope.of(context)
-                                .requestFocus(_focusNode2),
+                                .requestFocus(_focusNode3),
                           ),
                         ),
                         Padding(
@@ -173,7 +174,7 @@ class CreateProfilePage extends StatelessWidget {
                           child: Input(
                             context: context,
                             hint: "Short bio",
-                            focusNode: _focusNode2,
+                            focusNode: _focusNode3,
                             inputController: _inputController3,
                           ),
                         ),
@@ -191,9 +192,19 @@ class CreateProfilePage extends StatelessWidget {
                   bottom: bottomOverFlow,
                   child: PrimaryButton(
                     label: "Next",
-                    onPress: () => Navigator.of(context).pushNamed(
-                      RoutesNames.chooseTeam,
-                    ),
+                    onPress: () {
+                      // FocusScope.of(context).requestFocus(_focusNode2);
+                      // FocusScope.of(context).requestFocus(_focusNode3);
+                      // FocusScope.of(context).requestFocus(FocusNode());
+                      Navigator.of(context).pushNamed(
+                        RoutesNames.mentorOnboarding,
+                      );
+                      // Future.delayed(
+                      //     const Duration(seconds: 2),
+                      //     () => Navigator.of(context).pushNamed(
+                      //           RoutesNames.mentorOnboarding,
+                      //         ));
+                    },
                   ),
                 ),
               ],

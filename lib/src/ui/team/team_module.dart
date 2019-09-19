@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'choose_team_page.dart';
 import 'team_bloc.dart';
 
-class StartModule extends ModuleWidget {
+class TeamModule extends ModuleWidget {
   @override
   List<Bloc> get blocs => [
         Bloc((i) => TeamBloc()),
@@ -16,5 +16,5 @@ class StartModule extends ModuleWidget {
   @override
   Widget get view => ChooseTeamPage();
 
-  static Inject get to => Inject<StartModule>.of();
+  static Inject get to => Inject<TeamModule>.of();
 }

@@ -21,5 +21,10 @@ class AccentTextTheme extends TextTheme {
             color: purple,
             fontWeight: FontWeight.w600,
           ),
+          body1: TextStyle(
+            fontSize: space_golden_dream,
+            color: lightGrey,
+            fontWeight: FontWeight.w600,
+          ),
         );
 }

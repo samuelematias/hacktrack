@@ -6,7 +6,6 @@ import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../widget/card_track.dart';
-import '../../widget/card_track_team.dart';
 import '../../widget/content_card.dart';
 import '../../widget/secondary_appbar.dart';
 
