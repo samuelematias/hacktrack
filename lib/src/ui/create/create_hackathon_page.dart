@@ -11,7 +11,7 @@ import '../../widget/input.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
 
-class CreateRoomPage extends StatelessWidget {
+class CreateHackathonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

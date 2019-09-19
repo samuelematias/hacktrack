@@ -6,6 +6,7 @@ import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/p/p2.dart';
 import '../../themes/text/typography/p/p3.dart';
 import '../../util/metrics.dart';
+import '../../util/routes.dart';
 import '../../widget/input.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
@@ -91,7 +92,9 @@ class JoinPage extends StatelessWidget {
                   bottom: bottomOverFlow,
                   child: PrimaryButton(
                     label: "Join",
-                    onPress: () {},
+                    onPress: () => Navigator.of(context).pushNamed(
+                      RoutesNames.chooseTeam,
+                    ),
                   ),
                 ),
               ],

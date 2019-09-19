@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../ui/create/create_codes_page.dart';
+import '../ui/create/create_hackathon_page.dart';
 import '../ui/create/create_profile_page.dart';
-import '../ui/create/create_room_page.dart';
 import '../ui/join/join_module.dart';
 import '../ui/mentor/mentor_dashboard._page.dart';
 import '../ui/mentor/mentor_onboarding_page.dart';
@@ -26,8 +26,8 @@ class Routes extends MaterialPageRoute {
               case RoutesNames.join:
                 return JoinModule();
                 break;
-              case RoutesNames.createRoom:
-                return CreateRoomPage();
+              case RoutesNames.createHackathon:
+                return CreateHackathonPage();
                 break;
               case RoutesNames.createCodes:
                 return CreateCodesPage();
@@ -61,7 +61,7 @@ class RoutesNames {
   static const String root = '/';
   static const String start = '/start';
   static const String join = '/join';
-  static const String createRoom = '/create/room';
+  static const String createHackathon = '/create/hackathon';
   static const String createCodes = '/create/codes';
   static const String createProfile = '/create/profile';
   static const String chooseTeam = '/teams';

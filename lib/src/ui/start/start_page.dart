@@ -62,8 +62,8 @@ class StartPage extends StatelessWidget {
               children: <Widget>[
                 PrimaryButton(
                   label: "Create your Hackathon",
-                  onPress: () =>
-                      Navigator.of(context).pushNamed(RoutesNames.createRoom),
+                  onPress: () => Navigator.of(context)
+                      .pushNamed(RoutesNames.createHackathon),
                 ),
                 Padding(
                   padding: EdgeInsets.only(

@@ -275,7 +275,7 @@ class CreateProfilePage extends StatelessWidget {
                   right: rightOverFlow,
                   bottom: bottomOverFlow,
                   child: PrimaryButton(
-                    label: "Next",
+                    label: "Create Profile",
                     onPress: () {
                       Navigator.of(context).pushNamed(
                         RoutesNames.mentorOnboarding,
