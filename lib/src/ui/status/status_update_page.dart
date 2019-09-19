@@ -89,7 +89,91 @@ class StatusUpdatePage extends StatelessWidget {
                           ],
                         ),
                       ),
-                    )
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(
+                        left: space_golden_dream,
+                        top: space_dodger_blue,
+                        right: space_golden_dream,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                left: space_dodger_blue,
+                                top: space_carmine,
+                                right: space_dodger_blue,
+                                bottom: space_carmine,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                border: Border.all(
+                                  color: lightGreen,
+                                  width: 2,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "Killin' it! 🍾",
+                                    style: TextStyle(
+                                      fontSize: space_golden_dream,
+                                      color: green,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "or",
+                            style: TextStyle(
+                              fontSize: space_dodger_blue,
+                              color: lightGrey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                left: space_dodger_blue,
+                                top: space_carmine,
+                                right: space_dodger_blue,
+                                bottom: space_carmine,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                border: Border.all(
+                                  color: lightRed,
+                                  width: 2,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "Need help 🚨",
+                                    style: TextStyle(
+                                      fontSize: space_golden_dream,
+                                      color: red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -126,6 +210,18 @@ class StatusUpdatePage extends StatelessWidget {
               ),
               H4(
                 text: "Problem Definition",
+              ),
+              H4(
+                text: "Validation",
+              ),
+              H4(
+                text: "Solution",
+              ),
+              H4(
+                text: "Product",
+              ),
+              H4(
+                text: "Pitch",
               ),
             ],
             itemExtent: 30, //height of each item
