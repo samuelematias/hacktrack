@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
@@ -11,7 +12,46 @@ import '../../widget/input.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
 
-class CreateHackathonPage extends StatelessWidget {
+class CreateHackathonPage extends StatefulWidget {
+  @override
+  _CreateHackathonPageState createState() => _CreateHackathonPageState();
+}
+
+class _CreateHackathonPageState extends State<CreateHackathonPage> {
+  FocusNode _focusNode = FocusNode();
+  FocusNode _focusNode1 = FocusNode();
+  final _inputController1 = TextEditingController();
+  final _inputController2 = TextEditingController();
+  double leftOverFlow = -5.0;
+  double rightOverFlow = -5.0;
+  double bottomOverFlow = 0.0;
+  bool wrongId = false;
+
+  @override
+  void initState() {
+    super.initState();
+    KeyboardVisibilityNotification().addNewListener(
+      onChange: (bool visible) {
+        if (visible) {
+          leftOverFlow = -5.0;
+          rightOverFlow = -5.0;
+          bottomOverFlow = 0.0;
+        } else {
+          leftOverFlow = 20.0;
+          rightOverFlow = 20.0;
+          bottomOverFlow = 25.0;
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _inputController1.dispose();
+    _inputController2.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,14 +68,6 @@ class CreateHackathonPage extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
-    FocusNode _focusNode = FocusNode();
-    final _inputController1 = TextEditingController();
-    final _inputController2 = TextEditingController();
-    double leftOverFlow = -5.0;
-    double rightOverFlow = -5.0;
-    double bottomOverFlow = 0.0;
-    bool wrongId = false;
-
     return SafeArea(
       child: Container(
         width: Metrics.fullWidth(context),
@@ -69,6 +101,7 @@ class CreateHackathonPage extends StatelessWidget {
                           child: Input(
                             context: context,
                             hint: "Handle name",
+                            focusNode: _focusNode1,
                             autofocus: true,
                             inputController: _inputController1,
                             textInputAction: TextInputAction.next,

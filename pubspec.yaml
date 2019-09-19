@@ -28,6 +28,8 @@ dependencies:
   auto_size_text: ^2.1.0
   dotted_border: ^1.0.2
   transformer_page_view: ^0.1.6
+  back_button_interceptor: ^4.1.1
+  keyboard_visibility: ^0.5.6
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

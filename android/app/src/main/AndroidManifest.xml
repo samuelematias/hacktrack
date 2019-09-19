@@ -9,7 +9,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="hacktrack"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

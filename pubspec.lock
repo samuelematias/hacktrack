@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  back_button_interceptor:
+    dependency: "direct main"
+    description:
+      name: back_button_interceptor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.1"
   bloc_pattern:
     dependency: "direct main"
     description:
@@ -123,6 +130,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.1+4"
+  keyboard_visibility:
+    dependency: "direct main"
+    description:
+      name: keyboard_visibility
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.6"
   matcher:
     dependency: transitive
     description:
