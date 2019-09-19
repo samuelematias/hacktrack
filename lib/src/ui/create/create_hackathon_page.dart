@@ -49,6 +49,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
   void dispose() {
     _inputController1.dispose();
     _inputController2.dispose();
+    KeyboardVisibilityNotification().dispose();
     super.dispose();
   }
 

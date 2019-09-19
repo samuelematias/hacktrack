@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
@@ -11,7 +12,47 @@ import '../../util/routes.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 
-class CreateProfilePage extends StatelessWidget {
+class CreateProfilePage extends StatefulWidget {
+  @override
+  _CreateProfilePageState createState() => _CreateProfilePageState();
+}
+
+class _CreateProfilePageState extends State<CreateProfilePage> {
+  FocusNode _focusNode2 = FocusNode();
+  FocusNode _focusNode3 = FocusNode();
+  FocusNode _focusNode4 = FocusNode();
+  final _inputController1 = TextEditingController();
+  final _inputController2 = TextEditingController();
+  final _inputController3 = TextEditingController();
+  final _inputController4 = TextEditingController();
+  double leftOverFlow = -5.0;
+  double rightOverFlow = -5.0;
+  double bottomOverFlow = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    KeyboardVisibilityNotification().addNewListener(
+      onChange: (bool visible) {
+        if (visible) {
+          leftOverFlow = -5.0;
+          rightOverFlow = -5.0;
+          bottomOverFlow = 0.0;
+        } else {
+          leftOverFlow = 20.0;
+          rightOverFlow = 20.0;
+          bottomOverFlow = 25.0;
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    KeyboardVisibilityNotification().dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,17 +70,6 @@ class CreateProfilePage extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
-    FocusNode _focusNode2 = FocusNode();
-    FocusNode _focusNode3 = FocusNode();
-    FocusNode _focusNode4 = FocusNode();
-    final _inputController1 = TextEditingController();
-    final _inputController2 = TextEditingController();
-    final _inputController3 = TextEditingController();
-    final _inputController4 = TextEditingController();
-    double leftOverFlow = -5.0;
-    double rightOverFlow = -5.0;
-    double bottomOverFlow = 0.0;
-
     return SafeArea(
       child: Container(
         width: Metrics.fullWidth(context),

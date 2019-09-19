@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
@@ -12,7 +13,41 @@ import '../../widget/dashed_box.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 
-class StatusUpdatePage extends StatelessWidget {
+class StatusUpdatePage extends StatefulWidget {
+  @override
+  _StatusUpdatePageState createState() => _StatusUpdatePageState();
+}
+
+class _StatusUpdatePageState extends State<StatusUpdatePage> {
+  // final _inputController1 = TextEditingController();
+  double leftOverFlow = 20.0;
+  double rightOverFlow = 20.0;
+  double bottomOverFlow = 25.0;
+
+  @override
+  void initState() {
+    super.initState();
+    KeyboardVisibilityNotification().addNewListener(
+      onChange: (bool visible) {
+        if (visible) {
+          leftOverFlow = -5.0;
+          rightOverFlow = -5.0;
+          bottomOverFlow = 0.0;
+        } else {
+          leftOverFlow = 20.0;
+          rightOverFlow = 20.0;
+          bottomOverFlow = 25.0;
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    KeyboardVisibilityNotification().dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,10 +61,6 @@ class StatusUpdatePage extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
-    // final _inputController1 = TextEditingController();
-    double leftOverFlow = -5.0;
-    double rightOverFlow = -5.0;
-    double bottomOverFlow = 0.0;
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),

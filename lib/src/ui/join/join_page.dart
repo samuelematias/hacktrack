@@ -43,6 +43,12 @@ class _JoinPageState extends State<JoinPage> {
   }
 
   @override
+  void dispose() {
+    KeyboardVisibilityNotification().dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
