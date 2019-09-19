@@ -6,6 +6,8 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/p/p4.dart';
+import '../../util/metrics.dart';
+import '../../widget/primary_button.dart';
 
 class MentorOnboardingPage extends StatefulWidget {
   final String title;
@@ -21,22 +23,7 @@ class MentorOnboardingPage extends StatefulWidget {
 class MentorOnboardingPageState extends State<MentorOnboardingPage> {
   int _slideIndex = 0;
 
-  final List<String> images = [
-    "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-    "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-  ];
-
   List<Color> colors = [Colors.orange];
-
-  // final List<String> text0 = [
-  //   "Hello mentor!",
-  //   "Update their status",
-  // ];
-
-  // final List<String> text1 = [
-  //   "App for food lovers, satisfy your taste",
-  //   "Find best meals in your area, simply",
-  // ];
 
   final IndexController controller = IndexController();
   @override
@@ -47,12 +34,6 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
         setState(() {
           this._slideIndex = index;
         });
-        // switch (index) {
-        //   case 2:
-        //     {
-        //       print('Last slide :$_slideIndex');
-        //     }
-        // }
       },
       loop: false,
       controller: controller,
@@ -69,7 +50,6 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
               horizontal: space_golden_dream,
               vertical: space_heliotrope,
             ),
-            // child: buildColumn(info),
             child: Stack(
               children: <Widget>[
                 SingleChildScrollView(
@@ -121,22 +101,12 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: SecondaryAppBar(
-      //   pageTitle: "Shawee",
-      //   context: context,
-      //   onClickBackButton: () {
-      //     FocusScope.of(context).requestFocus(FocusNode());
-      //     Navigator.pop(context);
-      //   },
-      // ),
       body: transformerPageView,
     );
   }
 
   Column buildColumn(TransformInfo info) {
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      // crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         _slideIndex == 0
             ? ParallaxContainer(
@@ -235,51 +205,60 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
         _slideIndex == 1
             ? ParallaxContainer(
                 child: Container(
+                  height: Metrics.ph(context, 80),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(space_spring_green),
-                        child: H1(
-                          text: "Update their status",
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(space_spring_green),
-                        child: P4(
-                          text:
-                              "After mentoring a group, you can update their status, whether thei are killin'it or needing help",
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(space_spring_green),
-                        child: Container(
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-                            fit: BoxFit.fitWidth,
-                            // width: space_magic_mint,
-                            // height: space_magic_mint,
-                            placeholder: (context, photo) => Container(
-                              width: space_purple_rain,
-                              height: space_purple_rain,
-                              alignment: Alignment.center,
-                              child: Icon(
-                                Icons.image,
-                                size: space_conifer,
-                              ),
+                      Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(space_spring_green),
+                            child: H1(
+                              text: "Update their status",
                             ),
-                            errorWidget: (context, photo, error) => Container(
-                              width: space_purple_rain,
-                              height: space_purple_rain,
-                              alignment: Alignment.center,
-                              child: Icon(
-                                Icons.image,
-                                size: space_conifer,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(space_spring_green),
+                            child: P4(
+                              text:
+                                  "After mentoring a group, you can update their status, whether thei are killin'it or needing help",
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(space_spring_green),
+                            child: Container(
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
+                                fit: BoxFit.fitWidth,
+                                placeholder: (context, photo) => Container(
+                                  width: space_purple_rain,
+                                  height: space_purple_rain,
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    Icons.image,
+                                    size: space_conifer,
+                                  ),
+                                ),
+                                errorWidget: (context, photo, error) =>
+                                    Container(
+                                  width: space_purple_rain,
+                                  height: space_purple_rain,
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    Icons.image,
+                                    size: space_conifer,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
+                      PrimaryButton(
+                        label: "Start mentoring",
+                        onPress: () {},
+                      )
                     ],
                   ),
                 ),

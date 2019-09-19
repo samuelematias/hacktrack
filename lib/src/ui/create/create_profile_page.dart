@@ -8,7 +8,6 @@ import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_image_picker.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
-import '../../widget/input.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 
@@ -30,16 +29,16 @@ class CreateProfilePage extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
-    // FocusNode _focusNode1 = FocusNode();
     FocusNode _focusNode2 = FocusNode();
     FocusNode _focusNode3 = FocusNode();
+    FocusNode _focusNode4 = FocusNode();
     final _inputController1 = TextEditingController();
     final _inputController2 = TextEditingController();
     final _inputController3 = TextEditingController();
+    final _inputController4 = TextEditingController();
     double leftOverFlow = -5.0;
     double rightOverFlow = -5.0;
     double bottomOverFlow = 0.0;
-    bool wrongId = false;
 
     return SafeArea(
       child: Container(
@@ -48,7 +47,7 @@ class CreateProfilePage extends StatelessWidget {
           children: <Widget>[
             SingleChildScrollView(
               child: Container(
-                height: 400,
+                height: 500,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
@@ -137,16 +136,31 @@ class CreateProfilePage extends StatelessWidget {
                             top: space_golden_dream,
                             right: space_geraldine,
                           ),
-                          child: Input(
-                            context: context,
-                            hint: "Name",
-                            autofocus: true,
-                            inputController: _inputController1,
-                            textInputAction: TextInputAction.next,
+                          child: TextField(
+                            controller: _inputController1,
+                            onChanged: (text) {},
                             onEditingComplete: () => FocusScope.of(context)
                                 .requestFocus(_focusNode2),
-                            borderSideColorOnFocus: !wrongId ? purple : red,
-                            borderSideUnFocus: !wrongId ? black : red,
+                            autofocus: true,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.next,
+                            style: TextStyle(
+                              color: black,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: "Name",
+                              labelStyle: TextStyle(color: black),
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: purple, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: black, width: 1.0),
+                              ),
+                              fillColor: black,
+                            ),
                           ),
                         ),
                         Padding(
@@ -155,14 +169,32 @@ class CreateProfilePage extends StatelessWidget {
                             top: space_golden_dream,
                             right: space_geraldine,
                           ),
-                          child: Input(
-                            context: context,
-                            hint: "Role (Designer, Front End, etc.)",
-                            // focusNode: _focusNode2,
-                            inputController: _inputController2,
-                            textInputAction: TextInputAction.next,
+                          child: TextField(
+                            focusNode: _focusNode2,
+                            controller: _inputController2,
+                            onChanged: (text) {},
                             onEditingComplete: () => FocusScope.of(context)
                                 .requestFocus(_focusNode3),
+                            // autofocus: true,
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
+                            style: TextStyle(
+                              color: black,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: "Email",
+                              labelStyle: TextStyle(color: black),
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: purple, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: black, width: 1.0),
+                              ),
+                              fillColor: black,
+                            ),
                           ),
                         ),
                         Padding(
@@ -171,13 +203,65 @@ class CreateProfilePage extends StatelessWidget {
                             top: space_golden_dream,
                             right: space_geraldine,
                           ),
-                          child: Input(
-                            context: context,
-                            hint: "Short bio",
+                          child: TextField(
                             focusNode: _focusNode3,
-                            inputController: _inputController3,
+                            controller: _inputController3,
+                            onChanged: (text) {},
+                            onEditingComplete: () => FocusScope.of(context)
+                                .requestFocus(_focusNode4),
+                            // autofocus: true,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.next,
+                            style: TextStyle(
+                              color: black,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: "Role (Designer, Front End, etc.)",
+                              labelStyle: TextStyle(color: black),
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: purple, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: black, width: 1.0),
+                              ),
+                              fillColor: black,
+                            ),
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: space_geraldine,
+                            top: space_golden_dream,
+                            right: space_geraldine,
+                          ),
+                          child: TextField(
+                            focusNode: _focusNode4,
+                            controller: _inputController4,
+                            onChanged: (text) {},
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            style: TextStyle(
+                              color: black,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: "Short bio",
+                              labelStyle: TextStyle(color: black),
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: purple, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: black, width: 1.0),
+                              ),
+                              fillColor: black,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ],
@@ -193,9 +277,6 @@ class CreateProfilePage extends StatelessWidget {
                   child: PrimaryButton(
                     label: "Next",
                     onPress: () {
-                      // FocusScope.of(context).requestFocus(_focusNode2);
-                      // FocusScope.of(context).requestFocus(_focusNode3);
-                      // FocusScope.of(context).requestFocus(FocusNode());
                       Navigator.of(context).pushNamed(
                         RoutesNames.mentorOnboarding,
                       );
