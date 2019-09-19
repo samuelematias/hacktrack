@@ -5,9 +5,13 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/h/h4.dart';
+import '../../util/custom_dialog.dart';
 import '../../widget/card_track.dart';
 import '../../widget/content_card.dart';
+import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
+import '../../widget/secondary_button.dart';
+import '../start/start_page.dart';
 
 class TeamPage extends StatelessWidget {
   @override
@@ -17,12 +21,10 @@ class TeamPage extends StatelessWidget {
       appBar: SecondaryAppBar(
         pageTitle: "Team Fire",
         context: context,
+        customHeaderLeft: true,
         showHeaderRight: true,
-        hideHeaderLeft: true,
-        onClickBackButton: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-          Navigator.pop(context);
-        },
+        onClickCustomHeaderLeft: () =>
+            CustomDialog.show(context, _buildDialogContent(context), 110),
       ),
       body: SingleChildScrollView(
         child: _bodyWidget(context),
@@ -253,6 +255,55 @@ class TeamPage extends StatelessWidget {
           aboutColor: key["status"] == 'Killin it' ? green : red,
         ),
       ),
+    );
+  }
+
+  Widget _buildDialogContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(
+            bottom: space_golden_dream,
+          ),
+          child: H4(
+            text: "Are your sure you want to exit the hackathon?",
+          ),
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SecondaryButton(
+                    label: "Cancel",
+                    onPress: () => Navigator.pop(context),
+                    width: 100,
+                  ),
+                  PrimaryButton(
+                    label: "Exit",
+                    onPress: () {
+                      Navigator.pop(context);
+                      return Navigator.of(
+                        context,
+                      ).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => StartPage(),
+                          ),
+                          (Route<dynamic> route) => false);
+                    },
+                    width: 100,
+                    borderColor: red,
+                    buttonColor: red,
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

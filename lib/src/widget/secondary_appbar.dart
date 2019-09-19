@@ -9,10 +9,13 @@ class SecondaryAppBar extends AppBar {
     @required BuildContext context,
     @required String pageTitle,
     bool hideHeaderLeft = false,
+    bool customHeaderLeft = false,
     bool showHeaderRight = false,
     Function onClickBackButton,
+    Function onClickCustomHeaderLeft,
     Function onClickHeaderRight,
-    final IconData iconHeaderRight = Icons.refresh,
+    IconData iconHeaderRight = Icons.refresh,
+    Color iconHeaderRightColor = const Color(0xff6558f5),
   }) : super(
           iconTheme: IconThemeData(
             color: grey, //change your color here
@@ -23,16 +26,30 @@ class SecondaryAppBar extends AppBar {
             style: Theme.of(context).accentTextTheme.headline,
           ),
           leading: !hideHeaderLeft
-              ? IconButton(
-                  icon: Icon(
-                    Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-                    color: grey,
-                  ),
-                  onPressed: () {
-                    onClickBackButton != null
-                        ? onClickBackButton()
-                        : Navigator.pop(context);
-                  },
+              ? Row(
+                  children: <Widget>[
+                    customHeaderLeft
+                        ? IconButton(
+                            icon: Icon(
+                              Icons.settings,
+                              color: grey,
+                            ),
+                            onPressed: () => onClickCustomHeaderLeft(),
+                          )
+                        : IconButton(
+                            icon: Icon(
+                              Platform.isIOS
+                                  ? Icons.arrow_back_ios
+                                  : Icons.arrow_back,
+                              color: grey,
+                            ),
+                            onPressed: () {
+                              onClickBackButton != null
+                                  ? onClickBackButton()
+                                  : Navigator.pop(context);
+                            },
+                          )
+                  ],
                 )
               : Container(),
           centerTitle: true,
@@ -52,7 +69,7 @@ class SecondaryAppBar extends AppBar {
                 ? IconButton(
                     icon: Icon(
                       iconHeaderRight,
-                      color: purple,
+                      color: iconHeaderRightColor,
                     ),
                     onPressed: () {
                       onClickHeaderRight != null

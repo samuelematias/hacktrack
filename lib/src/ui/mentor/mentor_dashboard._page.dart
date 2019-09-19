@@ -22,6 +22,7 @@ class MentorDashboardPage extends StatelessWidget {
         showHeaderRight: true,
         hideHeaderLeft: true,
         iconHeaderRight: Icons.settings,
+        iconHeaderRightColor: grey,
         onClickHeaderRight: () =>
             CustomDialog.show(context, _buildDialogContent(context), 110),
       ),
