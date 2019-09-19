@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
@@ -11,7 +12,36 @@ import '../../widget/input.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
 
-class JoinPage extends StatelessWidget {
+class JoinPage extends StatefulWidget {
+  @override
+  _JoinPageState createState() => _JoinPageState();
+}
+
+class _JoinPageState extends State<JoinPage> {
+  final _inputController = TextEditingController();
+  double leftOverFlow = -5.0;
+  double rightOverFlow = -5.0;
+  double bottomOverFlow = 0.0;
+  bool wrongId = false;
+
+  @override
+  void initState() {
+    super.initState();
+    KeyboardVisibilityNotification().addNewListener(
+      onChange: (bool visible) {
+        if (visible) {
+          leftOverFlow = -5.0;
+          rightOverFlow = -5.0;
+          bottomOverFlow = 0.0;
+        } else {
+          leftOverFlow = 20.0;
+          rightOverFlow = 20.0;
+          bottomOverFlow = 25.0;
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +58,6 @@ class JoinPage extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
-    final _inputController = TextEditingController();
-    double leftOverFlow = -5.0;
-    double rightOverFlow = -5.0;
-    double bottomOverFlow = 0.0;
-    bool wrongId = false;
-
     return SafeArea(
       child: Container(
         width: Metrics.fullWidth(context),
