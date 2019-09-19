@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
+import '../../util/custom_image_picker.dart';
 import '../../util/metrics.dart';
+import '../../widget/dashed_box.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 
@@ -22,45 +26,199 @@ class StatusUpdatePage extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
+    // final _inputController1 = TextEditingController();
     double leftOverFlow = -5.0;
     double rightOverFlow = -5.0;
     double bottomOverFlow = 0.0;
     return SafeArea(
-      child: Container(
-        child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: Container(
-                width: Metrics.fullWidth(context),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: space_conifer,
-                        top: space_golden_dream,
-                        right: space_conifer,
-                      ),
-                      child: H4(
-                        text: "Update your status",
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => _showPicker(context),
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          left: space_golden_dream,
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        child: Container(
+          color: Colors.transparent,
+          child: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Container(
+                  color: Colors.transparent,
+                  height: 420,
+                  width: Metrics.fullWidth(context),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: space_conifer,
                           top: space_golden_dream,
+                          right: space_conifer,
+                        ),
+                        child: H4(
+                          text: "Update your status",
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => _showPicker(context),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            left: space_golden_dream,
+                            top: space_golden_dream,
+                            right: space_golden_dream,
+                          ),
+                          height: space_portage,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(
+                              color: grey,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(2)),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        left: space_dodger_blue,
+                                      ),
+                                      child: H4(
+                                        text: "Problem",
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        right: space_dodger_blue,
+                                      ),
+                                      child: Icon(Icons.keyboard_arrow_down),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: space_golden_dream,
+                          top: space_dodger_blue,
                           right: space_golden_dream,
                         ),
-                        height: space_portage,
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(
-                            color: grey,
-                            width: 2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                  left: space_dodger_blue,
+                                  top: space_carmine,
+                                  right: space_dodger_blue,
+                                  bottom: space_carmine,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  border: Border.all(
+                                    color: lightGreen,
+                                    width: 2,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      "Killin' it! 🍾",
+                                      style: TextStyle(
+                                        fontSize: space_golden_dream,
+                                        color: green,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "or",
+                              style: TextStyle(
+                                fontSize: space_dodger_blue,
+                                color: lightGrey,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                  left: space_dodger_blue,
+                                  top: space_carmine,
+                                  right: space_dodger_blue,
+                                  bottom: space_carmine,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  border: Border.all(
+                                    color: lightRed,
+                                    width: 2,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      "Need help 🚨",
+                                      style: TextStyle(
+                                        fontSize: space_golden_dream,
+                                        color: red,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: space_golden_dream,
+                          top: space_dodger_blue,
+                          right: space_golden_dream,
+                        ),
+                        child: TextField(
+                          // controller: _inputController1,
+                          onChanged: (text) {},
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          maxLines: 3,
+                          maxLength: 200,
+                          style: TextStyle(
+                            color: black,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          decoration: InputDecoration(
+                            labelText: "Status comments",
+                            labelStyle: TextStyle(color: lightGrey),
+                            border: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: purple, width: 2.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: grey, width: 1.0),
+                            ),
+                            fillColor: black,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: space_fire_bush,
+                          top: space_spring_green,
+                          right: space_golden_dream,
                         ),
                         child: Row(
                           children: <Widget>[
@@ -69,129 +227,103 @@ class StatusUpdatePage extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: space_dodger_blue,
-                                    ),
-                                    child: H4(
-                                      text: "Problem",
+                                  GestureDetector(
+                                    onTap: () {
+                                      return CustomImagePicker.show(context,
+                                          (File imageCropped) {
+                                        // setState(() {
+                                        //   _image = imageCropped;
+                                        // });
+                                      }, true);
+                                    },
+                                    child: DashedBox(
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.image,
+                                          color: grey,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      right: space_dodger_blue,
+                                  GestureDetector(
+                                    onTap: () {
+                                      return CustomImagePicker.show(context,
+                                          (File imageCropped) {
+                                        // setState(() {
+                                        //   _image = imageCropped;
+                                        // });
+                                      }, true);
+                                    },
+                                    child: DashedBox(
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.image,
+                                          color: grey,
+                                        ),
+                                      ),
                                     ),
-                                    child: Icon(Icons.keyboard_arrow_down),
-                                  )
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      return CustomImagePicker.show(context,
+                                          (File imageCropped) {
+                                        // setState(() {
+                                        //   _image = imageCropped;
+                                        // });
+                                      }, true);
+                                    },
+                                    child: DashedBox(
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.image,
+                                          color: grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      return CustomImagePicker.show(context,
+                                          (File imageCropped) {
+                                        // setState(() {
+                                        //   _image = imageCropped;
+                                        // });
+                                      }, true);
+                                    },
+                                    child: DashedBox(
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.image,
+                                          color: grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: space_golden_dream,
-                        top: space_dodger_blue,
-                        right: space_golden_dream,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                left: space_dodger_blue,
-                                top: space_carmine,
-                                right: space_dodger_blue,
-                                bottom: space_carmine,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                border: Border.all(
-                                  color: lightGreen,
-                                  width: 2,
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    "Killin' it! 🍾",
-                                    style: TextStyle(
-                                      fontSize: space_golden_dream,
-                                      color: green,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "or",
-                            style: TextStyle(
-                              fontSize: space_dodger_blue,
-                              color: lightGrey,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                left: space_dodger_blue,
-                                top: space_carmine,
-                                right: space_dodger_blue,
-                                bottom: space_carmine,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                border: Border.all(
-                                  color: lightRed,
-                                  width: 2,
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    "Need help 🚨",
-                                    style: TextStyle(
-                                      fontSize: space_golden_dream,
-                                      color: red,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Stack(
-              children: <Widget>[
-                Positioned(
-                  left: leftOverFlow,
-                  right: rightOverFlow,
-                  bottom: bottomOverFlow,
-                  child: PrimaryButton(
-                    label: "Update",
-                    onPress: () {},
+                      )
+                    ],
                   ),
                 ),
-              ],
-            )
-          ],
+              ),
+              Stack(
+                children: <Widget>[
+                  Positioned(
+                    left: leftOverFlow,
+                    right: rightOverFlow,
+                    bottom: bottomOverFlow,
+                    child: PrimaryButton(
+                      label: "Update",
+                      onPress: () {},
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
