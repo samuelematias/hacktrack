@@ -198,7 +198,6 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
                   ],
                 ),
                 position: info.position,
-                opacityFactor: .8,
                 translationFactor: 400.0,
               )
             : Container(),
@@ -263,7 +262,6 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
                   ),
                 ),
                 position: info.position,
-                opacityFactor: .8,
                 translationFactor: 400.0,
               )
             : Container(),
