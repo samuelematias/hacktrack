@@ -4,6 +4,7 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_dialog.dart';
+import '../../util/routes.dart';
 import '../../widget/card_track_team.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
@@ -107,7 +108,7 @@ class MentorDashboardPage extends StatelessWidget {
   ) {
     final bool isTheFirstPositionOfArray = index == 0;
     return GestureDetector(
-      onTap: () {},
+      onTap: () => Navigator.of(context).pushNamed(RoutesNames.team),
       child: Container(
         color: Colors.transparent,
         padding: EdgeInsets.only(
