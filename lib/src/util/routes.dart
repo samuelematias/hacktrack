@@ -7,6 +7,7 @@ import '../ui/join/join_module.dart';
 import '../ui/mentor/mentor_module.dart';
 import '../ui/mentor/mentor_onboarding_page.dart';
 import '../ui/start/start_module.dart';
+import '../ui/status/status_module.dart';
 import '../ui/team/create_team_page.dart';
 import '../ui/team/team_module.dart';
 import '../ui/team/team_page.dart';
@@ -50,6 +51,9 @@ class Routes extends MaterialPageRoute {
               case RoutesNames.mentorDashboard:
                 return MentorModule();
                 break;
+              case RoutesNames.statusUpdate:
+                return StatusModule();
+                break;
               default:
                 break;
             }
@@ -69,4 +73,5 @@ class RoutesNames {
   static const String team = '/team';
   static const String mentorOnboarding = '/mentor/onboarding';
   static const String mentorDashboard = '/mentor/dashboard';
+  static const String statusUpdate = '/status';
 }

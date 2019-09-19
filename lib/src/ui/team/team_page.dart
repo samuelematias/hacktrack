@@ -6,6 +6,7 @@ import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_dialog.dart';
+import '../../util/routes.dart';
 import '../../widget/card_track.dart';
 import '../../widget/content_card.dart';
 import '../../widget/primary_button.dart';
@@ -23,6 +24,9 @@ class TeamPage extends StatelessWidget {
         context: context,
         customHeaderLeft: true,
         showHeaderRight: true,
+        onClickHeaderRight: () => Navigator.of(context).pushNamed(
+          RoutesNames.statusUpdate,
+        ),
         onClickCustomHeaderLeft: () =>
             CustomDialog.show(context, _buildDialogContent(context), 110),
       ),
