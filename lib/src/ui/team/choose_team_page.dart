@@ -271,8 +271,10 @@ class ChooseTeamPage extends StatelessWidget {
                   ),
                   PrimaryButton(
                     label: "Join",
-                    onPress: () =>
-                        Navigator.of(context).pushNamed(RoutesNames.team),
+                    onPress: () {
+                      Navigator.pop(context);
+                      return Navigator.of(context).pushNamed(RoutesNames.team);
+                    },
                     width: 100,
                   )
                 ],

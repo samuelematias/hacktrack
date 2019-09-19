@@ -161,13 +161,16 @@ class MentorDashboardPage extends StatelessWidget {
                   ),
                   PrimaryButton(
                     label: "Exit",
-                    onPress: () => Navigator.of(
-                      context,
-                    ).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => StartPage(),
-                        ),
-                        (Route<dynamic> route) => false),
+                    onPress: () {
+                      Navigator.pop(context);
+                      return Navigator.of(
+                        context,
+                      ).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => StartPage(),
+                          ),
+                          (Route<dynamic> route) => false);
+                    },
                     width: 100,
                     borderColor: red,
                     buttonColor: red,

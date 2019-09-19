@@ -2,7 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 
 import 'mentor_bloc.dart';
-import 'mentor_onboarding_page.dart';
+import 'mentor_dashboard._page.dart';
 
 class MentorModule extends ModuleWidget {
   @override
@@ -14,7 +14,7 @@ class MentorModule extends ModuleWidget {
   List<Dependency> get dependencies => [];
 
   @override
-  Widget get view => MentorOnboardingPage();
+  Widget get view => MentorDashboardPage();
 
   static Inject get to => Inject<MentorModule>.of();
 }

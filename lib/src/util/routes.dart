@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../ui/create/create_codes_page.dart';
-import '../ui/create/create_hackathon_page.dart';
+import '../ui/create/create_module.dart';
 import '../ui/create/create_profile_page.dart';
 import '../ui/join/join_module.dart';
-import '../ui/mentor/mentor_dashboard._page.dart';
+import '../ui/mentor/mentor_module.dart';
 import '../ui/mentor/mentor_onboarding_page.dart';
 import '../ui/start/start_module.dart';
-import '../ui/team/choose_team_page.dart';
 import '../ui/team/create_team_page.dart';
+import '../ui/team/team_module.dart';
 import '../ui/team/team_page.dart';
 
 class Routes extends MaterialPageRoute {
@@ -27,7 +27,7 @@ class Routes extends MaterialPageRoute {
                 return JoinModule();
                 break;
               case RoutesNames.createHackathon:
-                return CreateHackathonPage();
+                return CreateModule();
                 break;
               case RoutesNames.createCodes:
                 return CreateCodesPage();
@@ -36,7 +36,7 @@ class Routes extends MaterialPageRoute {
                 return CreateProfilePage();
                 break;
               case RoutesNames.chooseTeam:
-                return ChooseTeamPage();
+                return TeamModule();
                 break;
               case RoutesNames.createTeam:
                 return CreateTeamPage();
@@ -48,7 +48,7 @@ class Routes extends MaterialPageRoute {
                 return MentorOnboardingPage();
                 break;
               case RoutesNames.mentorDashboard:
-                return MentorDashboardPage();
+                return MentorModule();
                 break;
               default:
                 break;
