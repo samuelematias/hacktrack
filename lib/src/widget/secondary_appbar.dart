@@ -8,10 +8,11 @@ class SecondaryAppBar extends AppBar {
   SecondaryAppBar({
     @required BuildContext context,
     @required String pageTitle,
-    bool hideHeaderRight = false,
-    bool showHeaderLeft = false,
+    bool hideHeaderLeft = false,
+    bool showHeaderRight = false,
     Function onClickBackButton,
     Function onClickLeftButton,
+    final IconData iconHeaderRight = Icons.refresh,
   }) : super(
           iconTheme: IconThemeData(
             color: grey, //change your color here
@@ -21,7 +22,7 @@ class SecondaryAppBar extends AppBar {
             textAlign: TextAlign.center,
             style: Theme.of(context).accentTextTheme.headline,
           ),
-          leading: !hideHeaderRight
+          leading: !hideHeaderLeft
               ? IconButton(
                   icon: Icon(
                     Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
@@ -47,10 +48,10 @@ class SecondaryAppBar extends AppBar {
             ),
           ),
           actions: [
-            showHeaderLeft
+            showHeaderRight
                 ? IconButton(
                     icon: Icon(
-                      Icons.refresh,
+                      iconHeaderRight,
                       color: purple,
                     ),
                     onPressed: () {

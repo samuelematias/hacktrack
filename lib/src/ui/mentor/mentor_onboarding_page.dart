@@ -7,6 +7,7 @@ import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/p/p4.dart';
 import '../../util/metrics.dart';
+import '../../util/routes.dart';
 import '../../widget/primary_button.dart';
 
 class MentorOnboardingPage extends StatefulWidget {
@@ -256,7 +257,9 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
                       ),
                       PrimaryButton(
                         label: "Start mentoring",
-                        onPress: () {},
+                        onPress: () => Navigator.of(context).pushNamed(
+                          RoutesNames.mentorDashboard,
+                        ),
                       )
                     ],
                   ),

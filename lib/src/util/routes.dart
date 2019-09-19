@@ -4,6 +4,7 @@ import '../ui/create/create_codes_page.dart';
 import '../ui/create/create_profile_page.dart';
 import '../ui/create/create_room_page.dart';
 import '../ui/join/join_module.dart';
+import '../ui/mentor/mentor_dashboard._page.dart';
 import '../ui/mentor/mentor_onboarding_page.dart';
 import '../ui/start/start_module.dart';
 import '../ui/team/choose_team_page.dart';
@@ -46,6 +47,9 @@ class Routes extends MaterialPageRoute {
               case RoutesNames.mentorOnboarding:
                 return MentorOnboardingPage();
                 break;
+              case RoutesNames.mentorDashboard:
+                return MentorDashboardPage();
+                break;
               default:
                 break;
             }
@@ -64,4 +68,5 @@ class RoutesNames {
   static const String createTeam = '/teams/create';
   static const String team = '/team';
   static const String mentorOnboarding = '/mentor/onboarding';
+  static const String mentorDashboard = '/mentor/dashboard';
 }

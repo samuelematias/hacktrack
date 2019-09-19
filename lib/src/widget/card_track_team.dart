@@ -8,9 +8,7 @@ import 'card_shadow.dart';
 import 'row_info.dart';
 
 class CardTrackTeam extends StatelessWidget {
-  final String photo;
   final String stage;
-  final String status;
   final String updatedAt;
   final Color updatedAtColor;
   final String about;
@@ -19,12 +17,12 @@ class CardTrackTeam extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
   final Color circleColor;
+  final String teamName;
+  final String teamCount;
 
   const CardTrackTeam({
     Key key,
-    this.photo = '',
     this.stage = '',
-    this.status = '',
     this.updatedAt = '',
     this.updatedAtColor = const Color(0xffe8833a),
     this.about = '',
@@ -33,6 +31,8 @@ class CardTrackTeam extends StatelessWidget {
     this.icon = Icons.group,
     this.iconColor = const Color(0xffefa544),
     this.circleColor = const Color(0xfff8dbb4),
+    this.teamName = '',
+    this.teamCount = '',
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -69,8 +69,8 @@ class CardTrackTeam extends StatelessWidget {
                     icon: icon,
                     iconColor: iconColor,
                     circleColor: circleColor,
-                    title: "Team Fire",
-                    subTitle: "5 participants",
+                    title: teamName,
+                    subTitle: teamCount,
                     buttonLabel: "Open",
                     onPress: () {},
                     rowMainAxisAlignment: MainAxisAlignment.spaceBetween,

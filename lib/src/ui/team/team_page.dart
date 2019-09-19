@@ -17,8 +17,8 @@ class TeamPage extends StatelessWidget {
       appBar: SecondaryAppBar(
         pageTitle: "Team Fire",
         context: context,
-        showHeaderLeft: true,
-        hideHeaderRight: true,
+        showHeaderRight: true,
+        hideHeaderLeft: true,
         onClickBackButton: () {
           FocusScope.of(context).requestFocus(FocusNode());
           Navigator.pop(context);
