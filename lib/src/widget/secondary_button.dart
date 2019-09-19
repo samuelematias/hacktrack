@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../themes/spacing/linear_scale.dart';
+
 class SecondaryButton extends StatelessWidget {
   final Function onPress;
   final Color borderColor;
@@ -7,6 +9,7 @@ class SecondaryButton extends StatelessWidget {
   final double width;
   final double height;
   final Color buttonColor;
+  final Color labelColor;
 
   const SecondaryButton({
     Key key,
@@ -16,6 +19,7 @@ class SecondaryButton extends StatelessWidget {
     this.width = 250.0,
     this.height = 40.0,
     this.buttonColor = Colors.white,
+    this.labelColor = const Color(0xff6558f5),
   }) : super(key: key);
 
   @override
@@ -37,7 +41,11 @@ class SecondaryButton extends StatelessWidget {
           child: Text(
             label,
             textAlign: TextAlign.center,
-            style: Theme.of(context).accentTextTheme.button,
+            style: TextStyle(
+              fontSize: space_golden_dream,
+              color: labelColor,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

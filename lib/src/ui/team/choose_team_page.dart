@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
+import '../../themes/text/typography/h/h2.dart';
 import '../../themes/text/typography/h/h4.dart';
+import '../../themes/text/typography/p/p1.dart';
+import '../../util/custom_dialog.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
+import '../../widget/circle_icon.dart';
+import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
@@ -23,10 +28,6 @@ class ChooseTeamPage extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
-    // double leftOverFlow = 10.0;
-    // double rightOverFlow = 10.0;
-    // double bottomOverFlow = 20.0;
-
     return SafeArea(
       child: Container(
         width: Metrics.fullWidth(context),
@@ -190,9 +191,96 @@ class ChooseTeamPage extends StatelessWidget {
         title: key['title'],
         subTitle: key['subTitle'],
         buttonLabel: "Join",
-        onPress: () {},
+        onPress: () =>
+            CustomDialog.show(context, _buildDialogContent(context), 170),
         rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
       ),
+    );
+  }
+
+  Widget _buildDialogContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        H4(
+          text: "Are your sure you want to join this team?",
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: space_dodger_blue,
+            bottom: space_fire_bush,
+          ),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // mainAxisAlignment: Main,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        CircleIcon(
+                          icon: Icons.group,
+                          iconColor: lightGrey,
+                          circleColor: grey,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: space_dodger_blue,
+                              ),
+                              child: H2(
+                                text: "Team Fire",
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: space_dodger_blue,
+                                top: space_carmine,
+                              ),
+                              child: P1(
+                                text: "5 participants",
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SecondaryButton(
+                    label: "Cancel",
+                    onPress: () => Navigator.pop(context),
+                    width: 100,
+                    borderColor: lightRed,
+                    labelColor: red,
+                  ),
+                  PrimaryButton(
+                    label: "Join",
+                    onPress: () =>
+                        Navigator.of(context).pushNamed(RoutesNames.team),
+                    width: 100,
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -11,7 +11,7 @@ class SecondaryAppBar extends AppBar {
     bool hideHeaderLeft = false,
     bool showHeaderRight = false,
     Function onClickBackButton,
-    Function onClickLeftButton,
+    Function onClickHeaderRight,
     final IconData iconHeaderRight = Icons.refresh,
   }) : super(
           iconTheme: IconThemeData(
@@ -55,8 +55,8 @@ class SecondaryAppBar extends AppBar {
                       color: purple,
                     ),
                     onPressed: () {
-                      onClickLeftButton != null
-                          ? onClickLeftButton()
+                      onClickHeaderRight != null
+                          ? onClickHeaderRight()
                           : Navigator.pop(context);
                     },
                   )
