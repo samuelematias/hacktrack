@@ -19,6 +19,12 @@ class StatusBloc extends BlocBase {
   StreamController<String> _stageStreamController =
       new StreamController<String>.broadcast();
 
+  StreamController<String> _statusOkStreamController =
+      new StreamController<String>.broadcast();
+
+  StreamController<String> _statusNokStreamController =
+      new StreamController<String>.broadcast();
+
   Function(String) get addComment => _commentsStreamController.sink.add;
 
   Stream<String> get getComment => _commentsStreamController.stream;
@@ -37,6 +43,14 @@ class StatusBloc extends BlocBase {
 
   Stream<String> get getStage => _stageStreamController.stream;
 
+  Function(String) get addStatusOk => _statusOkStreamController.sink.add;
+
+  Stream<String> get getStatusOk => _statusOkStreamController.stream;
+
+  Function(String) get addStatusNok => _statusNokStreamController.sink.add;
+
+  Stream<String> get getStatusNok => _statusNokStreamController.stream;
+
   @override
   void dispose() {
     super.dispose();
@@ -45,6 +59,8 @@ class StatusBloc extends BlocBase {
     _validateUpdateStreamController?.close();
     _photoOneStreamController?.close();
     _stageStreamController?.close();
+    _statusOkStreamController?.close();
+    _statusNokStreamController?.close();
   }
 
   updatePhotoOne(File photo) {
@@ -63,7 +79,20 @@ class StatusBloc extends BlocBase {
   }
 
   updateStage(String text) {
-    addStage(text);
+    addStage(text.isEmpty ? "Ideation" : text);
+  }
+
+  handleStatus(String buttonOk, String buttonNok) {
+    if (buttonOk == "nok") {
+      addStatusOk("");
+      addStatusNok("nok");
+    } else if (buttonNok == "ok") {
+      addStatusOk("ok");
+      addStatusNok("");
+    } else {
+      addStatusOk(buttonOk);
+      addStatusNok(buttonNok);
+    }
   }
 
   validateUpdateButton(String comments) {

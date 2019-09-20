@@ -126,7 +126,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                             return H4(
                                               text: snapshot.hasData
                                                   ? snapshot.data
-                                                  : "",
+                                                  : "Ideation",
                                             );
                                           }),
                                     ),
@@ -153,36 +153,48 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                  left: space_dodger_blue,
-                                  top: space_carmine,
-                                  right: space_dodger_blue,
-                                  bottom: space_carmine,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border.all(
-                                    color: lightGreen,
-                                    width: 2,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "Killin' it! 🍾",
-                                      style: TextStyle(
-                                        fontSize: space_golden_dream,
-                                        color: green,
+                              onTap: () => bloc.handleStatus("ok", ""),
+                              child: StreamBuilder<String>(
+                                  stream: bloc.getStatusOk,
+                                  builder: (context, snapshot) {
+                                    bool doubleCheckOk = snapshot.hasData &&
+                                        snapshot.data == "ok";
+                                    return Container(
+                                      padding: EdgeInsets.only(
+                                        left: space_dodger_blue,
+                                        top: space_carmine,
+                                        right: space_dodger_blue,
+                                        bottom: space_carmine,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                      decoration: BoxDecoration(
+                                        color: doubleCheckOk
+                                            ? green
+                                            : Colors.transparent,
+                                        border: Border.all(
+                                          color: doubleCheckOk
+                                              ? green
+                                              : lightGreen,
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(4)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            "Killin' it! 🍾",
+                                            style: TextStyle(
+                                              fontSize: space_golden_dream,
+                                              color:
+                                                  doubleCheckOk ? white : green,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
                             ),
                             Text(
                               "or",
@@ -193,36 +205,47 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                  left: space_dodger_blue,
-                                  top: space_carmine,
-                                  right: space_dodger_blue,
-                                  bottom: space_carmine,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border.all(
-                                    color: lightRed,
-                                    width: 2,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "Need help 🚨",
-                                      style: TextStyle(
-                                        fontSize: space_golden_dream,
-                                        color: red,
+                              onTap: () => bloc.handleStatus("", "nok"),
+                              child: StreamBuilder<String>(
+                                  stream: bloc.getStatusNok,
+                                  builder: (context, snapshot) {
+                                    bool doubleCheckNok = snapshot.hasData &&
+                                        snapshot.data == "nok";
+                                    return Container(
+                                      padding: EdgeInsets.only(
+                                        left: space_dodger_blue,
+                                        top: space_carmine,
+                                        right: space_dodger_blue,
+                                        bottom: space_carmine,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                      decoration: BoxDecoration(
+                                        color: doubleCheckNok
+                                            ? red
+                                            : Colors.transparent,
+                                        border: Border.all(
+                                          color:
+                                              doubleCheckNok ? red : lightRed,
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(4)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            "Need help 🚨",
+                                            style: TextStyle(
+                                              fontSize: space_golden_dream,
+                                              color:
+                                                  doubleCheckNok ? white : red,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
                             ),
                           ],
                         ),
@@ -480,9 +503,9 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
     } else if (index == 4) {
       return "Product";
     } else if (index == 5) {
-      return "Ideation";
-    } else {
       return "Pitch";
+    } else {
+      return "Ideation";
     }
   }
 }
