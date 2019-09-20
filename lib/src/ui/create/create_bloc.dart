@@ -12,6 +12,9 @@ class CreateBloc extends BlocBase {
   StreamController<String> _hackathonNameStreamController =
       new StreamController<String>.broadcast();
 
+  StreamController<String> _validateStreamController =
+      new StreamController<String>.broadcast();
+
   Function(Object) get addIdentifier => _identifierStreamController.sink.add;
 
   Stream<Object> get getIdentifier => _identifierStreamController.stream;
@@ -21,12 +24,17 @@ class CreateBloc extends BlocBase {
 
   Stream<Object> get getHackathonName => _hackathonNameStreamController.stream;
 
+  Function(Object) get addValidate => _validateStreamController.sink.add;
+
+  Stream<Object> get getValidate => _validateStreamController.stream;
+
   @override
   void dispose() {
     super.dispose();
     _streamController?.close();
     _identifierStreamController?.close();
     _hackathonNameStreamController?.close();
+    _validateStreamController?.close();
   }
 
   updateIdentifier(String text) {
@@ -39,5 +47,12 @@ class CreateBloc extends BlocBase {
 
   updateHackathonName(String text) {
     addHackathonName(text.isNotEmpty ? text : null);
+  }
+
+  validateButton(String identifier, String hackathonName) {
+    final bool identifierIsValid = identifier.isNotEmpty ? true : false;
+    final bool hackathonNameIsValid = hackathonName.isNotEmpty ? true : false;
+
+    addValidate(identifierIsValid && hackathonNameIsValid ? "ok" : "nok");
   }
 }

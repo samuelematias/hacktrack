@@ -11,6 +11,7 @@ Color lightGrey = Convert.hexToDartColor('#788896');
 Color heavyGrey = Convert.hexToDartColor('#DFE7ED');
 Color darkGrey = Convert.hexToDartColor('#9EADBA');
 Color shadownGrey = Convert.hexToDartColor('#F2F2F2');
+Color regularGrey = Convert.hexToDartColor('#DCDCDC');
 Color red = Convert.hexToDartColor('#D3455B');
 Color lightRed = Convert.hexToDartColor('#EDB4BD');
 Color green = Convert.hexToDartColor('#1AAE9F');

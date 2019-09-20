@@ -103,6 +103,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                             controller: _inputController1,
                             onChanged: (String text) {
                               bloc.updateIdentifier(text);
+                              bloc.validateButton(text, _inputController2.text);
                             },
                             onEditingComplete: () =>
                                 FocusScope.of(context).requestFocus(_focusNode),
@@ -163,6 +164,10 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                               controller: _inputController2,
                               onChanged: (String text) {
                                 bloc.updateHackathonName(text);
+                                bloc.validateButton(
+                                  _inputController1.text,
+                                  text,
+                                );
                               },
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.done,
@@ -210,11 +215,17 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                   left: leftOverFlow,
                   right: rightOverFlow,
                   bottom: bottomOverFlow,
-                  child: PrimaryButton(
-                    label: "Create",
-                    onPress: () => Navigator.of(context).pushNamed(
-                      RoutesNames.createCodes,
-                    ),
+                  child: StreamBuilder<String>(
+                    stream: bloc.getValidate,
+                    builder: (context, snapshot) {
+                      return PrimaryButton(
+                        label: "Create",
+                        onPress: () => Navigator.of(context).pushNamed(
+                          RoutesNames.createCodes,
+                        ),
+                        isDisable: snapshot.data,
+                      );
+                    },
                   ),
                 ),
               ],
