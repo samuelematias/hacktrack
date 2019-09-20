@@ -103,7 +103,10 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                             controller: _inputController1,
                             onChanged: (String text) {
                               bloc.updateIdentifier(text);
-                              bloc.validateButton(text, _inputController2.text);
+                              bloc.validateCreateHackathonButton(
+                                text,
+                                _inputController2.text,
+                              );
                             },
                             onEditingComplete: () =>
                                 FocusScope.of(context).requestFocus(_focusNode),
@@ -164,7 +167,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                               controller: _inputController2,
                               onChanged: (String text) {
                                 bloc.updateHackathonName(text);
-                                bloc.validateButton(
+                                bloc.validateCreateHackathonButton(
                                   _inputController1.text,
                                   text,
                                 );
@@ -216,7 +219,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                   right: rightOverFlow,
                   bottom: bottomOverFlow,
                   child: StreamBuilder<String>(
-                    stream: bloc.getValidate,
+                    stream: bloc.getValidateCreateHackathon,
                     builder: (context, snapshot) {
                       return PrimaryButton(
                         label: "Create",

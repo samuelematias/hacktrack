@@ -1,16 +1,14 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
-import '../../util/custom_image_picker.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
+import 'create_bloc.dart';
 
 class CreateProfilePage extends StatefulWidget {
   @override
@@ -50,6 +48,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   @override
   void dispose() {
     KeyboardVisibilityNotification().dispose();
+    CreateBloc().dispose();
     super.dispose();
   }
 
@@ -65,11 +64,11 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
           Navigator.pop(context);
         },
       ),
-      body: _bodyWidget(context),
+      body: _bodyWidget(context, CreateBloc()),
     );
   }
 
-  Widget _bodyWidget(BuildContext context) {
+  Widget _bodyWidget(BuildContext context, CreateBloc bloc) {
     return SafeArea(
       child: Container(
         width: Metrics.fullWidth(context),
@@ -77,7 +76,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
           children: <Widget>[
             SingleChildScrollView(
               child: Container(
-                height: 500,
+                height: 450,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
@@ -97,78 +96,21 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            top: space_golden_dream,
-                          ),
-                          child: Center(
-                            child: Column(
-                              children: <Widget>[
-                                Stack(
-                                  children: <Widget>[
-                                    // Positioned(
-                                    //   left: 12.0,
-                                    //   top: 12.0,
-                                    //   child: Center(
-                                    //     child: Container(
-                                    //       // color: red,
-                                    //       child: Container(),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    Center(
-                                      child: Container(
-                                        width: space_conifer,
-                                        height: space_conifer,
-                                        decoration: BoxDecoration(
-                                          color: overlay,
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                    ),
-                                    Center(
-                                      child: Container(
-                                          width: space_conifer,
-                                          height: space_conifer,
-                                          alignment: Alignment.center,
-                                          child: Icon(
-                                            Icons.camera_alt,
-                                            color: grey,
-                                          )),
-                                    ),
-                                    Center(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          return CustomImagePicker.show(context,
-                                              (File imageCropped) {
-                                            // setState(() {
-                                            //   _image = imageCropped;
-                                            // });
-                                          }, true);
-                                        },
-                                        child: Container(
-                                          width: space_conifer,
-                                          height: space_conifer,
-                                          decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            shape: BoxShape.circle,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
                             left: space_geraldine,
                             top: space_golden_dream,
                             right: space_geraldine,
                           ),
                           child: TextField(
                             controller: _inputController1,
-                            onChanged: (text) {},
+                            onChanged: (String text) {
+                              bloc.updateUserName(text);
+                              bloc.validateCreateProfileButton(
+                                text,
+                                _inputController2.text,
+                                _inputController3.text,
+                                _inputController4.text,
+                              );
+                            },
                             onEditingComplete: () => FocusScope.of(context)
                                 .requestFocus(_focusNode2),
                             autofocus: true,
@@ -202,7 +144,15 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                           child: TextField(
                             focusNode: _focusNode2,
                             controller: _inputController2,
-                            onChanged: (text) {},
+                            onChanged: (String text) {
+                              bloc.updateUserEmail(text);
+                              bloc.validateCreateProfileButton(
+                                _inputController1.text,
+                                text,
+                                _inputController3.text,
+                                _inputController4.text,
+                              );
+                            },
                             onEditingComplete: () => FocusScope.of(context)
                                 .requestFocus(_focusNode3),
                             // autofocus: true,
@@ -236,7 +186,15 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                           child: TextField(
                             focusNode: _focusNode3,
                             controller: _inputController3,
-                            onChanged: (text) {},
+                            onChanged: (String text) {
+                              bloc.updateUserRole(text);
+                              bloc.validateCreateProfileButton(
+                                _inputController1.text,
+                                _inputController2.text,
+                                text,
+                                _inputController4.text,
+                              );
+                            },
                             onEditingComplete: () => FocusScope.of(context)
                                 .requestFocus(_focusNode4),
                             // autofocus: true,
@@ -270,7 +228,17 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                           child: TextField(
                             focusNode: _focusNode4,
                             controller: _inputController4,
-                            onChanged: (text) {},
+                            onChanged: (String text) {
+                              bloc.updateUserRole(text);
+                              bloc.validateCreateProfileButton(
+                                _inputController1.text,
+                                _inputController2.text,
+                                _inputController3.text,
+                                text,
+                              );
+                            },
+                            maxLines: 2,
+                            maxLength: 100,
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.done,
                             style: TextStyle(
@@ -304,19 +272,24 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                   left: leftOverFlow,
                   right: rightOverFlow,
                   bottom: bottomOverFlow,
-                  child: PrimaryButton(
-                    label: "Create Profile",
-                    onPress: () {
-                      Navigator.of(context).pushNamed(
-                        RoutesNames.mentorOnboarding,
-                      );
-                      // Future.delayed(
-                      //     const Duration(seconds: 2),
-                      //     () => Navigator.of(context).pushNamed(
-                      //           RoutesNames.mentorOnboarding,
-                      //         ));
-                    },
-                  ),
+                  child: StreamBuilder<String>(
+                      stream: bloc.getValidateCreateProfile,
+                      builder: (context, snapshot) {
+                        return PrimaryButton(
+                          label: "Create Profile",
+                          onPress: () {
+                            Navigator.of(context).pushNamed(
+                              RoutesNames.mentorOnboarding,
+                            );
+                            // Future.delayed(
+                            //     const Duration(seconds: 2),
+                            //     () => Navigator.of(context).pushNamed(
+                            //           RoutesNames.mentorOnboarding,
+                            //         ));
+                          },
+                          isDisable: snapshot.data,
+                        );
+                      }),
                 ),
               ],
             )
