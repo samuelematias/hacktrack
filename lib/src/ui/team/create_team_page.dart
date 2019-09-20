@@ -6,9 +6,9 @@ import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
-import '../../widget/input.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
+import 'team_bloc.dart';
 
 class CreateTeamPage extends StatefulWidget {
   @override
@@ -16,7 +16,6 @@ class CreateTeamPage extends StatefulWidget {
 }
 
 class _CreateTeamPageState extends State<CreateTeamPage> {
-  FocusNode _focusNode1 = FocusNode();
   final _inputController1 = TextEditingController();
   double leftOverFlow = -5.0;
   double rightOverFlow = -5.0;
@@ -44,6 +43,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
   @override
   void dispose() {
     KeyboardVisibilityNotification().dispose();
+    TeamBloc().dispose();
     super.dispose();
   }
 
@@ -59,11 +59,11 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
           Navigator.pop(context);
         },
       ),
-      body: _bodyWidget(context),
+      body: _bodyWidget(context, TeamBloc()),
     );
   }
 
-  Widget _bodyWidget(BuildContext context) {
+  Widget _bodyWidget(BuildContext context, TeamBloc bloc) {
     return SafeArea(
       child: Container(
         width: Metrics.fullWidth(context),
@@ -95,16 +95,32 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                             top: space_golden_dream,
                             right: space_geraldine,
                           ),
-                          child: Input(
-                            context: context,
-                            hint: "Team Name",
+                          child: TextField(
+                            controller: _inputController1,
+                            onChanged: (String text) {
+                              bloc.updateTeamName(text);
+                              bloc.validateCreateTeamButton(text);
+                            },
                             autofocus: true,
-                            inputController: _inputController1,
-                            textInputAction: TextInputAction.next,
-                            onEditingComplete: () => FocusScope.of(context)
-                                .requestFocus(_focusNode1),
-                            borderSideColorOnFocus: !wrongId ? purple : red,
-                            borderSideUnFocus: !wrongId ? black : red,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            style: TextStyle(
+                              color: black,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: "Team name",
+                              labelStyle: TextStyle(color: black),
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: !wrongId ? purple : red, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: !wrongId ? black : red, width: 1.0),
+                              ),
+                              fillColor: black,
+                            ),
                           ),
                         ),
                       ],
@@ -119,12 +135,17 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                   left: leftOverFlow,
                   right: rightOverFlow,
                   bottom: bottomOverFlow,
-                  child: PrimaryButton(
-                    label: "Create Team",
-                    onPress: () => Navigator.of(context).pushNamed(
-                      RoutesNames.team,
-                    ),
-                  ),
+                  child: StreamBuilder<String>(
+                      stream: bloc.getValidateCreateTeam,
+                      builder: (context, snapshot) {
+                        return PrimaryButton(
+                          label: "Create Team",
+                          onPress: () => Navigator.of(context).pushNamed(
+                            RoutesNames.team,
+                          ),
+                          isDisable: snapshot.data,
+                        );
+                      }),
                 ),
               ],
             )
