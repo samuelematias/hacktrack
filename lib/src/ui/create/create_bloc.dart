@@ -84,44 +84,50 @@ class CreateBloc extends BlocBase {
   }
 
   updateIdentifier(String text) {
-    addIdentifier(text.isNotEmpty ? text : null);
-    //check error:
+    addIdentifier(text.isEmpty ? null : text.trim().length > 0 ? text : null);
+    //handle errors:
     // (text == null || text == "")
     //     ? _textController.sink.addError("Invalid value entered!")
     //     : _textController.sink.add(text);
   }
 
   updateHackathonName(String text) {
-    addHackathonName(text.isNotEmpty ? text : null);
+    addHackathonName(
+      text.isEmpty ? null : text.trim().length > 0 ? text : null,
+    );
   }
 
   validateCreateHackathonButton(String identifier, String hackathonName) {
-    final bool identifierIsValid = identifier.isNotEmpty ? true : false;
-    final bool hackathonNameIsValid = hackathonName.isNotEmpty ? true : false;
+    final bool identifierIsValid = identifier.isEmpty
+        ? false
+        : identifier.trim().length > 0 ? true : false;
+    final bool hackathonNameIsValid = hackathonName.isEmpty
+        ? false
+        : hackathonName.trim().length > 0 ? true : false;
 
     addValidateCreateHackathon(
         identifierIsValid && hackathonNameIsValid ? "ok" : "nok");
   }
 
   updateUserName(String text) {
-    addUserName(text.isNotEmpty ? text : null);
+    addUserName(text.isEmpty ? null : text.trim().length > 0 ? text : null);
   }
 
   updateUserEmail(String text) {
     Iterable<Match> matches = Regex.emailRegex(text);
     if (matches.isNotEmpty) {
-      addUserEmail(text.isNotEmpty ? text : null);
+      addUserEmail(text.isEmpty ? null : text.trim().length > 0 ? text : null);
     } else {
       addUserEmail(null);
     }
   }
 
   updateUserRole(String text) {
-    addUserRole(text.isNotEmpty ? text : null);
+    addUserRole(text.isEmpty ? null : text.trim().length > 0 ? text : null);
   }
 
   updateUserBio(String text) {
-    addUserBio(text.isNotEmpty ? text : null);
+    addUserBio(text.isEmpty ? null : text.trim().length > 0 ? text : null);
   }
 
   validateCreateProfileButton(
@@ -131,12 +137,15 @@ class CreateBloc extends BlocBase {
     String bio,
   ) {
     Iterable<Match> matches = Regex.emailRegex(email);
-    final bool nameIsValid = name.isNotEmpty ? true : false;
-    final bool emailIsValid =
-        email.isEmpty ? false : matches.isNotEmpty ? true : false;
-    final bool roleIsValid = role.isNotEmpty ? true : false;
-    final bool bioIsValid = bio.isNotEmpty ? true : false;
-
+    final bool nameIsValid =
+        name.isEmpty ? false : name.trim().length > 0 ? true : false;
+    final bool emailIsValid = email.isEmpty
+        ? false
+        : email.trim().length == 0 ? false : matches.isNotEmpty ? true : false;
+    final bool roleIsValid =
+        role.isEmpty ? false : role.trim().length > 0 ? true : false;
+    final bool bioIsValid =
+        bio.isEmpty ? false : bio.trim().length > 0 ? true : false;
     addValidateCreateProfile(
       nameIsValid && emailIsValid && roleIsValid && bioIsValid ? "ok" : "nok",
     );
