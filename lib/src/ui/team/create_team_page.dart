@@ -16,7 +16,7 @@ class CreateTeamPage extends StatefulWidget {
 }
 
 class _CreateTeamPageState extends State<CreateTeamPage> {
-  final _inputController1 = TextEditingController();
+  final _inputController = TextEditingController();
   double leftOverFlow = -5.0;
   double rightOverFlow = -5.0;
   double bottomOverFlow = 0.0;
@@ -96,7 +96,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                             right: space_geraldine,
                           ),
                           child: TextField(
-                            controller: _inputController1,
+                            controller: _inputController,
                             onChanged: (String text) {
                               bloc.updateTeamName(text);
                               bloc.validateCreateTeamButton(text);

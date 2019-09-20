@@ -12,6 +12,7 @@ import '../../util/metrics.dart';
 import '../../widget/dashed_box.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
+import 'status_bloc.dart';
 
 class StatusUpdatePage extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class StatusUpdatePage extends StatefulWidget {
 }
 
 class _StatusUpdatePageState extends State<StatusUpdatePage> {
-  // final _inputController1 = TextEditingController();
+  final _inputController = TextEditingController();
   double leftOverFlow = 20.0;
   double rightOverFlow = 20.0;
   double bottomOverFlow = 25.0;
@@ -45,6 +46,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
   @override
   void dispose() {
     KeyboardVisibilityNotification().dispose();
+    StatusBloc().dispose();
     super.dispose();
   }
 
@@ -56,11 +58,11 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
         pageTitle: "Team Fire",
         context: context,
       ),
-      body: _bodyWidget(context),
+      body: _bodyWidget(context, StatusBloc()),
     );
   }
 
-  Widget _bodyWidget(BuildContext context) {
+  Widget _bodyWidget(BuildContext context, StatusBloc bloc) {
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -222,8 +224,11 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                           right: space_golden_dream,
                         ),
                         child: TextField(
-                          // controller: _inputController1,
-                          onChanged: (text) {},
+                          controller: _inputController,
+                          onChanged: (String text) {
+                            bloc.updateComment(text);
+                            bloc.validateUpdateButton(text);
+                          },
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.done,
                           maxLines: 3,
@@ -346,10 +351,15 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                     left: leftOverFlow,
                     right: rightOverFlow,
                     bottom: bottomOverFlow,
-                    child: PrimaryButton(
-                      label: "Update",
-                      onPress: () {},
-                    ),
+                    child: StreamBuilder<String>(
+                        stream: bloc.getValidateUpdate,
+                        builder: (context, snapshot) {
+                          return PrimaryButton(
+                            label: "Update",
+                            onPress: () {},
+                            isDisable: snapshot.data,
+                          );
+                        }),
                   ),
                 ],
               )
