@@ -225,40 +225,51 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                             top: space_golden_dream,
                             right: space_geraldine,
                           ),
-                          child: TextField(
-                            focusNode: _focusNode4,
-                            controller: _inputController4,
-                            onChanged: (String text) {
-                              bloc.updateUserRole(text);
-                              bloc.validateCreateProfileButton(
-                                _inputController1.text,
-                                _inputController2.text,
-                                _inputController3.text,
-                                text,
-                              );
-                            },
-                            maxLines: 2,
-                            maxLength: 100,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.done,
-                            style: TextStyle(
-                              color: black,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: "Short bio",
-                              labelStyle: TextStyle(color: black),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: purple, width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: black, width: 1.0),
-                              ),
-                              fillColor: black,
-                            ),
-                          ),
+                          child: StreamBuilder<String>(
+                              stream: bloc.getValidateCreateProfile,
+                              builder: (context, snapshot) {
+                                return TextField(
+                                  focusNode: _focusNode4,
+                                  controller: _inputController4,
+                                  onChanged: (String text) {
+                                    bloc.updateUserRole(text);
+                                    bloc.validateCreateProfileButton(
+                                      _inputController1.text,
+                                      _inputController2.text,
+                                      _inputController3.text,
+                                      text,
+                                    );
+                                  },
+                                  onEditingComplete: () {
+                                    if (snapshot.data == "ok") {
+                                      Navigator.of(context).pushNamed(
+                                        RoutesNames.mentorOnboarding,
+                                      );
+                                    }
+                                  },
+                                  maxLines: 2,
+                                  maxLength: 100,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.done,
+                                  style: TextStyle(
+                                    color: black,
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelText: "Short bio",
+                                    labelStyle: TextStyle(color: black),
+                                    border: OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: purple, width: 2.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: black, width: 1.0),
+                                    ),
+                                    fillColor: black,
+                                  ),
+                                );
+                              }),
                         )
                       ],
                     ),

@@ -162,38 +162,49 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                               top: space_golden_dream,
                               right: space_geraldine,
                             ),
-                            child: TextField(
-                              focusNode: _focusNode,
-                              controller: _inputController2,
-                              onChanged: (String text) {
-                                bloc.updateHackathonName(text);
-                                bloc.validateCreateHackathonButton(
-                                  _inputController1.text,
-                                  text,
-                                );
-                              },
-                              keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.done,
-                              style: TextStyle(
-                                color: black,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: "Hackathon name",
-                                labelStyle: TextStyle(color: black),
-                                border: OutlineInputBorder(),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: !wrongId ? purple : red,
-                                      width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: !wrongId ? black : red,
-                                      width: 1.0),
-                                ),
-                                fillColor: black,
-                              ),
-                            ),
+                            child: StreamBuilder<String>(
+                                stream: bloc.getValidateCreateHackathon,
+                                builder: (context, snapshot) {
+                                  return TextField(
+                                    focusNode: _focusNode,
+                                    controller: _inputController2,
+                                    onChanged: (String text) {
+                                      bloc.updateHackathonName(text);
+                                      bloc.validateCreateHackathonButton(
+                                        _inputController1.text,
+                                        text,
+                                      );
+                                    },
+                                    onEditingComplete: () {
+                                      if (snapshot.data == "ok") {
+                                        Navigator.of(context).pushNamed(
+                                          RoutesNames.createCodes,
+                                        );
+                                      }
+                                    },
+                                    keyboardType: TextInputType.text,
+                                    textInputAction: TextInputAction.done,
+                                    style: TextStyle(
+                                      color: black,
+                                    ),
+                                    decoration: InputDecoration(
+                                      labelText: "Hackathon name",
+                                      labelStyle: TextStyle(color: black),
+                                      border: OutlineInputBorder(),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: !wrongId ? purple : red,
+                                            width: 2.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: !wrongId ? black : red,
+                                            width: 1.0),
+                                      ),
+                                      fillColor: black,
+                                    ),
+                                  );
+                                }),
                           ),
                           Padding(
                             padding: EdgeInsets.only(

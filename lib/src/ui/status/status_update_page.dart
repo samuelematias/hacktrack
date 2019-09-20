@@ -24,6 +24,10 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
   double leftOverFlow = 20.0;
   double rightOverFlow = 20.0;
   double bottomOverFlow = 25.0;
+  File _firstImage;
+  File _secondImage;
+  File _thirdImage;
+  File _fourthImage;
 
   @override
   void initState() {
@@ -267,17 +271,28 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                     onTap: () {
                                       return CustomImagePicker.show(context,
                                           (File imageCropped) {
-                                        // setState(() {
-                                        //   _image = imageCropped;
-                                        // });
-                                      }, true);
+                                        setState(() {
+                                          _firstImage = imageCropped;
+                                        });
+                                      }, false);
                                     },
                                     child: DashedBox(
                                       child: Center(
-                                        child: Icon(
-                                          Icons.image,
-                                          color: grey,
-                                        ),
+                                        child: _firstImage != null
+                                            ? Container(
+                                                width: 60.0,
+                                                height: 60.0,
+                                                child: Image.file(
+                                                  _firstImage,
+                                                  fit: BoxFit.fitHeight,
+                                                  width: 60.0,
+                                                  height: 60.0,
+                                                ),
+                                              )
+                                            : Icon(
+                                                Icons.image,
+                                                color: grey,
+                                              ),
                                       ),
                                     ),
                                   ),
@@ -285,17 +300,28 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                     onTap: () {
                                       return CustomImagePicker.show(context,
                                           (File imageCropped) {
-                                        // setState(() {
-                                        //   _image = imageCropped;
-                                        // });
-                                      }, true);
+                                        setState(() {
+                                          _secondImage = imageCropped;
+                                        });
+                                      }, false);
                                     },
                                     child: DashedBox(
                                       child: Center(
-                                        child: Icon(
-                                          Icons.image,
-                                          color: grey,
-                                        ),
+                                        child: _secondImage != null
+                                            ? Container(
+                                                width: 60.0,
+                                                height: 60.0,
+                                                child: Image.file(
+                                                  _secondImage,
+                                                  fit: BoxFit.fitHeight,
+                                                  width: 60.0,
+                                                  height: 60.0,
+                                                ),
+                                              )
+                                            : Icon(
+                                                Icons.image,
+                                                color: grey,
+                                              ),
                                       ),
                                     ),
                                   ),
@@ -303,17 +329,28 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                     onTap: () {
                                       return CustomImagePicker.show(context,
                                           (File imageCropped) {
-                                        // setState(() {
-                                        //   _image = imageCropped;
-                                        // });
-                                      }, true);
+                                        setState(() {
+                                          _thirdImage = imageCropped;
+                                        });
+                                      }, false);
                                     },
                                     child: DashedBox(
                                       child: Center(
-                                        child: Icon(
-                                          Icons.image,
-                                          color: grey,
-                                        ),
+                                        child: _thirdImage != null
+                                            ? Container(
+                                                width: 60.0,
+                                                height: 60.0,
+                                                child: Image.file(
+                                                  _thirdImage,
+                                                  fit: BoxFit.fitHeight,
+                                                  width: 60.0,
+                                                  height: 60.0,
+                                                ),
+                                              )
+                                            : Icon(
+                                                Icons.image,
+                                                color: grey,
+                                              ),
                                       ),
                                     ),
                                   ),
@@ -321,17 +358,28 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                     onTap: () {
                                       return CustomImagePicker.show(context,
                                           (File imageCropped) {
-                                        // setState(() {
-                                        //   _image = imageCropped;
-                                        // });
-                                      }, true);
+                                        setState(() {
+                                          _fourthImage = imageCropped;
+                                        });
+                                      }, false);
                                     },
                                     child: DashedBox(
                                       child: Center(
-                                        child: Icon(
-                                          Icons.image,
-                                          color: grey,
-                                        ),
+                                        child: _fourthImage != null
+                                            ? Container(
+                                                width: 60.0,
+                                                height: 60.0,
+                                                child: Image.file(
+                                                  _fourthImage,
+                                                  fit: BoxFit.fitHeight,
+                                                  width: 60.0,
+                                                  height: 60.0,
+                                                ),
+                                              )
+                                            : Icon(
+                                                Icons.image,
+                                                color: grey,
+                                              ),
                                       ),
                                     ),
                                   ),

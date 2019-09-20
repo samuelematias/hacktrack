@@ -89,33 +89,44 @@ class _JoinPageState extends State<JoinPage> {
                     top: space_golden_dream,
                     right: space_geraldine,
                   ),
-                  child: TextField(
-                    controller: _inputController,
-                    onChanged: (String text) {
-                      bloc.updateJoinCode(text);
-                      bloc.validateJoinButton(text);
-                    },
-                    autofocus: true,
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.done,
-                    style: TextStyle(
-                      color: black,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: "Access code",
-                      labelStyle: TextStyle(color: black),
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: !wrongId ? purple : red, width: 2.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: !wrongId ? black : red, width: 1.0),
-                      ),
-                      fillColor: black,
-                    ),
-                  ),
+                  child: StreamBuilder<String>(
+                      stream: bloc.getValidateJoin,
+                      builder: (context, snapshot) {
+                        return TextField(
+                          controller: _inputController,
+                          onChanged: (String text) {
+                            bloc.updateJoinCode(text);
+                            bloc.validateJoinButton(text);
+                          },
+                          onEditingComplete: () {
+                            if (snapshot.data == "ok") {
+                              Navigator.of(context).pushNamed(
+                                RoutesNames.chooseTeam,
+                              );
+                            }
+                          },
+                          autofocus: true,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          style: TextStyle(
+                            color: black,
+                          ),
+                          decoration: InputDecoration(
+                            labelText: "Access code",
+                            labelStyle: TextStyle(color: black),
+                            border: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: !wrongId ? purple : red, width: 2.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: !wrongId ? black : red, width: 1.0),
+                            ),
+                            fillColor: black,
+                          ),
+                        );
+                      }),
                 ),
                 Padding(
                   padding: EdgeInsets.only(

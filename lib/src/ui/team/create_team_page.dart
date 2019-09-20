@@ -95,33 +95,46 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                             top: space_golden_dream,
                             right: space_geraldine,
                           ),
-                          child: TextField(
-                            controller: _inputController,
-                            onChanged: (String text) {
-                              bloc.updateTeamName(text);
-                              bloc.validateCreateTeamButton(text);
-                            },
-                            autofocus: true,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.done,
-                            style: TextStyle(
-                              color: black,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: "Team name",
-                              labelStyle: TextStyle(color: black),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: !wrongId ? purple : red, width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: !wrongId ? black : red, width: 1.0),
-                              ),
-                              fillColor: black,
-                            ),
-                          ),
+                          child: StreamBuilder<String>(
+                              stream: bloc.getValidateCreateTeam,
+                              builder: (context, snapshot) {
+                                return TextField(
+                                  controller: _inputController,
+                                  onChanged: (String text) {
+                                    bloc.updateTeamName(text);
+                                    bloc.validateCreateTeamButton(text);
+                                  },
+                                  onEditingComplete: () {
+                                    if (snapshot.data == "ok") {
+                                      Navigator.of(context).pushNamed(
+                                        RoutesNames.team,
+                                      );
+                                    }
+                                  },
+                                  autofocus: true,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.done,
+                                  style: TextStyle(
+                                    color: black,
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelText: "Team name",
+                                    labelStyle: TextStyle(color: black),
+                                    border: OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: !wrongId ? purple : red,
+                                          width: 2.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: !wrongId ? black : red,
+                                          width: 1.0),
+                                    ),
+                                    fillColor: black,
+                                  ),
+                                );
+                              }),
                         ),
                       ],
                     ),
