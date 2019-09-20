@@ -8,9 +8,9 @@ import '../../themes/text/typography/p/p2.dart';
 import '../../themes/text/typography/p/p3.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
-import '../../widget/input.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
+import 'join_bloc.dart';
 
 class JoinPage extends StatefulWidget {
   @override
@@ -45,6 +45,7 @@ class _JoinPageState extends State<JoinPage> {
   @override
   void dispose() {
     KeyboardVisibilityNotification().dispose();
+    JoinBloc().dispose();
     super.dispose();
   }
 
@@ -59,11 +60,11 @@ class _JoinPageState extends State<JoinPage> {
           Navigator.pop(context);
         },
       ),
-      body: _bodyWidget(context),
+      body: _bodyWidget(context, JoinBloc()),
     );
   }
 
-  Widget _bodyWidget(BuildContext context) {
+  Widget _bodyWidget(BuildContext context, JoinBloc bloc) {
     return SafeArea(
       child: Container(
         width: Metrics.fullWidth(context),
@@ -88,12 +89,32 @@ class _JoinPageState extends State<JoinPage> {
                     top: space_golden_dream,
                     right: space_geraldine,
                   ),
-                  child: Input(
-                    context: context,
-                    hint: "Access code",
+                  child: TextField(
+                    controller: _inputController,
+                    onChanged: (String text) {
+                      bloc.updateJoinCode(text);
+                      bloc.validateJoinButton(text);
+                    },
                     autofocus: true,
-                    // focusNode: _focusNode,
-                    inputController: _inputController,
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.done,
+                    style: TextStyle(
+                      color: black,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: "Access code",
+                      labelStyle: TextStyle(color: black),
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: !wrongId ? purple : red, width: 2.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: !wrongId ? black : red, width: 1.0),
+                      ),
+                      fillColor: black,
+                    ),
                   ),
                 ),
                 Padding(
@@ -120,12 +141,17 @@ class _JoinPageState extends State<JoinPage> {
                   left: leftOverFlow,
                   right: rightOverFlow,
                   bottom: bottomOverFlow,
-                  child: PrimaryButton(
-                    label: "Join",
-                    onPress: () => Navigator.of(context).pushNamed(
-                      RoutesNames.chooseTeam,
-                    ),
-                  ),
+                  child: StreamBuilder<String>(
+                      stream: bloc.getValidateJoin,
+                      builder: (context, snapshot) {
+                        return PrimaryButton(
+                          label: "Join",
+                          onPress: () => Navigator.of(context).pushNamed(
+                            RoutesNames.chooseTeam,
+                          ),
+                          isDisable: snapshot.data,
+                        );
+                      }),
                 ),
               ],
             )
