@@ -93,7 +93,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () => _showPicker(context),
+                        onTap: () => _showPicker(context, bloc),
                         child: Container(
                           margin: EdgeInsets.only(
                             left: space_golden_dream,
@@ -120,9 +120,15 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                       padding: EdgeInsets.only(
                                         left: space_dodger_blue,
                                       ),
-                                      child: H4(
-                                        text: "Problem",
-                                      ),
+                                      child: StreamBuilder<String>(
+                                          stream: bloc.getStage,
+                                          builder: (context, snapshot) {
+                                            return H4(
+                                              text: snapshot.hasData
+                                                  ? snapshot.data
+                                                  : "",
+                                            );
+                                          }),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
@@ -418,41 +424,65 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
     );
   }
 
-  Future _showPicker(BuildContext context) {
+  Future _showPicker(BuildContext context, StatusBloc bloc) {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
-        return Container(
-          child: CupertinoPicker(
-            backgroundColor: Colors.white,
-            children: <Widget>[
-              H4(
-                text: "Ideation",
-              ),
-              H4(
-                text: "Problem Definition",
-              ),
-              H4(
-                text: "Validation",
-              ),
-              H4(
-                text: "Solution",
-              ),
-              H4(
-                text: "Product",
-              ),
-              H4(
-                text: "Pitch",
-              ),
-            ],
-            itemExtent: 30, //height of each item
-            looping: false,
-            onSelectedItemChanged: (int index) {
-              // selectitem = index;
-            },
+        return GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            color: Colors.transparent,
+            child: CupertinoPicker(
+              backgroundColor: Colors.white,
+              children: <Widget>[
+                Container(
+                  child: H4(
+                    text: "Ideation",
+                  ),
+                ),
+                H4(
+                  text: "Problem Definition",
+                ),
+                H4(
+                  text: "Validation",
+                ),
+                H4(
+                  text: "Solution",
+                ),
+                H4(
+                  text: "Product",
+                ),
+                H4(
+                  text: "Pitch",
+                ),
+              ],
+              itemExtent: 30, //height of each item
+              looping: false,
+              onSelectedItemChanged: (int index) {
+                bloc.addStage(_chooseSTage(index));
+              },
+            ),
           ),
         );
       },
     );
+  }
+
+  String _chooseSTage(int index) {
+    if (index == 0) {
+      return "Ideation";
+    } else if (index == 1) {
+      return "Problem Definition";
+    } else if (index == 2) {
+      return "Validation";
+    } else if (index == 3) {
+      return "Solution";
+    } else if (index == 4) {
+      return "Product";
+    } else if (index == 5) {
+      return "Ideation";
+    } else {
+      return "Pitch";
+    }
   }
 }
