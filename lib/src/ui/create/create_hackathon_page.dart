@@ -8,9 +8,9 @@ import '../../themes/text/typography/p/p2.dart';
 import '../../themes/text/typography/p/p3.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
-import '../../widget/input.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
+import 'create_bloc.dart';
 
 class CreateHackathonPage extends StatefulWidget {
   @override
@@ -19,7 +19,6 @@ class CreateHackathonPage extends StatefulWidget {
 
 class _CreateHackathonPageState extends State<CreateHackathonPage> {
   FocusNode _focusNode = FocusNode();
-  FocusNode _focusNode1 = FocusNode();
   final _inputController1 = TextEditingController();
   final _inputController2 = TextEditingController();
   double leftOverFlow = -5.0;
@@ -50,6 +49,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
     _inputController1.dispose();
     _inputController2.dispose();
     KeyboardVisibilityNotification().dispose();
+    CreateBloc().dispose();
     super.dispose();
   }
 
@@ -64,11 +64,11 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
           Navigator.pop(context);
         },
       ),
-      body: _bodyWidget(context),
+      body: _bodyWidget(context, CreateBloc()),
     );
   }
 
-  Widget _bodyWidget(BuildContext context) {
+  Widget _bodyWidget(BuildContext context, CreateBloc bloc) {
     return SafeArea(
       child: Container(
         width: Metrics.fullWidth(context),
@@ -99,17 +99,33 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                             top: space_golden_dream,
                             right: space_geraldine,
                           ),
-                          child: Input(
-                            context: context,
-                            hint: "Handle name",
-                            focusNode: _focusNode1,
-                            autofocus: true,
-                            inputController: _inputController1,
-                            textInputAction: TextInputAction.next,
+                          child: TextField(
+                            controller: _inputController1,
+                            onChanged: (String text) {
+                              bloc.updateIdentifier(text);
+                            },
                             onEditingComplete: () =>
                                 FocusScope.of(context).requestFocus(_focusNode),
-                            borderSideColorOnFocus: !wrongId ? purple : red,
-                            borderSideUnFocus: !wrongId ? black : red,
+                            autofocus: true,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.next,
+                            style: TextStyle(
+                              color: black,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: "Handle name",
+                              labelStyle: TextStyle(color: black),
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: !wrongId ? purple : red, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: !wrongId ? black : red, width: 1.0),
+                              ),
+                              fillColor: black,
+                            ),
                           ),
                         ),
                         Padding(
@@ -142,11 +158,33 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                               top: space_golden_dream,
                               right: space_geraldine,
                             ),
-                            child: Input(
-                              context: context,
-                              hint: "Hackathon name",
+                            child: TextField(
                               focusNode: _focusNode,
-                              inputController: _inputController2,
+                              controller: _inputController2,
+                              onChanged: (String text) {
+                                bloc.updateHackathonName(text);
+                              },
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.done,
+                              style: TextStyle(
+                                color: black,
+                              ),
+                              decoration: InputDecoration(
+                                labelText: "Hackathon name",
+                                labelStyle: TextStyle(color: black),
+                                border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: !wrongId ? purple : red,
+                                      width: 2.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: !wrongId ? black : red,
+                                      width: 1.0),
+                                ),
+                                fillColor: black,
+                              ),
                             ),
                           ),
                           Padding(
