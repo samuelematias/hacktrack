@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
@@ -30,7 +28,6 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
   double rightOverFlow = -5.0;
   double bottomOverFlow = 0.0;
   bool wrongId = false;
-  StreamSubscription listenResponse;
 
   @override
   void initState() {
