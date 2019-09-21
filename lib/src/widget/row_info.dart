@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../themes/color_palette.dart';
 import '../themes/spacing/linear_scale.dart';
 import '../themes/text/typography/h/h2.dart';
-import '../themes/text/typography/p/p1.dart';
+import '../util/metrics.dart';
+import 'auto_resize_text.dart';
 import 'circle_icon.dart';
 import 'primary_button.dart';
 import 'secondary_button.dart';
@@ -59,14 +61,22 @@ class RowInfo extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                          left: space_dodger_blue,
-                          top: space_carmine,
-                        ),
-                        child: P1(
-                          text: subTitle,
-                        ),
-                      ),
+                          padding: EdgeInsets.only(
+                            left: space_dodger_blue,
+                            top: space_carmine,
+                          ),
+                          child: AutoResizeText(
+                            text: subTitle,
+                            containerTextWidth: Metrics.pw(context, 40),
+                            textAlign: TextAlign.left,
+                            textColor: black,
+                            fontSize: space_dodger_blue,
+                            fontWeight: FontWeight.w600,
+                          )
+                          //  P1(
+                          //   text: subTitle,
+                          // ),
+                          ),
                     ],
                   ),
                 ],

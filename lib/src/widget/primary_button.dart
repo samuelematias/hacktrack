@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../themes/color_palette.dart';
 import '../themes/spacing/linear_scale.dart';
+import 'custom_progress_indicator.dart';
 
 class PrimaryButton extends StatelessWidget {
   final Function onPress;
@@ -44,15 +45,7 @@ class PrimaryButton extends StatelessWidget {
         ),
         child: Center(
           child: isLoading
-              ? SizedBox(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.white,
-                    valueColor: AlwaysStoppedAnimation<Color>(purple),
-                    strokeWidth: 2,
-                  ),
-                  height: 30.0,
-                  width: 30.0,
-                )
+              ? CustomProgressIndicator()
               : Text(
                   label,
                   textAlign: TextAlign.center,

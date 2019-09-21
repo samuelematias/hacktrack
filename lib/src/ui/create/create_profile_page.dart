@@ -60,6 +60,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
       appBar: SecondaryAppBar(
         pageTitle: "Shawee",
         context: context,
+        hideHeaderLeft: true,
         onClickBackButton: () {
           FocusScope.of(context).requestFocus(FocusNode());
           Navigator.pop(context);

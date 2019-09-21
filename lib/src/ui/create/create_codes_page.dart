@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,15 +13,36 @@ import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 
-class CreateCodesPage extends StatelessWidget {
+class CreateCodesPage extends StatefulWidget {
   static var storageService = locator<AppPreferencesService>();
+
+  @override
+  _CreateCodesPageState createState() => _CreateCodesPageState();
+}
+
+class _CreateCodesPageState extends State<CreateCodesPage> {
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent) {
+    return true; // Disable Android Backbutton.
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
       appBar: SecondaryAppBar(
-        pageTitle: storageService.getHackathonName(),
+        pageTitle: CreateCodesPage.storageService.getHackathonName(),
         context: context,
         hideHeaderLeft: true,
       ),
@@ -32,8 +54,9 @@ class CreateCodesPage extends StatelessWidget {
     double leftOverFlow = 20.0;
     double rightOverFlow = 20.0;
     double bottomOverFlow = 20.0;
-    String _subTitle1 = "shawee-mentor-A2C7";
-    String _subTitle2 = "shawee-partic-PI2C";
+    String _mentorsCode = CreateCodesPage.storageService.getMentorCode();
+    String _participantsCode =
+        CreateCodesPage.storageService.getParticipantCode();
 
     return SafeArea(
       child: Container(
@@ -57,38 +80,44 @@ class CreateCodesPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
+                        left: space_dodger_blue,
                         top: space_golden_dream,
+                        right: space_dodger_blue,
                       ),
                       child: RowInfo(
                         icon: Icons.star,
                         iconColor: mustard,
                         circleColor: lightMustard,
                         title: "Mentors:",
-                        subTitle: _subTitle1,
+                        subTitle: _mentorsCode,
                         buttonLabel: "Copy",
                         isSecondaryButton: true,
+                        rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                         onPress: () {
                           Clipboard.setData(
-                            ClipboardData(text: _subTitle1),
+                            ClipboardData(text: _mentorsCode),
                           );
                         },
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
+                        left: space_dodger_blue,
                         top: space_fire_bush,
+                        right: space_dodger_blue,
                       ),
                       child: RowInfo(
                         icon: Icons.person,
                         iconColor: purple,
                         circleColor: lightPurple,
                         title: "Participants:",
-                        subTitle: _subTitle2,
+                        subTitle: _participantsCode,
                         buttonLabel: "Copy",
                         isSecondaryButton: true,
+                        rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                         onPress: () {
                           Clipboard.setData(
-                            ClipboardData(text: _subTitle2),
+                            ClipboardData(text: _participantsCode),
                           );
                         },
                       ),
@@ -104,11 +133,11 @@ class CreateCodesPage extends StatelessWidget {
                   right: rightOverFlow,
                   bottom: bottomOverFlow,
                   child: PrimaryButton(
-                    label: "Next",
-                    onPress: () => Navigator.of(context).pushNamed(
-                      RoutesNames.createProfile,
-                    ),
-                  ),
+                      label: "Next",
+                      onPress: () {
+                        Navigator.of(context)
+                            .pushNamed(RoutesNames.createProfile);
+                      }),
                 ),
               ],
             )

@@ -120,6 +120,8 @@ class CreateBloc extends BlocBase {
         postIn.add(response);
         storageService.setHackathonIdentifier(identifier);
         storageService.setHackathonName(hackathonName);
+        storageService.setMentorCode(response.mentorLink);
+        storageService.setParticipantCode(response.participantLink);
       } else {
         _isShowLoading.add(false);
         storageService.setCreateHackathonSuccess(false);

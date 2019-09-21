@@ -12,7 +12,6 @@ import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/p/p2.dart';
 import '../../themes/text/typography/p/p3.dart';
 import '../../util/metrics.dart';
-import '../../util/routes.dart';
 import '../../widget/error_alert.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
@@ -233,9 +232,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                                     },
                                     onEditingComplete: () {
                                       if (snapshot.data == "ok") {
-                                        Navigator.of(context).pushNamed(
-                                          RoutesNames.createCodes,
-                                        );
+                                        bloc.createHackathon();
                                       }
                                     },
                                     keyboardType: TextInputType.text,
