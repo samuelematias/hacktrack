@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
@@ -10,7 +12,14 @@ import '../../widget/empty_appbar.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_button.dart';
 
-class StartPage extends StatelessWidget {
+class StartPage extends StatefulWidget {
+  @override
+  _StartPageState createState() => _StartPageState();
+}
+
+class _StartPageState extends State<StartPage> {
+  static var storageService = locator<AppPreferencesService>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,19 +70,22 @@ class StartPage extends StatelessWidget {
             Column(
               children: <Widget>[
                 PrimaryButton(
-                  label: "Create your Hackathon",
-                  onPress: () => Navigator.of(context)
-                      .pushNamed(RoutesNames.createHackathon),
-                ),
+                    label: "Create your Hackathon",
+                    onPress: () {
+                      storageService.clear();
+                      Navigator.of(context)
+                          .pushNamed(RoutesNames.createHackathon);
+                    }),
                 Padding(
                   padding: EdgeInsets.only(
                     top: space_dodger_blue,
                   ),
                   child: SecondaryButton(
-                    label: "Join a Hackathon",
-                    onPress: () =>
-                        Navigator.of(context).pushNamed(RoutesNames.join),
-                  ),
+                      label: "Join a Hackathon",
+                      onPress: () {
+                        storageService.clear();
+                        Navigator.of(context).pushNamed(RoutesNames.join);
+                      }),
                 )
               ],
             ),

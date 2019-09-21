@@ -4,6 +4,8 @@ class AppPreferencesService {
   static AppPreferencesService _instance;
 
   static const String PREFERENCES_USER_LOGGED_KEY = "PREFERENCES_USER_LOGGED";
+  static const String PREFERENCES_CREATE_HACKATHON_SUCCESS_KEY =
+      "PREFERENCES_CREATE_HACKATHON_SUCCESS_KEY";
   static const String PREFERENCES_HACKATHON_ID_KEY =
       "PREFERENCES_HACKATHON_ID_KEY";
   static const String PREFERENCES_HACKATHON_IDENTIFIER_KEY =
@@ -41,6 +43,16 @@ class AppPreferencesService {
 
   setIsUserLogged(bool value) async {
     return _preferences.setBool(PREFERENCES_USER_LOGGED_KEY, value);
+  }
+
+  bool isCreateHackathonSuccess() {
+    return _preferences.getBool(PREFERENCES_CREATE_HACKATHON_SUCCESS_KEY) ??
+        false;
+  }
+
+  setCreateHackathonSuccess(bool value) async {
+    return _preferences.setBool(
+        PREFERENCES_CREATE_HACKATHON_SUCCESS_KEY, value);
   }
 
   setHackathonId(String hackathonId) {

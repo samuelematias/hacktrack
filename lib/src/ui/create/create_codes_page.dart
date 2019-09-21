@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
@@ -11,13 +13,16 @@ import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 
 class CreateCodesPage extends StatelessWidget {
+  static var storageService = locator<AppPreferencesService>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
       appBar: SecondaryAppBar(
-        pageTitle: "Shawee",
+        pageTitle: storageService.getHackathonName(),
         context: context,
+        hideHeaderLeft: true,
       ),
       body: _bodyWidget(context),
     );

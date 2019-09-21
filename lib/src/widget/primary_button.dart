@@ -12,6 +12,7 @@ class PrimaryButton extends StatelessWidget {
   final Color buttonColor;
   final Color labelColor;
   final String isDisable;
+  final bool isLoading;
 
   const PrimaryButton({
     Key key,
@@ -23,6 +24,7 @@ class PrimaryButton extends StatelessWidget {
     this.buttonColor = const Color(0xff6558f5),
     this.labelColor = Colors.white,
     this.isDisable = "ok",
+    this.isLoading = false,
   }) : super(key: key);
 
   @override
@@ -41,15 +43,25 @@ class PrimaryButton extends StatelessWidget {
           color: isDisable == "ok" ? buttonColor : regularGrey,
         ),
         child: Center(
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: space_golden_dream,
-              color: labelColor,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child: isLoading
+              ? SizedBox(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                    valueColor: AlwaysStoppedAnimation<Color>(purple),
+                    strokeWidth: 2,
+                  ),
+                  height: 30.0,
+                  width: 30.0,
+                )
+              : Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: space_golden_dream,
+                    color: labelColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
         ),
       ),
     );

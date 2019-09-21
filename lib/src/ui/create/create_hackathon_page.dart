@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
@@ -11,9 +13,11 @@ import '../../themes/text/typography/p/p2.dart';
 import '../../themes/text/typography/p/p3.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
+import '../../widget/error_alert.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
 import 'create_bloc.dart';
+import 'create_codes_page.dart';
 import 'create_module.dart';
 
 class CreateHackathonPage extends StatefulWidget {
@@ -23,8 +27,6 @@ class CreateHackathonPage extends StatefulWidget {
 
 class _CreateHackathonPageState extends State<CreateHackathonPage> {
   var bloc = CreateModule.to.getBloc<CreateBloc>();
-  // static var storageService = locator<AppPreferencesService>();
-  // String hackName = storageService.getHackathonName();
   FocusNode _focusNode = FocusNode();
   final _inputController1 = TextEditingController();
   final _inputController2 = TextEditingController();
@@ -33,6 +35,11 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
   double bottomOverFlow = 0.0;
   bool wrongId = false;
   static var storageService = locator<AppPreferencesService>();
+  bool isCreateHackathonSuccess = storageService.isCreateHackathonSuccess();
+  StreamSubscription listenResponse;
+  StreamSubscription listenLoading;
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +56,28 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
         }
       },
     );
+    listenResponse = bloc.post.listen((data) {
+      if (data.identifier != null) {
+        Navigator.of(
+          context,
+        ).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (BuildContext context) => CreateCodesPage(),
+            ),
+            (Route<dynamic> route) => false);
+      }
+    });
+    listenLoading = bloc.isShowLoading.listen((data) {
+      if (data) {
+        setState(() {
+          isLoading = data;
+        });
+      } else {
+        setState(() {
+          isLoading = data;
+        });
+      }
+    });
   }
 
   @override
@@ -56,6 +85,8 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
     _inputController1.dispose();
     _inputController2.dispose();
     KeyboardVisibilityNotification().dispose();
+    listenResponse.cancel();
+    listenLoading.cancel();
     super.dispose();
   }
 
@@ -91,9 +122,12 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                         builder: (context, snapshot) {
                           bool handleNameAlreadyExist = snapshot.hasError &&
                               snapshot.error.toString() == "226";
+                          bool handle404 = snapshot.hasError &&
+                              snapshot.error.toString() == "404";
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+                              handle404 ? ErrorAlert() : Container(),
                               Padding(
                                 padding: EdgeInsets.only(
                                   left: space_conifer,
@@ -257,15 +291,10 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                       return PrimaryButton(
                         label: "Create",
                         onPress: () {
-                          // _save("Create");
-                          // _save(5555);
-                          // removeValues();
                           bloc.createHackathon();
-                          // Navigator.of(context).pushNamed(
-                          //   RoutesNames.createCodes,
-                          // );
                         },
                         isDisable: snapshot.data,
+                        isLoading: isLoading,
                       );
                     },
                   ),

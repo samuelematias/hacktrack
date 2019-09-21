@@ -18,8 +18,10 @@ class CreateBloc extends BlocBase {
   String hackathonName;
 
   var post = BehaviorSubject<HackathonModel>();
+  var _isShowLoading = BehaviorSubject<bool>();
 
   HackathonModel get postValue => post.value;
+  Observable<int> responseOut;
   Sink<HackathonModel> get postIn => post.sink;
 
   static var storageService = locator<AppPreferencesService>();
@@ -88,6 +90,8 @@ class CreateBloc extends BlocBase {
   Stream<String> get getValidateCreateProfile =>
       _validateCreateProfileStreamController.stream;
 
+  Stream<bool> get isShowLoading => _isShowLoading.stream;
+
   @override
   void dispose() {
     super.dispose();
@@ -101,23 +105,29 @@ class CreateBloc extends BlocBase {
     _userBioStreamController?.close();
     _validateCreateProfileStreamController?.close();
     post?.close();
+    _isShowLoading?.close();
   }
 
   void createHackathon() async {
     try {
+      _isShowLoading.add(true);
       var response = await repo.createHackathon(
           HackathonModel(identifier: identifier, name: hackathonName).toJson());
       postIn.add(response);
       if (response.identifier != null) {
+        _isShowLoading.add(false);
+        storageService.setCreateHackathonSuccess(true);
         postIn.add(response);
         storageService.setHackathonIdentifier(identifier);
         storageService.setHackathonName(hackathonName);
-        print(storageService.getHackathonIdentifier());
-        print(storageService.getHackathonName());
       } else {
+        _isShowLoading.add(false);
+        storageService.setCreateHackathonSuccess(false);
         post.addError(226);
       }
     } catch (e) {
+      _isShowLoading.add(false);
+      storageService.setCreateHackathonSuccess(false);
       post.addError(404);
     }
   }
