@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'app_bloc.dart';
 import 'app_widget.dart';
+import 'shared/custom_dio/custom_dio.dart';
 
 class AppModule extends ModuleWidget {
   @override
@@ -11,7 +12,7 @@ class AppModule extends ModuleWidget {
       ];
 
   @override
-  List<Dependency> get dependencies => [];
+  List<Dependency> get dependencies => [Dependency((i) => CustomDio())];
 
   @override
   Widget get view => AppWidget();

@@ -1,10 +1,25 @@
 import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:rxdart/rxdart.dart';
 
+import '../../shared/models/hackathon_model.dart';
 import '../../util/regex.dart';
+import 'create_repository.dart';
 
 class CreateBloc extends BlocBase {
+  final CreateRepository repo;
+
+  CreateBloc(this.repo);
+
+  String identifier;
+  String hackathonName;
+
+  var post = BehaviorSubject<HackathonModel>();
+
+  HackathonModel get postValue => post.value;
+  Sink<HackathonModel> get postIn => post.sink;
+
   StreamController<int> _streamController =
       new StreamController<int>.broadcast();
 
@@ -81,6 +96,22 @@ class CreateBloc extends BlocBase {
     _userRoleStreamController?.close();
     _userBioStreamController?.close();
     _validateCreateProfileStreamController?.close();
+    post?.close();
+  }
+
+  void createHackathon() async {
+    try {
+      var response = await repo.createHackathon(
+          HackathonModel(identifier: identifier, name: hackathonName).toJson());
+      postIn.add(response);
+      if (response.identifier != null) {
+        postIn.add(response);
+      } else {
+        post.addError(226);
+      }
+    } catch (e) {
+      post.addError(404);
+    }
   }
 
   updateIdentifier(String text) {

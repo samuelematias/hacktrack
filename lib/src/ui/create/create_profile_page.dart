@@ -9,6 +9,7 @@ import '../../util/routes.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import 'create_bloc.dart';
+import 'create_module.dart';
 
 class CreateProfilePage extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class CreateProfilePage extends StatefulWidget {
 }
 
 class _CreateProfilePageState extends State<CreateProfilePage> {
+  var bloc = CreateModule.to.getBloc<CreateBloc>();
   FocusNode _focusNode2 = FocusNode();
   FocusNode _focusNode3 = FocusNode();
   FocusNode _focusNode4 = FocusNode();
@@ -48,7 +50,6 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   @override
   void dispose() {
     KeyboardVisibilityNotification().dispose();
-    CreateBloc().dispose();
     super.dispose();
   }
 
@@ -64,7 +65,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
           Navigator.pop(context);
         },
       ),
-      body: _bodyWidget(context, CreateBloc()),
+      body: _bodyWidget(context, bloc),
     );
   }
 

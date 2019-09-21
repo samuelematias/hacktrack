@@ -30,6 +30,7 @@ dependencies:
   transformer_page_view: ^0.1.6
   back_button_interceptor: ^4.1.1
   keyboard_visibility: ^0.5.6
+  dio: ^2.1.13
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
