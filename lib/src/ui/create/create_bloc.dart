@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
 import '../../shared/models/hackathon_model.dart';
 import '../../util/regex.dart';
 import 'create_repository.dart';
@@ -19,6 +21,8 @@ class CreateBloc extends BlocBase {
 
   HackathonModel get postValue => post.value;
   Sink<HackathonModel> get postIn => post.sink;
+
+  static var storageService = locator<AppPreferencesService>();
 
   StreamController<int> _streamController =
       new StreamController<int>.broadcast();
@@ -106,6 +110,10 @@ class CreateBloc extends BlocBase {
       postIn.add(response);
       if (response.identifier != null) {
         postIn.add(response);
+        storageService.setHackathonIdentifier(identifier);
+        storageService.setHackathonName(hackathonName);
+        print(storageService.getHackathonIdentifier());
+        print(storageService.getHackathonName());
       } else {
         post.addError(226);
       }

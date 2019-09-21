@@ -83,5 +83,3 @@ class StartPage extends StatelessWidget {
     );
   }
 }
-
-class EmptyAppBarWidget {}

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
 import '../../shared/models/hackathon_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
@@ -21,6 +23,8 @@ class CreateHackathonPage extends StatefulWidget {
 
 class _CreateHackathonPageState extends State<CreateHackathonPage> {
   var bloc = CreateModule.to.getBloc<CreateBloc>();
+  // static var storageService = locator<AppPreferencesService>();
+  // String hackName = storageService.getHackathonName();
   FocusNode _focusNode = FocusNode();
   final _inputController1 = TextEditingController();
   final _inputController2 = TextEditingController();
@@ -28,7 +32,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
   double rightOverFlow = -5.0;
   double bottomOverFlow = 0.0;
   bool wrongId = false;
-
+  static var storageService = locator<AppPreferencesService>();
   @override
   void initState() {
     super.initState();
@@ -119,6 +123,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                                   onEditingComplete: () =>
                                       FocusScope.of(context)
                                           .requestFocus(_focusNode),
+                                  autocorrect: false,
                                   autofocus: true,
                                   keyboardType: TextInputType.text,
                                   textInputAction: TextInputAction.next,
@@ -252,6 +257,9 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                       return PrimaryButton(
                         label: "Create",
                         onPress: () {
+                          // _save("Create");
+                          // _save(5555);
+                          // removeValues();
                           bloc.createHackathon();
                           // Navigator.of(context).pushNamed(
                           //   RoutesNames.createCodes,
