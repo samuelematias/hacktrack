@@ -17,6 +17,8 @@ class AppPreferencesService {
   static const String PREFERENCES_IS_MENTOR_KEY = "PREFERENCES_IS_MENTOR_KEY";
   static const String PREFERENCES_PARTICIPANT_CODE_KEY =
       "PREFERENCES_PARTICIPANT_CODE_KEY";
+  static const String PREFERENCES_TEAM_ID_KEY = "PREFERENCES_TEAM_ID_KEY";
+  static const String PREFERENCES_TEAM_STAGE_KEY = "PREFERENCES_TEAM_STAGE_KEY";
   static const String PREFERENCES_USER_ID_KEY = "PREFERENCES_USER_ID_KEY";
   static const String PREFERENCES_ACCESS_BY_CODE_KEY =
       "PREFERENCES_USER_ID_KEY";
@@ -107,6 +109,22 @@ class AppPreferencesService {
 
   String getParticipantCode() {
     return _preferences.getString(PREFERENCES_PARTICIPANT_CODE_KEY) ?? "";
+  }
+
+  setTeamId(String teamId) {
+    return _preferences.setString(PREFERENCES_TEAM_ID_KEY, teamId);
+  }
+
+  String getTeamId() {
+    return _preferences.getString(PREFERENCES_TEAM_ID_KEY) ?? "";
+  }
+
+  setTeamStage(String teamStage) {
+    return _preferences.setString(PREFERENCES_TEAM_STAGE_KEY, teamStage);
+  }
+
+  String getTeamStage() {
+    return _preferences.getString(PREFERENCES_TEAM_STAGE_KEY) ?? "";
   }
 
   setUserId(String userId) {

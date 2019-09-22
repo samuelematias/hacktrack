@@ -70,6 +70,7 @@ class CardTrack extends StatelessWidget {
             photo.isNotEmpty
                 ? Container(
                     padding: EdgeInsets.only(
+                      top: space_golden_dream,
                       left: space_carmine,
                       right: space_carmine,
                     ),

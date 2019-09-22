@@ -12,6 +12,7 @@ import '../../themes/text/typography/h/h4.dart';
 import '../../themes/text/typography/p/p3.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
+import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import 'team_bloc.dart';
@@ -114,6 +115,8 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                     StreamBuilder<TeamModel>(
                         stream: bloc.createTeamPost,
                         builder: (context, snapshot) {
+                          bool teamNameAlreadyExist = snapshot.hasError &&
+                              snapshot.error.toString() == "226";
                           bool handle404 = snapshot.hasError &&
                               snapshot.error.toString() == "404";
                           return Column(
@@ -121,6 +124,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                             children: <Widget>[
                               Column(
                                 children: <Widget>[
+                                  handle404 ? ErrorAlert() : Container(),
                                   Container(
                                     width: Metrics.fullWidth(context),
                                     padding: EdgeInsets.only(
@@ -149,7 +153,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                   },
                                   autofocus: true,
                                   keyboardType: TextInputType.text,
-                                  // textInputAction: TextInputAction.done,
+                                  maxLength: 7,
                                   style: TextStyle(
                                     color: black,
                                   ),
@@ -159,12 +163,16 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                     border: OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: !handle404 ? purple : red,
+                                          color: !teamNameAlreadyExist
+                                              ? purple
+                                              : red,
                                           width: 2.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: !handle404 ? black : red,
+                                          color: !teamNameAlreadyExist
+                                              ? black
+                                              : red,
                                           width: 1.0),
                                     ),
                                     fillColor: black,
@@ -177,7 +185,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                   top: space_dodger_blue,
                                   right: space_heliotrope,
                                 ),
-                                child: handle404
+                                child: teamNameAlreadyExist
                                     ? P3(
                                         text: "Team Name already exists!",
                                       )

@@ -33,6 +33,10 @@ class TeamBloc extends BlocBase {
   TeamModel get createTeamPostValue => createTeamPost.value;
   Sink<TeamModel> get createTeamPostIn => createTeamPost.sink;
 
+  var getTracks = BehaviorSubject<List<TeamModel>>();
+  Sink<List<TeamModel>> get getTracksIn => getTracks.sink;
+  Observable<List<TeamModel>> get getTracksOut => getTracks.stream;
+
   StreamController<int> _streamController =
       new StreamController<int>.broadcast();
 
@@ -64,6 +68,7 @@ class TeamBloc extends BlocBase {
     getTeams?.close();
     joinTeamPost?.close();
     createTeamPost?.close();
+    getTracks?.close();
   }
 
   void listTeams() async {
@@ -71,7 +76,7 @@ class TeamBloc extends BlocBase {
       _isShowLoading.add(true);
       var response = await repo.getTeams(
           TeamModel(hackaId: storageService.getHackathonId()).toJson());
-
+      print('LOL? ${response.length}');
       if (response.length > 0) {
         _isShowLoading.add(false);
         getTeamsIn.add(response);
@@ -80,6 +85,7 @@ class TeamBloc extends BlocBase {
         getTeams.addError(204);
       }
     } catch (e) {
+      print("LOL $e");
       _isShowLoading.add(false);
       getTeams.addError(404);
     }
@@ -94,6 +100,8 @@ class TeamBloc extends BlocBase {
       ).toJson());
       if (response.id != null) {
         storageService.setIsUserLogged(true);
+        storageService.setTeamId(teamId);
+        storageService.setTeamStage(response.stage);
         _isShowLoading.add(false);
         joinTeamPostIn.add(response);
       } else {
@@ -117,16 +125,41 @@ class TeamBloc extends BlocBase {
       ).toJson());
       if (response.id != null) {
         storageService.setIsUserLogged(true);
+        storageService.setTeamId(response.id);
+        storageService.setTeamStage(response.stage);
         _isShowLoading.add(false);
         createTeamPostIn.add(response);
       } else {
         _isShowLoading.add(false);
-        createTeamPost.addError(404);
+        createTeamPost.addError(226);
       }
     } catch (e) {
       _isShowLoading.add(false);
       storageService.setCreateHackathonSuccess(false);
       createTeamPost.addError(404);
+    }
+  }
+
+  void getTeamTrack({String temId}) async {
+    print('LOL 2');
+    try {
+      _isShowLoading.add(true);
+      var response = await repo
+          .getTeamTrack(TeamModel(teamId: storageService.getTeamId()).toJson());
+
+      if (response.length > 0) {
+        print('LOL 3 ${response.length}');
+        _isShowLoading.add(false);
+        getTracksIn.add(response);
+      } else {
+        print('LOL 4 ${response.length}');
+        _isShowLoading.add(false);
+        getTracks.addError(204);
+      }
+    } catch (e) {
+      print('LOL $e');
+      _isShowLoading.add(false);
+      getTracks.addError(404);
     }
   }
 

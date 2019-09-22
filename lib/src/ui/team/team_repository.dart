@@ -37,4 +37,16 @@ class TeamRepository {
       throw (e.message);
     }
   }
+
+  Future<List<TeamModel>> getTeamTrack(Map<String, dynamic> data) async {
+    try {
+      var response = await _client.get("/tracks?", queryParameters: data);
+      return (response.data as List)
+          .map((item) => TeamModel.fromJson(item))
+          .toList();
+    } on DioError catch (e) {
+      throw (e.message);
+      // throw (e.responde.data); // if the API response a error.
+    }
+  }
 }

@@ -4,18 +4,24 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
+import '../../shared/models/team_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_dialog.dart';
+import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../widget/card_track.dart';
 import '../../widget/content_card.dart';
+import '../../widget/custom_progress_indicator.dart';
+import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
 import '../start/start_page.dart';
+import 'team_bloc.dart';
+import 'team_module.dart';
 
 class TeamPage extends StatefulWidget {
   @override
@@ -23,12 +29,18 @@ class TeamPage extends StatefulWidget {
 }
 
 class _TeamPageState extends State<TeamPage> {
+  var bloc = TeamModule.to.getBloc<TeamBloc>();
   static var storageService = locator<AppPreferencesService>();
 
   @override
   void initState() {
+    _init();
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
+  }
+
+  void _init() {
+    bloc.getTeamTrack();
   }
 
   @override
@@ -57,12 +69,12 @@ class _TeamPageState extends State<TeamPage> {
             CustomDialog.show(context, _buildDialogContent(context), 110),
       ),
       body: SingleChildScrollView(
-        child: _bodyWidget(context),
+        child: _bodyWidget(context, bloc),
       ),
     );
   }
 
-  Widget _bodyWidget(BuildContext context) {
+  Widget _bodyWidget(BuildContext context, TeamBloc bloc) {
     List<Map<String, dynamic>> contents = [
       {
         "photo":
@@ -111,7 +123,7 @@ class _TeamPageState extends State<TeamPage> {
                     bottom: space_spring_green,
                   ),
                   child: H1(
-                    text: "PROBLEM PHASE",
+                    text: "${storageService.getTeamStage()} PHASE",
                   ),
                 ),
                 Padding(
@@ -140,7 +152,36 @@ class _TeamPageState extends State<TeamPage> {
               padding: EdgeInsets.symmetric(
                 horizontal: space_spring_green,
               ),
-              child: buildTrackList(context),
+              child: StreamBuilder<List<TeamModel>>(
+                  stream: bloc.getTracks,
+                  builder: (context, snapshot) {
+                    bool empyList =
+                        snapshot.hasError && snapshot.error.toString() == "204";
+                    bool handle404 =
+                        snapshot.hasError && snapshot.error.toString() == "404";
+                    return handle404
+                        ? Container(
+                            child: Column(
+                              children: <Widget>[
+                                ErrorAlert(),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: space_geraldine,
+                                    // bottom: space_heliotrope,
+                                  ),
+                                  child: SecondaryButton(
+                                    label: "Try Again",
+                                    onPress: () => _init(),
+                                    width: Metrics.pw(context, 95),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        : !empyList
+                            ? buildTrackList(context, snapshot)
+                            : Container();
+                  }),
             ),
             Padding(
               padding: EdgeInsets.all(space_geraldine),
@@ -218,57 +259,39 @@ class _TeamPageState extends State<TeamPage> {
     }
   }
 
-  Widget buildTrackList(BuildContext context) {
-    List<Map<String, dynamic>> tracks = [
-      {
-        'photo': '',
-        'stage': 'Problem',
-        'status': 'Need help',
-        'updatedAt': 'Updated 1h ago by Pedro',
-        'about': 'The team is very confused on what defines a good problem.',
-      },
-      {
-        'photo':
-            'https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg',
-        'stage': 'Ideation',
-        'status': 'Killin it',
-        'updatedAt': 'Updated 1h ago by Pedro Bacelar',
-        'about': 'Finally found a good idea! Moving to next phase.',
-      },
-      {
-        'photo': '',
-        'stage': 'Ideation',
-        'status': 'Need help',
-        'updatedAt': 'Updated 1h ago by Pedro Bacelar',
-        'about': 'Having issues to generate good ideas.',
-      },
-    ];
-
-    return Container(
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: tracks.length,
-        itemBuilder: (context, index) {
-          var key = tracks.elementAt(index);
-          return buildTrackListItem(
-            context,
-            key,
-            tracks,
-            index,
-          );
-        },
-      ),
-    );
+  Widget buildTrackList(
+      BuildContext context, AsyncSnapshot<List<TeamModel>> snapshot) {
+    if (snapshot.hasData) {
+      return Container(
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: snapshot.data.length,
+          itemBuilder: (context, index) {
+            TeamModel item = snapshot.data[index];
+            return buildTrackListItem(
+              context,
+              item,
+              snapshot.data,
+              index,
+            );
+          },
+        ),
+      );
+    } else {
+      return Center(child: CustomProgressIndicator());
+    }
   }
 
   Widget buildTrackListItem(
     BuildContext context,
-    Map<String, dynamic> key,
-    List<Map<String, dynamic>> tracks,
+    TeamModel item,
+    List<TeamModel> tracks,
     int index,
   ) {
     final bool isTheFirstPositionOfArray = index == 0;
+    var files =
+        item.files == null ? [] : item.files.length > 0 ? item.files[0] : [];
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -277,12 +300,13 @@ class _TeamPageState extends State<TeamPage> {
           top: isTheFirstPositionOfArray ? 0.0 : space_golden_dream,
         ),
         child: CardTrack(
-          photo: key["photo"],
-          stage: key["stage"],
-          status: key["status"],
-          updatedAt: key["updatedAt"],
-          about: key["about"],
-          aboutColor: key["status"] == 'Killin it' ? green : red,
+          photo: files,
+          stage: item.stage,
+          status: item.status,
+          updatedAt: item.updatedAt,
+          about: item.comment,
+          aboutColor:
+              item.status == 'ok' ? green : item.status == 'nok' ? red : black,
         ),
       ),
     );
