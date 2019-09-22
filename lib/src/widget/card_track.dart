@@ -13,6 +13,7 @@ class CardTrack extends StatelessWidget {
   final String updatedAt;
   final String about;
   final Color aboutColor;
+  final List photos;
 
   const CardTrack({
     Key key,
@@ -22,6 +23,7 @@ class CardTrack extends StatelessWidget {
     this.updatedAt = '',
     this.about = '',
     this.aboutColor = const Color(0xff293845),
+    this.photos,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,6 @@ class CardTrack extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(
                 top: space_golden_dream,
-                // bottom: space_golden_dream,
               ),
               child: AutoResizeText(
                 text: about,
@@ -67,38 +68,59 @@ class CardTrack extends StatelessWidget {
                 fontWeight: FontWeight.normal,
               ),
             ),
-            photo.isNotEmpty
-                ? Container(
-                    padding: EdgeInsets.only(
-                      top: space_golden_dream,
-                      left: space_carmine,
-                      right: space_carmine,
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: photo,
-                      fit: BoxFit.fitWidth,
-                      width: space_purple_rain,
-                      height: space_purple_rain,
-                      placeholder: (context, photo) => Container(
-                        width: space_portage,
-                        height: space_portage,
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.image,
-                        ),
-                      ),
-                      errorWidget: (context, photo, error) => Container(
-                        width: space_portage,
-                        height: space_portage,
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.image,
-                        ),
-                      ),
-                    ),
-                  )
-                : Container(),
+            GridView.count(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              crossAxisSpacing: 8.0,
+              mainAxisSpacing: 5.0,
+              children: _buildContentList(photos),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildContentList(List photos) {
+    return photos.map((data) => _buildContentListItem(data)).toList();
+  }
+
+  Widget _buildContentListItem(String photo) {
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: space_dodger_blue,
+        ),
+        child: GestureDetector(
+          onTap: () {},
+          child: photo != null
+              ? Container(
+                  padding: EdgeInsets.all(space_carmine),
+                  child: CachedNetworkImage(
+                    imageUrl: photo.toString(),
+                    fit: BoxFit.fitWidth,
+                    width: space_purple_rain,
+                    height: space_purple_rain,
+                    placeholder: (context, photo) => Container(
+                      width: space_portage,
+                      height: space_portage,
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.image,
+                      ),
+                    ),
+                    errorWidget: (context, photo, error) => Container(
+                      width: space_portage,
+                      height: space_portage,
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.image,
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
         ),
       ),
     );

@@ -290,8 +290,8 @@ class _TeamPageState extends State<TeamPage> {
     int index,
   ) {
     final bool isTheFirstPositionOfArray = index == 0;
-    var files =
-        item.files == null ? [] : item.files.length > 0 ? item.files[0] : [];
+    List files =
+        item.files == null ? [] : item.files.length > 0 ? item.files : [];
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -300,7 +300,8 @@ class _TeamPageState extends State<TeamPage> {
           top: isTheFirstPositionOfArray ? 0.0 : space_golden_dream,
         ),
         child: CardTrack(
-          photo: files,
+          // photo: files,
+          photos: files,
           stage: item.stage,
           status: item.status,
           updatedAt: item.updatedAt,
