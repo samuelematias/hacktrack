@@ -9,6 +9,7 @@ import '../../util/routes.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import 'team_bloc.dart';
+import 'team_module.dart';
 
 class CreateTeamPage extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class CreateTeamPage extends StatefulWidget {
 }
 
 class _CreateTeamPageState extends State<CreateTeamPage> {
+  var bloc = TeamModule.to.getBloc<TeamBloc>();
   final _inputController = TextEditingController();
   double leftOverFlow = -5.0;
   double rightOverFlow = -5.0;
@@ -43,7 +45,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
   @override
   void dispose() {
     KeyboardVisibilityNotification().dispose();
-    TeamBloc().dispose();
+    // TeamBloc().dispose();
     super.dispose();
   }
 
@@ -59,7 +61,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
           Navigator.pop(context);
         },
       ),
-      body: _bodyWidget(context, TeamBloc()),
+      body: _bodyWidget(context, bloc),
     );
   }
 

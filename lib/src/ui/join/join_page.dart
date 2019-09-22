@@ -13,7 +13,7 @@ import '../../widget/error_alert.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
 import '../mentor/mentor_onboarding_page.dart';
-import '../team/choose_team_page.dart';
+import '../team/team_module.dart';
 import 'join_bloc.dart';
 import 'join_module.dart';
 
@@ -63,7 +63,7 @@ class _JoinPageState extends State<JoinPage> {
             context,
           ).pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: (BuildContext context) => ChooseTeamPage(),
+                builder: (BuildContext context) => TeamModule(),
               ),
               (Route<dynamic> route) => false);
         }

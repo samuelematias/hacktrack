@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
+import '../../shared/models/team_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h2.dart';
@@ -12,13 +13,34 @@ import '../../util/custom_dialog.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../widget/circle_icon.dart';
+import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
+import 'team_bloc.dart';
+import 'team_module.dart';
 
-class ChooseTeamPage extends StatelessWidget {
+class ChooseTeamPage extends StatefulWidget {
+  @override
+  _ChooseTeamPageState createState() => _ChooseTeamPageState();
+}
+
+class _ChooseTeamPageState extends State<ChooseTeamPage> {
+  var bloc = TeamModule.to.getBloc<TeamBloc>();
   static var storageService = locator<AppPreferencesService>();
+
+  @override
+  void initState() {
+    bloc.listTeams();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,54 +51,64 @@ class ChooseTeamPage extends StatelessWidget {
         hideHeaderLeft: true,
         context: context,
       ),
-      body: _bodyWidget(context),
+      body: _bodyWidget(context, bloc),
     );
   }
 
-  Widget _bodyWidget(BuildContext context) {
+  Widget _bodyWidget(BuildContext context, TeamBloc bloc) {
     return SafeArea(
       child: Container(
         width: Metrics.fullWidth(context),
         child: Stack(
           children: <Widget>[
             SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: space_conifer,
-                      top: space_golden_dream,
-                      right: space_conifer,
-                    ),
-                    child: H4(
-                      text: "Choose your team:",
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: space_golden_dream,
-                      top: space_geraldine,
-                      right: space_golden_dream,
-                      // bottom: space_scooter,
-                    ),
-                    child: buildTeamsList(context),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: space_geraldine,
-                      bottom: space_heliotrope,
-                    ),
-                    child: SecondaryButton(
-                      label: "Create team",
-                      onPress: () => Navigator.of(context).pushNamed(
-                        RoutesNames.createTeam,
-                      ),
-                      width: Metrics.pw(context, 95),
-                    ),
-                  ),
-                ],
-              ),
+              child: StreamBuilder<List<TeamModel>>(
+                  stream: bloc.getTeams,
+                  builder: (context, snapshot) {
+                    bool empyList =
+                        snapshot.hasError && snapshot.error.toString() == "204";
+                    bool handle404 =
+                        snapshot.hasError && snapshot.error.toString() == "404";
+                    return Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        handle404 ? ErrorAlert() : Container(),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: space_conifer,
+                            top: space_golden_dream,
+                            right: space_conifer,
+                          ),
+                          child: H4(
+                            text: "Choose your team:",
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: space_golden_dream,
+                            top: space_geraldine,
+                            right: space_golden_dream,
+                            // bottom: space_scooter,
+                          ),
+                          child:
+                              !empyList ? buildTeamsList(context) : Container(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: space_geraldine,
+                            bottom: space_heliotrope,
+                          ),
+                          child: SecondaryButton(
+                            label: "Create team",
+                            onPress: () => Navigator.of(context).pushNamed(
+                              RoutesNames.createTeam,
+                            ),
+                            width: Metrics.pw(context, 95),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
             ),
           ],
         ),
@@ -178,7 +210,7 @@ class ChooseTeamPage extends StatelessWidget {
         top: isTheFirstPositionOfArray ? 0.0 : space_golden_dream,
       ),
       child: RowInfo(
-        icon: Icons.star,
+        icon: Icons.group,
         iconColor: darkGrey,
         circleColor: heavyGrey,
         title: key['title'],
