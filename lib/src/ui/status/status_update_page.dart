@@ -69,9 +69,9 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
         Navigator.pop(context);
         widget.arguments.onSuccess();
 
-        // if (_firstImage != null) {
-        //   bloc.uploadFoto(_firstImage);
-        // }
+        if (_firstImage != null) {
+          bloc.uploadFoto(_firstImage);
+        }
       }
     });
     listenStatusUpdateResponseLoading = bloc.isShowLoading.listen((data) {

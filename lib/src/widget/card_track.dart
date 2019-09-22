@@ -45,9 +45,10 @@ class CardTrack extends StatelessWidget {
                 AutoResizeText(
                   text: stage,
                   containerTextWidth: 80,
+                  maxLines: 2,
                 ),
                 AutoResizeText(
-                  text: "",
+                  text: updatedAt,
                   containerTextWidth: 185,
                   textAlign: TextAlign.right,
                   textColor: lightGrey,
