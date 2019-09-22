@@ -14,13 +14,13 @@ import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 
 class CreateCodesPage extends StatefulWidget {
-  static var storageService = locator<AppPreferencesService>();
-
   @override
   _CreateCodesPageState createState() => _CreateCodesPageState();
 }
 
 class _CreateCodesPageState extends State<CreateCodesPage> {
+  static var storageService = locator<AppPreferencesService>();
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +42,7 @@ class _CreateCodesPageState extends State<CreateCodesPage> {
     return Scaffold(
       backgroundColor: white,
       appBar: SecondaryAppBar(
-        pageTitle: CreateCodesPage.storageService.getHackathonName(),
+        pageTitle: storageService.getHackathonName(),
         context: context,
         hideHeaderLeft: true,
       ),
@@ -54,9 +54,8 @@ class _CreateCodesPageState extends State<CreateCodesPage> {
     double leftOverFlow = 20.0;
     double rightOverFlow = 20.0;
     double bottomOverFlow = 20.0;
-    String _mentorsCode = CreateCodesPage.storageService.getMentorCode();
-    String _participantsCode =
-        CreateCodesPage.storageService.getParticipantCode();
+    String _mentorsCode = storageService.getMentorCode();
+    String _participantsCode = storageService.getParticipantCode();
 
     return SafeArea(
       child: Container(

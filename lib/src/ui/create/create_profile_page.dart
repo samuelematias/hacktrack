@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
@@ -17,9 +20,9 @@ class CreateProfilePage extends StatefulWidget {
 }
 
 class _CreateProfilePageState extends State<CreateProfilePage> {
+  static var storageService = locator<AppPreferencesService>();
   var bloc = CreateModule.to.getBloc<CreateBloc>();
   FocusNode _focusNode2 = FocusNode();
-  FocusNode _focusNode3 = FocusNode();
   FocusNode _focusNode4 = FocusNode();
   final _inputController1 = TextEditingController();
   final _inputController2 = TextEditingController();
@@ -58,7 +61,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
     return Scaffold(
       backgroundColor: white,
       appBar: SecondaryAppBar(
-        pageTitle: "Shawee",
+        pageTitle: storageService.getHackathonName(),
         context: context,
         hideHeaderLeft: true,
         onClickBackButton: () {
@@ -109,7 +112,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                               bloc.validateCreateProfileButton(
                                 text,
                                 _inputController2.text,
-                                _inputController3.text,
+                                bloc.userRole,
                                 _inputController4.text,
                               );
                             },
@@ -151,12 +154,11 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                               bloc.validateCreateProfileButton(
                                 _inputController1.text,
                                 text,
-                                _inputController3.text,
+                                bloc.userRole,
                                 _inputController4.text,
                               );
                             },
-                            onEditingComplete: () => FocusScope.of(context)
-                                .requestFocus(_focusNode3),
+                            onEditingComplete: () => _showPicker(context, bloc),
                             // autofocus: true,
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
@@ -181,45 +183,115 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            left: space_geraldine,
-                            top: space_golden_dream,
-                            right: space_geraldine,
+                            left: space_spring_green,
+                            // top: space_golden_dream,
+                            right: space_spring_green,
                           ),
-                          child: TextField(
-                            focusNode: _focusNode3,
-                            controller: _inputController3,
-                            onChanged: (String text) {
-                              bloc.updateUserRole(text);
-                              bloc.validateCreateProfileButton(
-                                _inputController1.text,
-                                _inputController2.text,
-                                text,
-                                _inputController4.text,
-                              );
-                            },
-                            onEditingComplete: () => FocusScope.of(context)
-                                .requestFocus(_focusNode4),
-                            // autofocus: true,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.next,
-                            style: TextStyle(
-                              color: black,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: "Role (Designer, Front End, etc.)",
-                              labelStyle: TextStyle(color: black),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: purple, width: 2.0),
+                          child: GestureDetector(
+                            onTap: () => _showPicker(context, bloc),
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                left: space_golden_dream,
+                                top: space_golden_dream,
+                                right: space_golden_dream,
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: black, width: 1.0),
+                              height: space_magic_mint,
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                border: Border.all(
+                                  color: black,
+                                  width: 1,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
                               ),
-                              fillColor: black,
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            left: space_dodger_blue,
+                                          ),
+                                          child:
+
+                                              // Text(
+                                              //   "Role",
+                                              //   style: TextStyle(
+                                              //     color: black,
+                                              //     fontWeight: FontWeight.w400,
+                                              //     fontSize: space_golden_dream,
+                                              //   ),
+                                              // ),
+                                              StreamBuilder<String>(
+                                                  stream: bloc.getUserRole,
+                                                  builder: (context, snapshot) {
+                                                    return Text(
+                                                      snapshot.hasData
+                                                          ? snapshot.data
+                                                          : "Role",
+                                                      style: TextStyle(
+                                                        color: black,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize:
+                                                            space_golden_dream,
+                                                      ),
+                                                    );
+                                                  }),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            right: space_dodger_blue,
+                                          ),
+                                          child:
+                                              Icon(Icons.keyboard_arrow_down),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
+                          // TextField(
+                          //   focusNode: _focusNode3,
+                          //   controller: _inputController3,
+                          //   onChanged: (String text) {
+                          //     bloc.updateUserRole(text);
+                          //     bloc.validateCreateProfileButton(
+                          //       _inputController1.text,
+                          //       _inputController2.text,
+                          //       text,
+                          //       _inputController4.text,
+                          //     );
+                          //   },
+                          // onEditingComplete: () => FocusScope.of(context)
+                          //     .requestFocus(_focusNode4),
+                          //   // autofocus: true,
+                          //   keyboardType: TextInputType.text,
+                          //   textInputAction: TextInputAction.next,
+                          //   style: TextStyle(
+                          //     color: black,
+                          //   ),
+                          //   decoration: InputDecoration(
+                          //     labelText: "Role (Designer, Front End, etc.)",
+                          //     labelStyle: TextStyle(color: black),
+                          //     border: OutlineInputBorder(),
+                          //     focusedBorder: OutlineInputBorder(
+                          //       borderSide:
+                          //           BorderSide(color: purple, width: 2.0),
+                          //     ),
+                          //     enabledBorder: OutlineInputBorder(
+                          //       borderSide:
+                          //           BorderSide(color: black, width: 1.0),
+                          //     ),
+                          //     fillColor: black,
+                          //   ),
+                          // ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -234,11 +306,11 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                   focusNode: _focusNode4,
                                   controller: _inputController4,
                                   onChanged: (String text) {
-                                    bloc.updateUserRole(text);
+                                    bloc.updateUserBio(text);
                                     bloc.validateCreateProfileButton(
                                       _inputController1.text,
                                       _inputController2.text,
-                                      _inputController3.text,
+                                      bloc.userRole,
                                       text,
                                     );
                                   },
@@ -310,5 +382,65 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
         ),
       ),
     );
+  }
+
+  Future _showPicker(BuildContext context, CreateBloc bloc) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext builder) {
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(_focusNode4);
+            Navigator.pop(context);
+          },
+          child: Container(
+            color: Colors.transparent,
+            child: CupertinoPicker(
+              backgroundColor: Colors.white,
+              children: <Widget>[
+                H4(
+                  text: "Developer",
+                ),
+                H4(
+                  text: "Design",
+                ),
+                H4(
+                  text: "Product",
+                ),
+                H4(
+                  text: "Business",
+                ),
+              ],
+              itemExtent: 30, //height of each item
+              looping: false,
+              onSelectedItemChanged: (int index) {
+                bloc.userRole = _chooseSTage(index);
+                bloc.updateUserRole(_chooseSTage(index));
+                bloc.validateCreateProfileButton(
+                  _inputController1.text,
+                  _inputController2.text,
+                  _chooseSTage(index),
+                  _inputController4.text,
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  String _chooseSTage(int index) {
+    if (index == 0) {
+      return "Developer";
+    } else if (index == 1) {
+      return "Design";
+    } else if (index == 2) {
+      return "Product";
+    } else if (index == 3) {
+      return "Business";
+    } else {
+      return "Other";
+    }
   }
 }

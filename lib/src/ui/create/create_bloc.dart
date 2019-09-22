@@ -16,6 +16,7 @@ class CreateBloc extends BlocBase {
 
   String identifier;
   String hackathonName;
+  String userRole;
 
   var post = BehaviorSubject<HackathonModel>();
   var _isShowLoading = BehaviorSubject<bool>();
@@ -174,7 +175,7 @@ class CreateBloc extends BlocBase {
   }
 
   updateUserRole(String text) {
-    addUserRole(text.isEmpty ? null : text.trim().length > 0 ? text : null);
+    addUserRole(text.isEmpty ? null : text);
   }
 
   updateUserBio(String text) {
