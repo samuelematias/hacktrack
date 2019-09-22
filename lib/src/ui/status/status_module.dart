@@ -5,7 +5,7 @@ import '../../app_module.dart';
 import '../../shared/custom_dio/custom_dio.dart';
 import '../team/team_repository.dart';
 import 'status_bloc.dart';
-import 'status_update_page.dart';
+import 'team_page.dart';
 
 class StatusModule extends ModuleWidget {
   @override
@@ -21,7 +21,7 @@ class StatusModule extends ModuleWidget {
       ];
 
   @override
-  Widget get view => StatusUpdatePage();
+  Widget get view => TeamPage();
 
   static Inject get to => Inject<StatusModule>.of();
 }

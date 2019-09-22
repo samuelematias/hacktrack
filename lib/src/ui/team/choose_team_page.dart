@@ -21,6 +21,7 @@ import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
+import '../status/status_module.dart';
 import 'team_bloc.dart';
 import 'team_module.dart';
 
@@ -42,7 +43,14 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
     _init();
     listenJoinTeamResponse = bloc.joinTeamPost.listen((data) {
       if (data.id != null) {
-        Navigator.of(context).pushNamed(RoutesNames.team);
+        // Navigator.of(context).pushNamed(RoutesNames.team);
+        Navigator.of(
+          context,
+        ).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (BuildContext context) => StatusModule(),
+            ),
+            (Route<dynamic> route) => false);
         // Navigator.of(
         //   context,
         // ).pushAndRemoveUntil(

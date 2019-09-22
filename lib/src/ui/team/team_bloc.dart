@@ -33,10 +33,6 @@ class TeamBloc extends BlocBase {
   TeamModel get createTeamPostValue => createTeamPost.value;
   Sink<TeamModel> get createTeamPostIn => createTeamPost.sink;
 
-  var getTracks = BehaviorSubject<List<TeamModel>>();
-  Sink<List<TeamModel>> get getTracksIn => getTracks.sink;
-  Observable<List<TeamModel>> get getTracksOut => getTracks.stream;
-
   StreamController<int> _streamController =
       new StreamController<int>.broadcast();
 
@@ -68,7 +64,7 @@ class TeamBloc extends BlocBase {
     getTeams?.close();
     joinTeamPost?.close();
     createTeamPost?.close();
-    getTracks?.close();
+    // getTracks?.close();
   }
 
   void listTeams() async {
@@ -137,25 +133,6 @@ class TeamBloc extends BlocBase {
       _isShowLoading.add(false);
       storageService.setCreateHackathonSuccess(false);
       createTeamPost.addError(404);
-    }
-  }
-
-  void getTeamTrack({String teamId}) async {
-    try {
-      _isShowLoading.add(true);
-      var response = await repo
-          .getTeamTrack(TeamModel(teamId: storageService.getTeamId()).toJson());
-
-      if (response.length > 0) {
-        _isShowLoading.add(false);
-        getTracksIn.add(response);
-      } else {
-        _isShowLoading.add(false);
-        getTracks.addError(204);
-      }
-    } catch (e) {
-      _isShowLoading.add(false);
-      getTracks.addError(404);
     }
   }
 

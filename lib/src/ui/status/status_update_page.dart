@@ -7,6 +7,7 @@ import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
+import '../../shared/screen_arguments.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
@@ -19,6 +20,10 @@ import 'status_bloc.dart';
 import 'status_module.dart';
 
 class StatusUpdatePage extends StatefulWidget {
+  final StatusUpdateArguments arguments;
+
+  StatusUpdatePage({this.arguments});
+
   @override
   _StatusUpdatePageState createState() => _StatusUpdatePageState();
 }
@@ -60,10 +65,12 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
         // if (storageService.isMentor()) {
         //   bloc.getTeamTrack();
         // }
+        Navigator.pop(context);
+        widget.arguments.onSuccess();
 
-        if (_firstImage != null) {
-          bloc.uploadFoto(_firstImage);
-        }
+        // if (_firstImage != null) {
+        //   bloc.uploadFoto(_firstImage);
+        // }
       }
     });
     listenStatusUpdateResponseLoading = bloc.isShowLoading.listen((data) {

@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
 import '../../shared/models/team_model.dart';
+import '../../shared/screen_arguments.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
@@ -20,8 +21,8 @@ import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
 import '../start/start_page.dart';
-import 'team_bloc.dart';
-import 'team_module.dart';
+import 'status_bloc.dart';
+import 'status_module.dart';
 
 class TeamPage extends StatefulWidget {
   @override
@@ -29,7 +30,7 @@ class TeamPage extends StatefulWidget {
 }
 
 class _TeamPageState extends State<TeamPage> {
-  var bloc = TeamModule.to.getBloc<TeamBloc>();
+  var bloc = StatusModule.to.getBloc<StatusBloc>();
   static var storageService = locator<AppPreferencesService>();
 
   @override
@@ -55,6 +56,9 @@ class _TeamPageState extends State<TeamPage> {
 
   @override
   Widget build(BuildContext context) {
+    StatusUpdateArguments arguments =
+        StatusUpdateArguments(onSuccess: bloc.getTeamTrack);
+
     return Scaffold(
       backgroundColor: white,
       appBar: SecondaryAppBar(
@@ -64,6 +68,7 @@ class _TeamPageState extends State<TeamPage> {
         showHeaderRight: true,
         onClickHeaderRight: () => Navigator.of(context).pushNamed(
           RoutesNames.statusUpdate,
+          arguments: arguments,
         ),
         onClickCustomHeaderLeft: () =>
             CustomDialog.show(context, _buildDialogContent(context), 110),
@@ -74,7 +79,7 @@ class _TeamPageState extends State<TeamPage> {
     );
   }
 
-  Widget _bodyWidget(BuildContext context, TeamBloc bloc) {
+  Widget _bodyWidget(BuildContext context, StatusBloc bloc) {
     List<Map<String, dynamic>> contents = [
       {
         "photo":

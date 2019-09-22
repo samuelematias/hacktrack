@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../shared/screen_arguments.dart';
 import '../ui/create/create_codes_page.dart';
 import '../ui/create/create_module.dart';
 import '../ui/join/join_module.dart';
@@ -7,10 +8,10 @@ import '../ui/mentor/mentor_module.dart';
 import '../ui/mentor/mentor_onboarding_page.dart';
 import '../ui/profile/profile_module.dart';
 import '../ui/start/start_module.dart';
-import '../ui/status/status_module.dart';
+import '../ui/status/status_update_page.dart';
+import '../ui/status/team_page.dart';
 import '../ui/team/create_team_page.dart';
 import '../ui/team/team_module.dart';
-import '../ui/team/team_page.dart';
 
 class Routes extends MaterialPageRoute {
   Routes({
@@ -53,7 +54,8 @@ class Routes extends MaterialPageRoute {
                 return MentorModule();
                 break;
               case RoutesNames.statusUpdate:
-                return StatusModule();
+                StatusUpdateArguments arguments = settings.arguments;
+                return StatusUpdatePage(arguments: arguments);
                 break;
               default:
                 break;

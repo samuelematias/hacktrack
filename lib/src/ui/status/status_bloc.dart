@@ -23,6 +23,10 @@ class StatusBloc extends BlocBase {
 
   var _isShowLoading = BehaviorSubject<bool>();
 
+  var getTracks = BehaviorSubject<List<TeamModel>>();
+  Sink<List<TeamModel>> get getTracksIn => getTracks.sink;
+  Observable<List<TeamModel>> get getTracksOut => getTracks.stream;
+
   var createTrackPost = BehaviorSubject<TeamModel>();
   TeamModel get createTrackPostValue => createTrackPost.value;
   Sink<TeamModel> get createTrackPostIn => createTrackPost.sink;
@@ -93,6 +97,26 @@ class StatusBloc extends BlocBase {
     _isShowLoading?.close();
     createTrackPost?.close();
     uploadPhotoPost?.close();
+    getTracks?.close();
+  }
+
+  void getTeamTrack({String teamId}) async {
+    try {
+      _isShowLoading.add(true);
+      var response = await repo
+          .getTeamTrack(TeamModel(teamId: storageService.getTeamId()).toJson());
+
+      if (response.length > 0) {
+        _isShowLoading.add(false);
+        getTracksIn.add(response);
+      } else {
+        _isShowLoading.add(false);
+        getTracks.addError(204);
+      }
+    } catch (e) {
+      _isShowLoading.add(false);
+      getTracks.addError(404);
+    }
   }
 
   void createTrack() async {
