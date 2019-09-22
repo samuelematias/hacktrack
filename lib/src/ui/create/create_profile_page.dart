@@ -26,7 +26,6 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   FocusNode _focusNode4 = FocusNode();
   final _inputController1 = TextEditingController();
   final _inputController2 = TextEditingController();
-  final _inputController3 = TextEditingController();
   final _inputController4 = TextEditingController();
   double leftOverFlow = -5.0;
   double rightOverFlow = -5.0;
