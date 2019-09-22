@@ -7,8 +7,10 @@ import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
 import '../../shared/models/team_model.dart';
 import '../../themes/color_palette.dart';
+import '../../themes/images_gallery.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h2.dart';
+import '../../themes/text/typography/h/h3.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../themes/text/typography/p/p1.dart';
 import '../../util/custom_dialog.dart';
@@ -128,25 +130,74 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                       ),
                     )
                   : empyList
-                      ? Container(
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  left: space_golden_dream,
-                                  top: space_geraldine,
-                                  right: space_golden_dream,
-                                ),
-                                child: SecondaryButton(
-                                  label: "Create a Team",
-                                  onPress: () =>
-                                      Navigator.of(context).pushNamed(
-                                    RoutesNames.createTeam,
-                                  ),
-                                  width: Metrics.pw(context, 95),
-                                ),
-                              ),
-                            ],
+                      ? SingleChildScrollView(
+                          child: Container(
+                            height: 400,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                isLoading
+                                    ? Center(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom: 10, top: 10),
+                                          child: CustomProgressIndicator(
+                                            width: 50,
+                                            height: 50,
+                                          ),
+                                        ),
+                                      )
+                                    : Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Image(
+                                            image: AssetImage(imgblank),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: H3(
+                                              text: "No Teams created yet!",
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: space_golden_dream,
+                                              top: space_geraldine,
+                                              right: space_golden_dream,
+                                            ),
+                                            child: SecondaryButton(
+                                              label: "Create a Team",
+                                              onPress: () =>
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                RoutesNames.createTeam,
+                                              ),
+                                              width: Metrics.pw(context, 95),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: H3(
+                                              text: "Or",
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: space_golden_dream,
+                                              // top: space_geraldine,
+                                              right: space_golden_dream,
+                                            ),
+                                            child: SecondaryButton(
+                                              label: "Refresh",
+                                              onPress: () => _init(),
+                                              width: Metrics.pw(context, 95),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              ],
+                            ),
                           ),
                         )
                       : isLoading

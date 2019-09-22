@@ -7,7 +7,9 @@ import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
 import '../../shared/models/team_model.dart';
 import '../../themes/color_palette.dart';
+import '../../themes/images_gallery.dart';
 import '../../themes/spacing/linear_scale.dart';
+import '../../themes/text/typography/h/h3.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_dialog.dart';
 import '../../util/metrics.dart';
@@ -115,7 +117,52 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
                       ),
                     )
                   : empyList
-                      ? Container()
+                      ? Container(
+                          child: Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                isLoading
+                                    ? Center(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom: 10, top: 10),
+                                          child: CustomProgressIndicator(
+                                            width: 50,
+                                            height: 50,
+                                          ),
+                                        ),
+                                      )
+                                    : Column(
+                                        children: <Widget>[
+                                          Image(
+                                            image: AssetImage(imgblank),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: H3(
+                                              text: "No Teams created yet!",
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: space_golden_dream,
+                                              top: space_geraldine,
+                                              right: space_golden_dream,
+                                            ),
+                                            child: SecondaryButton(
+                                              label: "Refresh",
+                                              onPress: () => _init(),
+                                              width: Metrics.pw(context, 95),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              ],
+                            ),
+                          ),
+                        )
                       : isLoading
                           ? Center(
                               child: Padding(
