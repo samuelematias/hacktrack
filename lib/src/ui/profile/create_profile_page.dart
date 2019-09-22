@@ -42,7 +42,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   StreamSubscription listenUserResponse;
   StreamSubscription listenUserResponseLoading;
   bool isLoading = false;
-  // var bloc = CreateBloc(CreateModule.to.getDependency<CreateRepository>());
+
   @override
   void initState() {
     super.initState();
@@ -62,6 +62,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
     listenUserResponse = bloc.userPost.listen((data) {
       if (data.id != null) {
         if (storageService.isMentor()) {
+          storageService.setIsUserLogged(true);
           Navigator.of(
             context,
           ).pushAndRemoveUntil(

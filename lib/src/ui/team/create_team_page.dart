@@ -1,9 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
+import '../../shared/models/team_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
+import '../../themes/text/typography/p/p3.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../widget/primary_button.dart';
@@ -18,11 +24,15 @@ class CreateTeamPage extends StatefulWidget {
 
 class _CreateTeamPageState extends State<CreateTeamPage> {
   var bloc = TeamModule.to.getBloc<TeamBloc>();
+  static var storageService = locator<AppPreferencesService>();
   final _inputController = TextEditingController();
   double leftOverFlow = -5.0;
   double rightOverFlow = -5.0;
   double bottomOverFlow = 0.0;
   bool wrongId = false;
+  StreamSubscription listenCreateTeamResponse;
+  StreamSubscription listenCreateTeamResponseLoading;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -40,12 +50,36 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
         }
       },
     );
+    listenCreateTeamResponse = bloc.createTeamPost.listen((data) {
+      if (data.id != null) {
+        Navigator.of(context).pushNamed(RoutesNames.team);
+        // Navigator.of(
+        //   context,
+        // ).pushAndRemoveUntil(
+        //     MaterialPageRoute(
+        //       builder: (BuildContext context) => TeamPage(),
+        //     ),
+        //     (Route<dynamic> route) => false);
+      }
+    });
+    listenCreateTeamResponseLoading = bloc.isShowLoading.listen((data) {
+      if (data) {
+        setState(() {
+          isLoading = data;
+        });
+      } else {
+        setState(() {
+          isLoading = data;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     KeyboardVisibilityNotification().dispose();
-    // TeamBloc().dispose();
+    listenCreateTeamResponse.cancel();
+    listenCreateTeamResponseLoading.cancel();
     super.dispose();
   }
 
@@ -54,7 +88,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
     return Scaffold(
       backgroundColor: white,
       appBar: SecondaryAppBar(
-        pageTitle: "Shawee",
+        pageTitle: storageService.getHackathonName(),
         context: context,
         onClickBackButton: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -77,45 +111,45 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          width: Metrics.fullWidth(context),
-                          padding: EdgeInsets.only(
-                            left: space_conifer,
-                            top: space_golden_dream,
-                            right: space_conifer,
-                          ),
-                          child: H4(
-                            text: "Give a name to your team:",
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: space_geraldine,
-                            top: space_golden_dream,
-                            right: space_geraldine,
-                          ),
-                          child: StreamBuilder<String>(
-                              stream: bloc.getValidateCreateTeam,
-                              builder: (context, snapshot) {
-                                return TextField(
+                    StreamBuilder<TeamModel>(
+                        stream: bloc.createTeamPost,
+                        builder: (context, snapshot) {
+                          bool handle404 = snapshot.hasError &&
+                              snapshot.error.toString() == "404";
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  Container(
+                                    width: Metrics.fullWidth(context),
+                                    padding: EdgeInsets.only(
+                                      left: space_conifer,
+                                      top: space_golden_dream,
+                                      right: space_conifer,
+                                    ),
+                                    child: H4(
+                                      text: "Give a name to your team:",
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: space_geraldine,
+                                  top: space_golden_dream,
+                                  right: space_geraldine,
+                                ),
+                                child: TextField(
                                   controller: _inputController,
                                   onChanged: (String text) {
                                     bloc.updateTeamName(text);
+                                    bloc.teamName = text;
                                     bloc.validateCreateTeamButton(text);
-                                  },
-                                  onEditingComplete: () {
-                                    if (snapshot.data == "ok") {
-                                      Navigator.of(context).pushNamed(
-                                        RoutesNames.team,
-                                      );
-                                    }
                                   },
                                   autofocus: true,
                                   keyboardType: TextInputType.text,
-                                  textInputAction: TextInputAction.done,
+                                  // textInputAction: TextInputAction.done,
                                   style: TextStyle(
                                     color: black,
                                   ),
@@ -125,21 +159,33 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                     border: OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: !wrongId ? purple : red,
+                                          color: !handle404 ? purple : red,
                                           width: 2.0),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: !wrongId ? black : red,
+                                          color: !handle404 ? black : red,
                                           width: 1.0),
                                     ),
                                     fillColor: black,
                                   ),
-                                );
-                              }),
-                        ),
-                      ],
-                    ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: space_heliotrope,
+                                  top: space_dodger_blue,
+                                  right: space_heliotrope,
+                                ),
+                                child: handle404
+                                    ? P3(
+                                        text: "Team Name already exists!",
+                                      )
+                                    : Container(),
+                              ),
+                            ],
+                          );
+                        }),
                   ],
                 ),
               ),
@@ -155,10 +201,9 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                       builder: (context, snapshot) {
                         return PrimaryButton(
                           label: "Create Team",
-                          onPress: () => Navigator.of(context).pushNamed(
-                            RoutesNames.team,
-                          ),
+                          onPress: () => bloc.createTeam(),
                           isDisable: snapshot.data,
+                          isLoading: isLoading,
                         );
                       }),
                 ),

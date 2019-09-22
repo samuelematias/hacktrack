@@ -14,8 +14,8 @@ class TeamBloc extends BlocBase {
 
   TeamBloc(this.repo);
 
-  String userId;
   String teamId;
+  String teamName;
 
   static var storageService = locator<AppPreferencesService>();
 
@@ -28,6 +28,10 @@ class TeamBloc extends BlocBase {
   var joinTeamPost = BehaviorSubject<TeamModel>();
   TeamModel get joinTeamPostValue => joinTeamPost.value;
   Sink<TeamModel> get joinTeamPostIn => joinTeamPost.sink;
+
+  var createTeamPost = BehaviorSubject<TeamModel>();
+  TeamModel get createTeamPostValue => createTeamPost.value;
+  Sink<TeamModel> get createTeamPostIn => createTeamPost.sink;
 
   StreamController<int> _streamController =
       new StreamController<int>.broadcast();
@@ -59,6 +63,7 @@ class TeamBloc extends BlocBase {
     _isShowLoading?.close();
     getTeams?.close();
     joinTeamPost?.close();
+    createTeamPost?.close();
   }
 
   void listTeams() async {
@@ -88,6 +93,7 @@ class TeamBloc extends BlocBase {
         teamId: teamId,
       ).toJson());
       if (response.id != null) {
+        storageService.setIsUserLogged(true);
         _isShowLoading.add(false);
         joinTeamPostIn.add(response);
       } else {
@@ -98,6 +104,29 @@ class TeamBloc extends BlocBase {
       _isShowLoading.add(false);
       storageService.setCreateHackathonSuccess(false);
       joinTeamPost.addError(404);
+    }
+  }
+
+  void createTeam() async {
+    try {
+      _isShowLoading.add(true);
+      var response = await repo.createTeam(TeamModel(
+        userId: storageService.getUserId(),
+        hackaId: storageService.getHackathonId(),
+        name: teamName,
+      ).toJson());
+      if (response.id != null) {
+        storageService.setIsUserLogged(true);
+        _isShowLoading.add(false);
+        createTeamPostIn.add(response);
+      } else {
+        _isShowLoading.add(false);
+        createTeamPost.addError(404);
+      }
+    } catch (e) {
+      _isShowLoading.add(false);
+      storageService.setCreateHackathonSuccess(false);
+      createTeamPost.addError(404);
     }
   }
 

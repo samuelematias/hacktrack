@@ -28,4 +28,13 @@ class TeamRepository {
       throw (e.message);
     }
   }
+
+  Future<TeamModel> createTeam(Map<String, dynamic> data) async {
+    try {
+      var response = await _client.post("/teams", data: data);
+      return TeamModel.fromJson(response.data);
+    } on DioError catch (e) {
+      throw (e.message);
+    }
+  }
 }

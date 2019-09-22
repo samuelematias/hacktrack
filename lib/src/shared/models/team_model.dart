@@ -43,15 +43,8 @@ class TeamModel {
     data['hackaId'] = this.hackaId;
     data['userId'] = this.userId;
     data['teamId'] = this.teamId;
-    // data['stage'] = this.stage;
-    // data['users'] = this.users;
-    // data['tracks'] = this.tracks;
-    // data['_id'] = this.id;
-    // data['name'] = this.name;
-    // data['hackathon'] = this.hackathon;
-    // data['createdAt'] = this.createdAt;
-    // data['updatedAt'] = this.updatedAt;
-    // data['__v'] = this.v;
+    data['hackaId'] = this.hackaId;
+    data['name'] = this.name;
     return data;
   }
 }
