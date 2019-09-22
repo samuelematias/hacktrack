@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
@@ -13,7 +15,7 @@ import '../../widget/error_alert.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
 import '../mentor/mentor_onboarding_page.dart';
-import '../team/team_module.dart';
+import '../profile/profile_module.dart';
 import 'join_bloc.dart';
 import 'join_module.dart';
 
@@ -24,6 +26,7 @@ class JoinPage extends StatefulWidget {
 
 class _JoinPageState extends State<JoinPage> {
   var bloc = JoinModule.to.getBloc<JoinBloc>();
+  static var storageService = locator<AppPreferencesService>();
   final _inputController = TextEditingController();
   double leftOverFlow = -5.0;
   double rightOverFlow = -5.0;
@@ -63,7 +66,7 @@ class _JoinPageState extends State<JoinPage> {
             context,
           ).pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: (BuildContext context) => TeamModule(),
+                builder: (BuildContext context) => ProfileModule(),
               ),
               (Route<dynamic> route) => false);
         }

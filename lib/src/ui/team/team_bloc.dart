@@ -14,7 +14,8 @@ class TeamBloc extends BlocBase {
 
   TeamBloc(this.repo);
 
-  // String joinCode;
+  String userId;
+  String teamId;
 
   static var storageService = locator<AppPreferencesService>();
 
@@ -23,6 +24,10 @@ class TeamBloc extends BlocBase {
   var getTeams = BehaviorSubject<List<TeamModel>>();
   Sink<List<TeamModel>> get getTeamsIn => getTeams.sink;
   Observable<List<TeamModel>> get getTeamsOut => getTeams.stream;
+
+  var joinTeamPost = BehaviorSubject<TeamModel>();
+  TeamModel get joinTeamPostValue => joinTeamPost.value;
+  Sink<TeamModel> get joinTeamPostIn => joinTeamPost.sink;
 
   StreamController<int> _streamController =
       new StreamController<int>.broadcast();
@@ -53,6 +58,7 @@ class TeamBloc extends BlocBase {
     _validateCreateTeamStreamController?.close();
     _isShowLoading?.close();
     getTeams?.close();
+    joinTeamPost?.close();
   }
 
   void listTeams() async {
@@ -71,6 +77,27 @@ class TeamBloc extends BlocBase {
     } catch (e) {
       _isShowLoading.add(false);
       getTeams.addError(404);
+    }
+  }
+
+  void joinTeam(String teamId) async {
+    try {
+      _isShowLoading.add(true);
+      var response = await repo.joinTeam(TeamModel(
+        userId: storageService.getUserId(),
+        teamId: teamId,
+      ).toJson());
+      if (response.id != null) {
+        _isShowLoading.add(false);
+        joinTeamPostIn.add(response);
+      } else {
+        _isShowLoading.add(false);
+        joinTeamPost.addError(404);
+      }
+    } catch (e) {
+      _isShowLoading.add(false);
+      storageService.setCreateHackathonSuccess(false);
+      joinTeamPost.addError(404);
     }
   }
 

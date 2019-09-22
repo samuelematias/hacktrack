@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -31,11 +33,36 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
   var bloc = TeamModule.to.getBloc<TeamBloc>();
   static var storageService = locator<AppPreferencesService>();
   var refreshKey = GlobalKey<RefreshIndicatorState>();
+  StreamSubscription listenJoinTeamResponse;
+  StreamSubscription listenJoinTeamResponseLoading;
+  bool isLoading = false;
 
   @override
   void initState() {
     _init();
-
+    listenJoinTeamResponse = bloc.joinTeamPost.listen((data) {
+      if (data.id != null) {
+        Navigator.of(context).pushNamed(RoutesNames.team);
+        // Navigator.of(
+        //   context,
+        // ).pushAndRemoveUntil(
+        //     MaterialPageRoute(
+        //       builder: (BuildContext context) => TeamPage(),
+        //     ),
+        //     (Route<dynamic> route) => false);
+      }
+    });
+    listenJoinTeamResponseLoading = bloc.isShowLoading.listen((data) {
+      if (data) {
+        setState(() {
+          isLoading = data;
+        });
+      } else {
+        setState(() {
+          isLoading = data;
+        });
+      }
+    });
     super.initState();
   }
 
@@ -45,6 +72,8 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
 
   @override
   void dispose() {
+    listenJoinTeamResponse.cancel();
+    listenJoinTeamResponseLoading.cancel();
     super.dispose();
   }
 
@@ -90,9 +119,8 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                         ],
                       ),
                     )
-                  : !empyList
-                      ? buildTeamsList(context, snapshot)
-                      : Container(
+                  : empyList
+                      ? Container(
                           child: Column(
                             children: <Widget>[
                               Padding(
@@ -112,7 +140,10 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                               ),
                             ],
                           ),
-                        );
+                        )
+                      : isLoading
+                          ? Center(child: CustomProgressIndicator())
+                          : buildTeamsList(context, snapshot);
             }),
       ),
     );
@@ -190,6 +221,7 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                 context,
                 _buildDialogContent(
                   context,
+                  item.id,
                   item.name,
                   totalParticipants,
                 ),
@@ -207,6 +239,7 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                     context,
                     _buildDialogContent(
                       context,
+                      item.id,
                       item.name,
                       totalParticipants,
                     ),
@@ -236,7 +269,7 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
   }
 
   Widget _buildDialogContent(
-      BuildContext context, String title, String subTitle) {
+      BuildContext context, String teamId, String title, String subTitle) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -310,8 +343,8 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                   PrimaryButton(
                     label: "Join",
                     onPress: () {
+                      bloc.joinTeam(teamId);
                       Navigator.pop(context);
-                      return Navigator.of(context).pushNamed(RoutesNames.team);
                     },
                     width: 100,
                   )

@@ -66,6 +66,7 @@ class JoinBloc extends BlocBase {
         storageService.setHackathonIdentifier(response.identifier);
         storageService.setHackathonName(response.name);
         storageService.setIsMentor(response.isMentor);
+        storageService.setIsAccessByCode(true);
       } else {
         _isShowLoading.add(false);
         getValidateCode.addError(226);

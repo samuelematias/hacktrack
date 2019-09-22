@@ -18,6 +18,8 @@ class AppPreferencesService {
   static const String PREFERENCES_PARTICIPANT_CODE_KEY =
       "PREFERENCES_PARTICIPANT_CODE_KEY";
   static const String PREFERENCES_USER_ID_KEY = "PREFERENCES_USER_ID_KEY";
+  static const String PREFERENCES_ACCESS_BY_CODE_KEY =
+      "PREFERENCES_USER_ID_KEY";
 
   // Create storage secure
   static SharedPreferences _preferences;
@@ -113,6 +115,14 @@ class AppPreferencesService {
 
   String getUserId() {
     return _preferences.getString(PREFERENCES_USER_ID_KEY) ?? "";
+  }
+
+  bool isAccessByCode() {
+    return _preferences.getBool(PREFERENCES_ACCESS_BY_CODE_KEY) ?? false;
+  }
+
+  setIsAccessByCode(bool value) async {
+    return _preferences.setBool(PREFERENCES_ACCESS_BY_CODE_KEY, value);
   }
 
   void clear() {

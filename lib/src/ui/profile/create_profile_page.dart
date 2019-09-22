@@ -15,17 +15,22 @@ import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import '../mentor/mentor_onboarding_page.dart';
-import 'create_bloc.dart';
-import 'create_module.dart';
+import '../team/team_module.dart';
+import 'profile_bloc.dart';
+import 'profile_module.dart';
 
 class CreateProfilePage extends StatefulWidget {
+  // final CreateProfilePageArguments arguments;
+
+  // CreateProfilePage({this.arguments});
+
   @override
   _CreateProfilePageState createState() => _CreateProfilePageState();
 }
 
 class _CreateProfilePageState extends State<CreateProfilePage> {
   static var storageService = locator<AppPreferencesService>();
-  var bloc = CreateModule.to.getBloc<CreateBloc>();
+  var bloc = ProfileModule.to.getBloc<ProfileBloc>();
   FocusNode _focusNode2 = FocusNode();
   FocusNode _focusNode4 = FocusNode();
   final _inputController1 = TextEditingController();
@@ -37,7 +42,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   StreamSubscription listenUserResponse;
   StreamSubscription listenUserResponseLoading;
   bool isLoading = false;
-
+  // var bloc = CreateBloc(CreateModule.to.getDependency<CreateRepository>());
   @override
   void initState() {
     super.initState();
@@ -56,13 +61,23 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
     );
     listenUserResponse = bloc.userPost.listen((data) {
       if (data.id != null) {
-        Navigator.of(
-          context,
-        ).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (BuildContext context) => MentorOnboardingPage(),
-            ),
-            (Route<dynamic> route) => false);
+        if (storageService.isMentor()) {
+          Navigator.of(
+            context,
+          ).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (BuildContext context) => MentorOnboardingPage(),
+              ),
+              (Route<dynamic> route) => false);
+        } else {
+          Navigator.of(
+            context,
+          ).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (BuildContext context) => TeamModule(),
+              ),
+              (Route<dynamic> route) => false);
+        }
       }
     });
     listenUserResponseLoading = bloc.isShowLoading.listen((data) {
@@ -103,7 +118,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
     );
   }
 
-  Widget _bodyWidget(BuildContext context, CreateBloc bloc) {
+  Widget _bodyWidget(BuildContext context, ProfileBloc bloc) {
     return SafeArea(
       child: Container(
         width: Metrics.fullWidth(context),
@@ -398,17 +413,17 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
     );
   }
 
-  Future _showPicker(BuildContext context, CreateBloc bloc,
+  Future _showPicker(BuildContext context, ProfileBloc bloc,
       {bool dataIsEmpty}) {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
         return GestureDetector(
           onTap: () {
-            if (dataIsEmpty) {
-              bloc.userRole = _chooseSTage(0);
-              bloc.updateUserRole(_chooseSTage(0));
-            }
+            // if (dataIsEmpty) {
+            //   bloc.userRole = _chooseSTage(0);
+            //   bloc.updateUserRole(_chooseSTage(0));
+            // }
             FocusScope.of(context).requestFocus(_focusNode4);
             Navigator.pop(context);
           },

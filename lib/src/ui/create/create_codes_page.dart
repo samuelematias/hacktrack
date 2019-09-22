@@ -134,6 +134,7 @@ class _CreateCodesPageState extends State<CreateCodesPage> {
                   child: PrimaryButton(
                       label: "Next",
                       onPress: () {
+                        storageService.setIsAccessByCode(false);
                         Navigator.of(context)
                             .pushNamed(RoutesNames.createProfile);
                       }),

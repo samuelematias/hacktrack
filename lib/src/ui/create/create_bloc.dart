@@ -6,8 +6,6 @@ import 'package:rxdart/rxdart.dart';
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
 import '../../shared/models/hackathon_model.dart';
-import '../../shared/models/user_model.dart';
-import '../../util/regex.dart';
 import 'create_repository.dart';
 
 class CreateBloc extends BlocBase {
@@ -17,20 +15,12 @@ class CreateBloc extends BlocBase {
 
   String identifier;
   String hackathonName;
-  String userName;
-  String userEmail;
-  String userRole;
-  String userBio;
 
   var _isShowLoading = BehaviorSubject<bool>();
 
   var post = BehaviorSubject<HackathonModel>();
   HackathonModel get postValue => post.value;
   Sink<HackathonModel> get postIn => post.sink;
-
-  var userPost = BehaviorSubject<UserModel>();
-  UserModel get userPostValue => userPost.value;
-  Sink<UserModel> get userPostIn => userPost.sink;
 
   static var storageService = locator<AppPreferencesService>();
 
@@ -44,21 +34,6 @@ class CreateBloc extends BlocBase {
       new StreamController<String>.broadcast();
 
   StreamController<String> _validateCreateHackathonStreamController =
-      new StreamController<String>.broadcast();
-
-  StreamController<String> _userNameStreamController =
-      new StreamController<String>.broadcast();
-
-  StreamController<String> _userEmailStreamController =
-      new StreamController<String>.broadcast();
-
-  StreamController<String> _userRoleStreamController =
-      new StreamController<String>.broadcast();
-
-  StreamController<String> _userBioStreamController =
-      new StreamController<String>.broadcast();
-
-  StreamController<String> _validateCreateProfileStreamController =
       new StreamController<String>.broadcast();
 
   Function(String) get addIdentifier => _identifierStreamController.sink.add;
@@ -76,28 +51,6 @@ class CreateBloc extends BlocBase {
   Stream<String> get getValidateCreateHackathon =>
       _validateCreateHackathonStreamController.stream;
 
-  Function(String) get addUserName => _userNameStreamController.sink.add;
-
-  Stream<String> get getUserName => _userNameStreamController.stream;
-
-  Function(String) get addUserEmail => _userEmailStreamController.sink.add;
-
-  Stream<String> get getUserEmail => _userEmailStreamController.stream;
-
-  Function(String) get addUserRole => _userRoleStreamController.sink.add;
-
-  Stream<String> get getUserRole => _userRoleStreamController.stream;
-
-  Function(String) get addUserBio => _userBioStreamController.sink.add;
-
-  Stream<String> get getUserBio => _userBioStreamController.stream;
-
-  Function(String) get addValidateCreateProfile =>
-      _validateCreateProfileStreamController.sink.add;
-
-  Stream<String> get getValidateCreateProfile =>
-      _validateCreateProfileStreamController.stream;
-
   Stream<bool> get isShowLoading => _isShowLoading.stream;
 
   @override
@@ -107,14 +60,8 @@ class CreateBloc extends BlocBase {
     _identifierStreamController?.close();
     _hackathonNameStreamController?.close();
     _validateCreateHackathonStreamController?.close();
-    _userNameStreamController?.close();
-    _userEmailStreamController?.close();
-    _userRoleStreamController?.close();
-    _userBioStreamController?.close();
-    _validateCreateProfileStreamController?.close();
     _isShowLoading?.close();
     post?.close();
-    userPost?.close();
   }
 
   void createHackathon() async {
@@ -132,6 +79,7 @@ class CreateBloc extends BlocBase {
         storageService.setHackathonName(hackathonName);
         storageService.setMentorCode(response.mentorLink);
         storageService.setParticipantCode(response.participantLink);
+        storageService.setIsMentor(true);
       } else {
         _isShowLoading.add(false);
         storageService.setCreateHackathonSuccess(false);
@@ -141,32 +89,6 @@ class CreateBloc extends BlocBase {
       _isShowLoading.add(false);
       storageService.setCreateHackathonSuccess(false);
       post.addError(404);
-    }
-  }
-
-  void createUser() async {
-    try {
-      _isShowLoading.add(true);
-      var response = await repo.createUser(UserModel(
-        hackathon: storageService.getHackathonId(),
-        name: userName,
-        email: userEmail,
-        role: userRole,
-        isMentor: true,
-      ).toJson());
-
-      userPostIn.add(response);
-      if (response.id != null) {
-        _isShowLoading.add(false);
-        userPostIn.add(response);
-      } else {
-        _isShowLoading.add(false);
-        userPost.addError(404);
-      }
-    } catch (e) {
-      _isShowLoading.add(false);
-      storageService.setCreateHackathonSuccess(false);
-      userPost.addError(404);
     }
   }
 
@@ -194,47 +116,5 @@ class CreateBloc extends BlocBase {
 
     addValidateCreateHackathon(
         identifierIsValid && hackathonNameIsValid ? "ok" : "nok");
-  }
-
-  updateUserName(String text) {
-    addUserName(text.isEmpty ? null : text.trim().length > 0 ? text : null);
-  }
-
-  updateUserEmail(String text) {
-    Iterable<Match> matches = Regex.emailRegex(text);
-    if (matches.isNotEmpty) {
-      addUserEmail(text.isEmpty ? null : text.trim().length > 0 ? text : null);
-    } else {
-      addUserEmail(null);
-    }
-  }
-
-  updateUserRole(String text) {
-    addUserRole(text.isEmpty ? "Developer" : text);
-  }
-
-  updateUserBio(String text) {
-    addUserBio(text.isEmpty ? null : text.trim().length > 0 ? text : null);
-  }
-
-  validateCreateProfileButton(
-    String name,
-    String email,
-    String role,
-    String bio,
-  ) {
-    Iterable<Match> matches = Regex.emailRegex(email);
-    final bool nameIsValid =
-        name.isEmpty ? false : name.trim().length > 0 ? true : false;
-    final bool emailIsValid = email.isEmpty
-        ? false
-        : email.trim().length == 0 ? false : matches.isNotEmpty ? true : false;
-    final bool roleIsValid =
-        role.isEmpty ? false : role.trim().length > 0 ? true : false;
-    final bool bioIsValid =
-        bio.isEmpty ? false : bio.trim().length > 0 ? true : false;
-    addValidateCreateProfile(
-      nameIsValid && emailIsValid && roleIsValid && bioIsValid ? "ok" : "nok",
-    );
   }
 }

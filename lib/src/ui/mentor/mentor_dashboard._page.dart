@@ -190,6 +190,7 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
                   PrimaryButton(
                     label: "Exit",
                     onPress: () {
+                      storageService.clear();
                       Navigator.pop(context);
                       return Navigator.of(
                         context,

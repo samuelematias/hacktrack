@@ -19,4 +19,13 @@ class TeamRepository {
       // throw (e.responde.data); // if the API response a error.
     }
   }
+
+  Future<TeamModel> joinTeam(Map<String, dynamic> data) async {
+    try {
+      var response = await _client.post("/teams/join", data: data);
+      return TeamModel.fromJson(response.data);
+    } on DioError catch (e) {
+      throw (e.message);
+    }
+  }
 }
