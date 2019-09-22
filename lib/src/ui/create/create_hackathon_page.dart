@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
-import '../../shared/app_preferences.dart';
-import '../../shared/locator.dart';
 import '../../shared/models/hackathon_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
@@ -32,9 +30,6 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
   double leftOverFlow = -5.0;
   double rightOverFlow = -5.0;
   double bottomOverFlow = 0.0;
-  bool wrongId = false;
-  static var storageService = locator<AppPreferencesService>();
-  bool isCreateHackathonSuccess = storageService.isCreateHackathonSuccess();
   StreamSubscription listenResponse;
   StreamSubscription listenLoading;
   bool isLoading = false;
@@ -144,6 +139,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                                   right: space_geraldine,
                                 ),
                                 child: TextField(
+                                  enabled: !isLoading,
                                   controller: _inputController1,
                                   onChanged: (String text) {
                                     bloc.updateIdentifier(text);
@@ -220,6 +216,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                                 stream: bloc.getValidateCreateHackathon,
                                 builder: (context, snapshot) {
                                   return TextField(
+                                    enabled: !isLoading,
                                     focusNode: _focusNode,
                                     controller: _inputController2,
                                     onChanged: (String text) {
@@ -246,13 +243,11 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                                       border: OutlineInputBorder(),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: !wrongId ? purple : red,
-                                            width: 2.0),
+                                            color: purple, width: 2.0),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: !wrongId ? black : red,
-                                            width: 1.0),
+                                            color: black, width: 1.0),
                                       ),
                                       fillColor: black,
                                     ),

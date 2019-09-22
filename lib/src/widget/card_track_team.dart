@@ -74,6 +74,7 @@ class CardTrackTeam extends StatelessWidget {
                     buttonLabel: "Open",
                     onPress: () {},
                     rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    containerSubtitletWidth: 30,
                   ),
                 ),
               ),

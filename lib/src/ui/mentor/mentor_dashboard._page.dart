@@ -1,5 +1,8 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
@@ -11,13 +14,36 @@ import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
 import '../start/start_page.dart';
 
-class MentorDashboardPage extends StatelessWidget {
+class MentorDashboardPage extends StatefulWidget {
+  @override
+  _MentorDashboardPageState createState() => _MentorDashboardPageState();
+}
+
+class _MentorDashboardPageState extends State<MentorDashboardPage> {
+  static var storageService = locator<AppPreferencesService>();
+
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent) {
+    return true; // Disable Android Backbutton.
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
       appBar: SecondaryAppBar(
-        pageTitle: "Shawee",
+        pageTitle: storageService.getHackathonName(),
         context: context,
         showHeaderRight: true,
         hideHeaderLeft: true,

@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
 import '../../shared/models/hackathon_model.dart';
+import '../../shared/models/user_model.dart';
 import '../../util/regex.dart';
 import 'create_repository.dart';
 
@@ -16,14 +17,20 @@ class CreateBloc extends BlocBase {
 
   String identifier;
   String hackathonName;
+  String userName;
+  String userEmail;
   String userRole;
+  String userBio;
 
-  var post = BehaviorSubject<HackathonModel>();
   var _isShowLoading = BehaviorSubject<bool>();
 
+  var post = BehaviorSubject<HackathonModel>();
   HackathonModel get postValue => post.value;
-  Observable<int> responseOut;
   Sink<HackathonModel> get postIn => post.sink;
+
+  var userPost = BehaviorSubject<UserModel>();
+  UserModel get userPostValue => userPost.value;
+  Sink<UserModel> get userPostIn => userPost.sink;
 
   static var storageService = locator<AppPreferencesService>();
 
@@ -105,8 +112,9 @@ class CreateBloc extends BlocBase {
     _userRoleStreamController?.close();
     _userBioStreamController?.close();
     _validateCreateProfileStreamController?.close();
-    post?.close();
     _isShowLoading?.close();
+    post?.close();
+    userPost?.close();
   }
 
   void createHackathon() async {
@@ -119,6 +127,7 @@ class CreateBloc extends BlocBase {
         _isShowLoading.add(false);
         storageService.setCreateHackathonSuccess(true);
         postIn.add(response);
+        storageService.setHackathonId(response.id);
         storageService.setHackathonIdentifier(identifier);
         storageService.setHackathonName(hackathonName);
         storageService.setMentorCode(response.mentorLink);
@@ -132,6 +141,32 @@ class CreateBloc extends BlocBase {
       _isShowLoading.add(false);
       storageService.setCreateHackathonSuccess(false);
       post.addError(404);
+    }
+  }
+
+  void createUser() async {
+    try {
+      _isShowLoading.add(true);
+      var response = await repo.createUser(UserModel(
+        hackathon: storageService.getHackathonId(),
+        name: userName,
+        email: userEmail,
+        role: userRole,
+        isMentor: true,
+      ).toJson());
+
+      userPostIn.add(response);
+      if (response.id != null) {
+        _isShowLoading.add(false);
+        userPostIn.add(response);
+      } else {
+        _isShowLoading.add(false);
+        userPost.addError(404);
+      }
+    } catch (e) {
+      _isShowLoading.add(false);
+      storageService.setCreateHackathonSuccess(false);
+      userPost.addError(404);
     }
   }
 
@@ -175,7 +210,7 @@ class CreateBloc extends BlocBase {
   }
 
   updateUserRole(String text) {
-    addUserRole(text.isEmpty ? null : text);
+    addUserRole(text.isEmpty ? "Developer" : text);
   }
 
   updateUserBio(String text) {

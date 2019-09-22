@@ -1,16 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
+import '../../shared/models/user_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/metrics.dart';
-import '../../util/routes.dart';
+import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
+import '../mentor/mentor_onboarding_page.dart';
 import 'create_bloc.dart';
 import 'create_module.dart';
 
@@ -30,6 +34,9 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   double leftOverFlow = -5.0;
   double rightOverFlow = -5.0;
   double bottomOverFlow = 0.0;
+  StreamSubscription listenUserResponse;
+  StreamSubscription listenUserResponseLoading;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -47,11 +54,35 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
         }
       },
     );
+    listenUserResponse = bloc.userPost.listen((data) {
+      if (data.id != null) {
+        Navigator.of(
+          context,
+        ).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (BuildContext context) => MentorOnboardingPage(),
+            ),
+            (Route<dynamic> route) => false);
+      }
+    });
+    listenUserResponseLoading = bloc.isShowLoading.listen((data) {
+      if (data) {
+        setState(() {
+          isLoading = data;
+        });
+      } else {
+        setState(() {
+          isLoading = data;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     KeyboardVisibilityNotification().dispose();
+    listenUserResponse.cancel();
+    listenUserResponseLoading.cancel();
     super.dispose();
   }
 
@@ -87,17 +118,28 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: space_conifer,
-                            top: space_golden_dream,
-                            right: space_conifer,
-                          ),
-                          child: H4(
-                            text:
-                                "Tell your mentors and colleagues more about you:",
-                          ),
-                        ),
+                        StreamBuilder<UserModel>(
+                            stream: bloc.userPost,
+                            builder: (context, snapshot) {
+                              bool handle404 = snapshot.hasError &&
+                                  snapshot.error.toString() == "404";
+                              return Column(
+                                children: <Widget>[
+                                  handle404 ? ErrorAlert() : Container(),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      left: space_conifer,
+                                      top: space_golden_dream,
+                                      right: space_conifer,
+                                    ),
+                                    child: H4(
+                                      text:
+                                          "Tell your mentors and colleagues more about you:",
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }),
                         Padding(
                           padding: EdgeInsets.only(
                             left: space_geraldine,
@@ -105,9 +147,11 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                             right: space_geraldine,
                           ),
                           child: TextField(
+                            enabled: !isLoading,
                             controller: _inputController1,
                             onChanged: (String text) {
                               bloc.updateUserName(text);
+                              bloc.userName = text;
                               bloc.validateCreateProfileButton(
                                 text,
                                 _inputController2.text,
@@ -145,40 +189,52 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                             top: space_golden_dream,
                             right: space_geraldine,
                           ),
-                          child: TextField(
-                            focusNode: _focusNode2,
-                            controller: _inputController2,
-                            onChanged: (String text) {
-                              bloc.updateUserEmail(text);
-                              bloc.validateCreateProfileButton(
-                                _inputController1.text,
-                                text,
-                                bloc.userRole,
-                                _inputController4.text,
-                              );
-                            },
-                            onEditingComplete: () => _showPicker(context, bloc),
-                            // autofocus: true,
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            style: TextStyle(
-                              color: black,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: "Email",
-                              labelStyle: TextStyle(color: black),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: purple, width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: black, width: 1.0),
-                              ),
-                              fillColor: black,
-                            ),
-                          ),
+                          child: StreamBuilder<String>(
+                              initialData: '',
+                              stream: bloc.getUserRole,
+                              builder: (context, snapshot) {
+                                return TextField(
+                                  enabled: !isLoading,
+                                  focusNode: _focusNode2,
+                                  controller: _inputController2,
+                                  onChanged: (String text) {
+                                    bloc.updateUserEmail(text);
+                                    bloc.userEmail = text;
+                                    bloc.validateCreateProfileButton(
+                                      _inputController1.text,
+                                      text,
+                                      bloc.userRole,
+                                      _inputController4.text,
+                                    );
+                                  },
+                                  onEditingComplete: () => _showPicker(
+                                    context,
+                                    bloc,
+                                    dataIsEmpty:
+                                        snapshot.data == '' ? true : false,
+                                  ),
+                                  // autofocus: true,
+                                  keyboardType: TextInputType.emailAddress,
+                                  textInputAction: TextInputAction.next,
+                                  style: TextStyle(
+                                    color: black,
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelText: "Email",
+                                    labelStyle: TextStyle(color: black),
+                                    border: OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: purple, width: 2.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: black, width: 1.0),
+                                    ),
+                                    fillColor: black,
+                                  ),
+                                );
+                              }),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -186,111 +242,76 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                             // top: space_golden_dream,
                             right: space_spring_green,
                           ),
-                          child: GestureDetector(
-                            onTap: () => _showPicker(context, bloc),
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                left: space_golden_dream,
-                                top: space_golden_dream,
-                                right: space_golden_dream,
-                              ),
-                              height: space_magic_mint,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                border: Border.all(
-                                  color: black,
-                                  width: 1,
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
+                          child: StreamBuilder<String>(
+                              stream: bloc.getUserRole,
+                              initialData: '',
+                              builder: (context, snapshot) {
+                                return GestureDetector(
+                                  onTap: !isLoading
+                                      ? () {
+                                          _showPicker(
+                                            context,
+                                            bloc,
+                                            dataIsEmpty: snapshot.data == ''
+                                                ? true
+                                                : false,
+                                          );
+                                        }
+                                      : () {},
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                      left: space_golden_dream,
+                                      top: space_golden_dream,
+                                      right: space_golden_dream,
+                                    ),
+                                    height: space_magic_mint,
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      border: Border.all(
+                                        color: !isLoading ? black : shadownGrey,
+                                        width: 1,
+                                      ),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(4)),
+                                    ),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                            left: space_dodger_blue,
+                                        Expanded(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  left: space_dodger_blue,
+                                                ),
+                                                child: Text(
+                                                  snapshot.data != ''
+                                                      ? snapshot.data
+                                                      : "Role",
+                                                  style: TextStyle(
+                                                    color: black,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize:
+                                                        space_golden_dream,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  right: space_dodger_blue,
+                                                ),
+                                                child: Icon(
+                                                    Icons.keyboard_arrow_down),
+                                              )
+                                            ],
                                           ),
-                                          child:
-
-                                              // Text(
-                                              //   "Role",
-                                              //   style: TextStyle(
-                                              //     color: black,
-                                              //     fontWeight: FontWeight.w400,
-                                              //     fontSize: space_golden_dream,
-                                              //   ),
-                                              // ),
-                                              StreamBuilder<String>(
-                                                  stream: bloc.getUserRole,
-                                                  builder: (context, snapshot) {
-                                                    return Text(
-                                                      snapshot.hasData
-                                                          ? snapshot.data
-                                                          : "Role",
-                                                      style: TextStyle(
-                                                        color: black,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize:
-                                                            space_golden_dream,
-                                                      ),
-                                                    );
-                                                  }),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                            right: space_dodger_blue,
-                                          ),
-                                          child:
-                                              Icon(Icons.keyboard_arrow_down),
-                                        )
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // TextField(
-                          //   focusNode: _focusNode3,
-                          //   controller: _inputController3,
-                          //   onChanged: (String text) {
-                          //     bloc.updateUserRole(text);
-                          //     bloc.validateCreateProfileButton(
-                          //       _inputController1.text,
-                          //       _inputController2.text,
-                          //       text,
-                          //       _inputController4.text,
-                          //     );
-                          //   },
-                          // onEditingComplete: () => FocusScope.of(context)
-                          //     .requestFocus(_focusNode4),
-                          //   // autofocus: true,
-                          //   keyboardType: TextInputType.text,
-                          //   textInputAction: TextInputAction.next,
-                          //   style: TextStyle(
-                          //     color: black,
-                          //   ),
-                          //   decoration: InputDecoration(
-                          //     labelText: "Role (Designer, Front End, etc.)",
-                          //     labelStyle: TextStyle(color: black),
-                          //     border: OutlineInputBorder(),
-                          //     focusedBorder: OutlineInputBorder(
-                          //       borderSide:
-                          //           BorderSide(color: purple, width: 2.0),
-                          //     ),
-                          //     enabledBorder: OutlineInputBorder(
-                          //       borderSide:
-                          //           BorderSide(color: black, width: 1.0),
-                          //     ),
-                          //     fillColor: black,
-                          //   ),
-                          // ),
+                                );
+                              }),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -302,10 +323,12 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                               stream: bloc.getValidateCreateProfile,
                               builder: (context, snapshot) {
                                 return TextField(
+                                  enabled: !isLoading,
                                   focusNode: _focusNode4,
                                   controller: _inputController4,
                                   onChanged: (String text) {
                                     bloc.updateUserBio(text);
+                                    bloc.userBio = text;
                                     bloc.validateCreateProfileButton(
                                       _inputController1.text,
                                       _inputController2.text,
@@ -315,9 +338,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                   },
                                   onEditingComplete: () {
                                     if (snapshot.data == "ok") {
-                                      Navigator.of(context).pushNamed(
-                                        RoutesNames.mentorOnboarding,
-                                      );
+                                      bloc.createUser();
                                     }
                                   },
                                   maxLines: 2,
@@ -362,16 +383,10 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                         return PrimaryButton(
                           label: "Create Profile",
                           onPress: () {
-                            Navigator.of(context).pushNamed(
-                              RoutesNames.mentorOnboarding,
-                            );
-                            // Future.delayed(
-                            //     const Duration(seconds: 2),
-                            //     () => Navigator.of(context).pushNamed(
-                            //           RoutesNames.mentorOnboarding,
-                            //         ));
+                            bloc.createUser();
                           },
                           isDisable: snapshot.data,
+                          isLoading: isLoading,
                         );
                       }),
                 ),
@@ -383,12 +398,17 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
     );
   }
 
-  Future _showPicker(BuildContext context, CreateBloc bloc) {
+  Future _showPicker(BuildContext context, CreateBloc bloc,
+      {bool dataIsEmpty}) {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
         return GestureDetector(
           onTap: () {
+            if (dataIsEmpty) {
+              bloc.userRole = _chooseSTage(0);
+              bloc.updateUserRole(_chooseSTage(0));
+            }
             FocusScope.of(context).requestFocus(_focusNode4);
             Navigator.pop(context);
           },

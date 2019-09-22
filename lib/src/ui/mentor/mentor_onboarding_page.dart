@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
@@ -27,6 +28,23 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
   List<Color> colors = [Colors.orange];
 
   final IndexController controller = IndexController();
+
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent) {
+    return true; // Disable Android Backbutton.
+  }
+
   @override
   Widget build(BuildContext context) {
     TransformerPageView transformerPageView = TransformerPageView(

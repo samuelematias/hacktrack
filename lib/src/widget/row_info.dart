@@ -19,6 +19,7 @@ class RowInfo extends StatelessWidget {
   final bool isSecondaryButton;
   final Function onPress;
   final MainAxisAlignment rowMainAxisAlignment;
+  final double containerSubtitletWidth;
 
   const RowInfo({
     Key key,
@@ -31,6 +32,7 @@ class RowInfo extends StatelessWidget {
     this.buttonLabel = '',
     this.isSecondaryButton = false,
     this.rowMainAxisAlignment = MainAxisAlignment.spaceEvenly,
+    this.containerSubtitletWidth = 40,
   }) : super(key: key);
 
   @override
@@ -67,7 +69,8 @@ class RowInfo extends StatelessWidget {
                           ),
                           child: AutoResizeText(
                             text: subTitle,
-                            containerTextWidth: Metrics.pw(context, 40),
+                            containerTextWidth:
+                                Metrics.pw(context, containerSubtitletWidth),
                             textAlign: TextAlign.left,
                             textColor: black,
                             fontSize: space_dodger_blue,
