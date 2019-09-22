@@ -6,12 +6,11 @@ import '../../shared/locator.dart';
 import '../../shared/models/team_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
-import '../../themes/text/typography/h/h2.dart';
 import '../../themes/text/typography/h/h4.dart';
-import '../../themes/text/typography/p/p1.dart';
 import '../../util/custom_dialog.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
+import '../../widget/auto_resize_text.dart';
 import '../../widget/circle_icon.dart';
 import '../../widget/custom_progress_indicator.dart';
 import '../../widget/error_alert.dart';
@@ -162,6 +161,9 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
   ) {
     final bool isTheFirstPositionOfArray = index == 0;
     final bool isTheLastPositionOfArray = index + 1 == teams.length;
+    final String totalParticipants = item.users.length == 1
+        ? "${item.users.length} participant"
+        : "${item.users.length} participants";
     return Container(
       padding: EdgeInsets.only(
         top: isTheFirstPositionOfArray ? 0.0 : space_golden_dream,
@@ -187,12 +189,16 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
             iconColor: darkGrey,
             circleColor: heavyGrey,
             title: item.name,
-            subTitle: item.users.length == 1
-                ? "${item.users.length} participant"
-                : "${item.users.length} participants",
+            subTitle: totalParticipants,
             buttonLabel: "Join",
-            onPress: () =>
-                CustomDialog.show(context, _buildDialogContent(context), 170),
+            onPress: () => CustomDialog.show(
+                context,
+                _buildDialogContent(
+                  context,
+                  item.name,
+                  totalParticipants,
+                ),
+                170),
             rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
           ),
           isTheLastPositionOfArray
@@ -215,7 +221,8 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
     );
   }
 
-  Widget _buildDialogContent(BuildContext context) {
+  Widget _buildDialogContent(
+      BuildContext context, String title, String subTitle) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -250,8 +257,13 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                               padding: EdgeInsets.only(
                                 left: space_dodger_blue,
                               ),
-                              child: H2(
-                                text: "Team Fire",
+                              child: AutoResizeText(
+                                text: title,
+                                containerTextWidth: Metrics.pw(context, 40),
+                                textAlign: TextAlign.left,
+                                textColor: black,
+                                fontSize: space_golden_dream,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             Padding(
@@ -259,8 +271,13 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                                 left: space_dodger_blue,
                                 top: space_carmine,
                               ),
-                              child: P1(
-                                text: "5 participants",
+                              child: AutoResizeText(
+                                text: subTitle,
+                                containerTextWidth: Metrics.pw(context, 40),
+                                textAlign: TextAlign.left,
+                                textColor: black,
+                                fontSize: space_dodger_blue,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
