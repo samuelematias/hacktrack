@@ -14,6 +14,7 @@ class AppPreferencesService {
       "PREFERENCES_HACKATHON_NAME_KEY";
   static const String PREFERENCES_MENTOR_CODE_KEY =
       "PREFERENCES_MENTOR_CODE_KEY";
+  static const String PREFERENCES_IS_MENTOR_KEY = "PREFERENCES_IS_MENTOR_KEY";
   static const String PREFERENCES_PARTICIPANT_CODE_KEY =
       "PREFERENCES_PARTICIPANT_CODE_KEY";
   static const String PREFERENCES_USER_ID_KEY = "PREFERENCES_USER_ID_KEY";
@@ -79,6 +80,14 @@ class AppPreferencesService {
 
   String getHackathonName() {
     return _preferences.get(PREFERENCES_HACKATHON_NAME_KEY) ?? "";
+  }
+
+  bool isMentor() {
+    return _preferences.getBool(PREFERENCES_IS_MENTOR_KEY) ?? false;
+  }
+
+  setIsMentor(bool value) async {
+    return _preferences.setBool(PREFERENCES_IS_MENTOR_KEY, value);
   }
 
   setMentorCode(String mentorCode) {

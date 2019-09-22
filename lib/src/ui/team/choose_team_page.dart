@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h2.dart';
@@ -16,12 +18,15 @@ import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
 
 class ChooseTeamPage extends StatelessWidget {
+  static var storageService = locator<AppPreferencesService>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
       appBar: SecondaryAppBar(
-        pageTitle: "Shawee",
+        pageTitle: storageService.getHackathonName(),
+        hideHeaderLeft: true,
         context: context,
       ),
       body: _bodyWidget(context),
@@ -73,19 +78,6 @@ class ChooseTeamPage extends StatelessWidget {
                 ],
               ),
             ),
-            // Stack(
-            //   children: <Widget>[
-            //     Positioned(
-            //       left: leftOverFlow,
-            //       right: rightOverFlow,
-            //       bottom: bottomOverFlow,
-            //       child: SecondaryButton(
-            //         label: "Create team",
-            //         onPress: () {},
-            //       ),
-            //     ),
-            //   ],
-            // )
           ],
         ),
       ),

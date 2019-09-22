@@ -1,8 +1,28 @@
 import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:rxdart/rxdart.dart';
+
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
+import '../../shared/models/join_model.dart';
+import 'join_repository.dart';
 
 class JoinBloc extends BlocBase {
+  final JoinRepository repo;
+
+  JoinBloc(this.repo);
+
+  String joinCode;
+
+  static var storageService = locator<AppPreferencesService>();
+
+  var _isShowLoading = BehaviorSubject<bool>();
+
+  var getValidateCode = BehaviorSubject<JoinModel>();
+  JoinModel get getValidateCodeOut => getValidateCode.value;
+  Sink<JoinModel> get getValidateCodeIn => getValidateCode.sink;
+
   StreamController<int> _streamController =
       new StreamController<int>.broadcast();
 
@@ -21,12 +41,38 @@ class JoinBloc extends BlocBase {
 
   Stream<String> get getValidateJoin => _validateJoinStreamController.stream;
 
+  Stream<bool> get isShowLoading => _isShowLoading.stream;
+
   @override
   void dispose() {
     super.dispose();
     _streamController?.close();
     _joinCodeStreamController?.close();
     _validateJoinStreamController?.close();
+    _isShowLoading?.close();
+    getValidateCode?.close();
+  }
+
+  void validateCode() async {
+    try {
+      _isShowLoading.add(true);
+      var response =
+          await repo.validateCode(JoinModel(code: joinCode).toJson());
+
+      if (response.status == "ok") {
+        _isShowLoading.add(false);
+        getValidateCodeIn.add(response);
+        storageService.setHackathonIdentifier(response.identifier);
+        storageService.setHackathonName(response.name);
+        storageService.setIsMentor(response.isMentor);
+      } else {
+        _isShowLoading.add(false);
+        getValidateCode.addError(226);
+      }
+    } catch (e) {
+      _isShowLoading.add(false);
+      getValidateCode.addError(404);
+    }
   }
 
   updateJoinCode(String text) {
