@@ -8,8 +8,8 @@ import '../ui/mentor/mentor_module.dart';
 import '../ui/mentor/mentor_onboarding_page.dart';
 import '../ui/profile/profile_module.dart';
 import '../ui/start/start_module.dart';
+import '../ui/status/status_module.dart';
 import '../ui/status/status_update_page.dart';
-import '../ui/status/team_page.dart';
 import '../ui/team/create_team_page.dart';
 import '../ui/team/team_module.dart';
 
@@ -45,7 +45,7 @@ class Routes extends MaterialPageRoute {
                 return CreateTeamPage();
                 break;
               case RoutesNames.team:
-                return TeamPage();
+                return StatusModule();
                 break;
               case RoutesNames.mentorOnboarding:
                 return MentorOnboardingPage();

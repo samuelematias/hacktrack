@@ -1,18 +1,26 @@
+import 'dart:async';
+
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
+import '../../shared/models/team_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_dialog.dart';
+import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../widget/card_track_team.dart';
+import '../../widget/custom_progress_indicator.dart';
+import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
 import '../start/start_page.dart';
+import 'mentor_bloc.dart';
+import 'mentor_module.dart';
 
 class MentorDashboardPage extends StatefulWidget {
   @override
@@ -20,17 +28,38 @@ class MentorDashboardPage extends StatefulWidget {
 }
 
 class _MentorDashboardPageState extends State<MentorDashboardPage> {
+  var bloc = MentorModule.to.getBloc<MentorBloc>();
   static var storageService = locator<AppPreferencesService>();
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
+  StreamSubscription listenListTeamResponseLoading;
+  bool isLoading = false;
 
   @override
   void initState() {
+    _init();
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
+    listenListTeamResponseLoading = bloc.isShowLoading.listen((data) {
+      if (data) {
+        setState(() {
+          isLoading = data;
+        });
+      } else {
+        setState(() {
+          isLoading = data;
+        });
+      }
+    });
+  }
+
+  void _init() {
+    bloc.listTeams();
   }
 
   @override
   void dispose() {
     BackButtonInterceptor.remove(myInterceptor);
+    listenListTeamResponseLoading.cancel();
     super.dispose();
   }
 
@@ -52,113 +81,148 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
         onClickHeaderRight: () =>
             CustomDialog.show(context, _buildDialogContent(context), 110),
       ),
-      body: SingleChildScrollView(
-        child: _bodyWidget(context),
-      ),
+      body: _bodyWidget(context, bloc),
     );
   }
 
-  Widget _bodyWidget(BuildContext context) {
-    List<Map<String, dynamic>> tracks = [
-      {
-        'teamName': 'Team Fire',
-        'teamCount': "5 participants",
-        'stage': 'Ideation',
-        'status': 'Need help',
-        'updatedAt': 'Updated 1h ago by Pedro Bacelar',
-        'about': 'Having issues to generate good ideas.',
-      },
-      {
-        'teamName': 'Team 999',
-        'teamCount': "5 participants",
-        'stage': 'Product',
-        'status': 'Killin it',
-        'updatedAt': 'Updated 2h ago by João Ventura',
-        'about':
-            'Developed the UI mockups, developers working on implementing the app.',
-      },
-      {
-        'teamName': 'Team Inovative',
-        'teamCount': "5 participants",
-        'stage': 'Pitch',
-        'status': '',
-        'updatedAt': 'Updated 6h ago by Pedro Neto',
-        'about':
-            'Having difficulties with the presentation time limit, we have to cut 2min.',
-      },
-      {
-        'teamName': 'Team Inovative',
-        'teamCount': "5 participants",
-        'stage': 'Pitch',
-        'status': '',
-        'updatedAt': 'Updated 6h ago by Pedro Neto',
-        'about':
-            'Having difficulties with the presentation time limit, we have to cut 2min.',
-      },
-    ];
-
+  Widget _bodyWidget(BuildContext context, MentorBloc bloc) {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.only(
-          left: space_spring_green,
-          top: space_geraldine,
-          right: space_spring_green,
-          bottom: space_heliotrope,
-        ),
-        child: buildTeamTrackList(tracks),
+        child: StreamBuilder<List<TeamModel>>(
+            stream: bloc.getTeams,
+            builder: (context, snapshot) {
+              bool empyList =
+                  snapshot.hasError && snapshot.error.toString() == "204";
+              bool handle404 =
+                  snapshot.hasError && snapshot.error.toString() == "404";
+              return handle404
+                  ? Container(
+                      child: Column(
+                        children: <Widget>[
+                          ErrorAlert(),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: space_geraldine,
+                              // bottom: space_heliotrope,
+                            ),
+                            child: SecondaryButton(
+                              label: "Try Again",
+                              onPress: () => _init(),
+                              width: Metrics.pw(context, 95),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  : empyList
+                      ? Container()
+                      : isLoading
+                          ? Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: CustomProgressIndicator(
+                                  width: 50,
+                                  height: 50,
+                                ),
+                              ),
+                            )
+                          : buildTeamsList(context, snapshot);
+            }),
       ),
     );
   }
 
-  Widget buildTeamTrackList(List<Map<String, dynamic>> tracks) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: tracks.length,
-      itemBuilder: (context, index) {
-        var key = tracks.elementAt(index);
-        return buildTeamTrackListItem(
-          context,
-          key,
-          tracks,
-          index,
-        );
-      },
-    );
+  Widget buildTeamsList(
+      BuildContext context, AsyncSnapshot<List<TeamModel>> snapshot) {
+    if (snapshot.hasData) {
+      return Container(
+        padding: EdgeInsets.only(
+          left: space_spring_green,
+          // top: space_golden_dream,
+          right: space_spring_green,
+        ),
+        child: RefreshIndicator(
+          key: refreshKey,
+          onRefresh: refreshList,
+          color: purple,
+          backgroundColor: white,
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(),
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, index) {
+              TeamModel item = snapshot.data[index];
+              // var key = teams.elementAt(index);
+              return buildTeamsListItem(
+                context,
+                item,
+                snapshot.data,
+                index,
+              );
+            },
+          ),
+        ),
+      );
+    } else {
+      return Center(child: CustomProgressIndicator());
+    }
   }
 
-  Widget buildTeamTrackListItem(
+  Widget buildTeamsListItem(
     BuildContext context,
-    Map<String, dynamic> key,
-    List<Map<String, dynamic>> tracks,
+    TeamModel item,
+    List<TeamModel> teams,
     int index,
   ) {
     final bool isTheFirstPositionOfArray = index == 0;
-    return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(RoutesNames.team),
-      child: Container(
-        color: Colors.transparent,
-        padding: EdgeInsets.only(
-          top: isTheFirstPositionOfArray ? 0.0 : space_golden_dream,
-        ),
-        child: CardTrackTeam(
-          teamName: key["teamName"],
-          teamCount: key["teamCount"],
-          stage: key["stage"],
-          // status: key["status"],
-          updatedAt: key["updatedAt"],
-          updatedAtColor: key["status"] == '' ? darkMustard : lightGrey,
-          about: key["about"],
-          aboutColor: key["status"] == 'Killin it'
-              ? green
-              : key["status"] == 'Need help' ? red : mustard,
-          iconColor: key["status"] == 'Killin it'
-              ? green
-              : key["status"] == 'Need help' ? red : mustard,
-          circleColor: key["status"] == 'Killin it'
-              ? lightGreen
-              : key["status"] == 'Need help' ? lightRed : lightMustard,
-        ),
+    final bool isTheLastPositionOfArray = index + 1 == teams.length;
+    final String totalParticipants = item.users.length == 1
+        ? "${item.users.length} participant"
+        : "${item.users.length} participants";
+    return Container(
+      padding: EdgeInsets.only(
+        top: isTheFirstPositionOfArray ? 0.0 : space_golden_dream,
+        bottom: isTheLastPositionOfArray ? space_heliotrope : 0.0,
+      ),
+      child: Column(
+        children: <Widget>[
+          isTheFirstPositionOfArray
+              ? Padding(
+                  padding: EdgeInsets.only(
+                    top: space_geraldine,
+                  ),
+                )
+              : Container(),
+          GestureDetector(
+            onTap: () {
+              storageService.setTeamId(item.id);
+              storageService.setTeamStage(item.stage);
+              Navigator.of(context).pushNamed(RoutesNames.team);
+            },
+            child: Container(
+              width: Metrics.fullWidth(context),
+              color: Colors.green,
+              child: CardTrackTeam(
+                isDashed: true,
+                teamName: item.name,
+                teamCount: totalParticipants,
+                stage: item.stage,
+                updatedAt: item.updatedAt,
+                updatedAtColor: item.status == '' ? darkMustard : lightGrey,
+                about: '',
+                aboutColor: item.status == 'Killin it'
+                    ? green
+                    : item.status == 'Need help' ? red : mustard,
+                iconColor: item.status == 'Killin it'
+                    ? green
+                    : item.status == 'Need help' ? red : mustard,
+                circleColor: item.status == 'Killin it'
+                    ? lightGreen
+                    : item.status == 'Need help' ? lightRed : lightMustard,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -211,5 +275,12 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
         ),
       ],
     );
+  }
+
+  Future<Null> refreshList() async {
+    refreshKey.currentState?.show(atTop: false);
+    _init();
+
+    return null;
   }
 }

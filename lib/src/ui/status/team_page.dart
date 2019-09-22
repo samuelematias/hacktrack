@@ -80,7 +80,7 @@ class _TeamPageState extends State<TeamPage> {
       appBar: SecondaryAppBar(
         pageTitle: storageService.getHackathonName(),
         context: context,
-        customHeaderLeft: true,
+        customHeaderLeft: !storageService.isMentor() ? true : false,
         showHeaderRight: true,
         onClickHeaderRight: () => _init(),
         onClickCustomHeaderLeft: () =>

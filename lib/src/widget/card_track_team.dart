@@ -39,7 +39,7 @@ class CardTrackTeam extends StatelessWidget {
     return CardShadow(
       width: 300,
       child: DottedBorder(
-        dashPattern: [6, 6, 6, 6],
+        dashPattern: [50, 0, 50, 0],
         color: isDashed ? grey : Colors.transparent,
         strokeWidth: 1,
         child: Container(
@@ -90,6 +90,7 @@ class CardTrackTeam extends StatelessWidget {
                     AutoResizeText(
                       text: stage,
                       containerTextWidth: 80,
+                      maxLines: 2,
                     ),
                     AutoResizeText(
                       text: updatedAt,

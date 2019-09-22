@@ -65,6 +65,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
         // if (storageService.isMentor()) {
         //   bloc.getTeamTrack();
         // }
+        storageService.setTeamStage(data.stage);
         Navigator.pop(context);
         widget.arguments.onSuccess();
 
