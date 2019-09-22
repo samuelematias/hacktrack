@@ -13,7 +13,6 @@ import '../../themes/text/typography/h/h3.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_dialog.dart';
 import '../../util/metrics.dart';
-import '../../util/routes.dart';
 import '../../widget/card_track_team.dart';
 import '../../widget/custom_progress_indicator.dart';
 import '../../widget/error_alert.dart';
@@ -21,6 +20,7 @@ import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
 import '../start/start_page.dart';
+import '../status/status_module.dart';
 import 'mentor_bloc.dart';
 import 'mentor_module.dart';
 
@@ -244,7 +244,14 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
             onTap: () {
               storageService.setTeamId(item.id);
               storageService.setTeamStage(item.stage);
-              Navigator.of(context).pushNamed(RoutesNames.team);
+              Navigator.of(
+                context,
+              ).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => StatusModule(),
+                  ),
+                  (Route<dynamic> route) => false);
+              // Navigator.of(context).pushNamed(RoutesNames.team);
             },
             child: Container(
               width: Metrics.fullWidth(context),

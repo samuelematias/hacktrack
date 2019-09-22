@@ -15,6 +15,7 @@ import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_dialog.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
+import '../../util/slide_right_transition.dart';
 import '../../widget/card_track.dart';
 import '../../widget/content_card.dart';
 import '../../widget/custom_progress_indicator.dart';
@@ -22,6 +23,7 @@ import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
+import '../mentor/mentor_module.dart';
 import '../start/start_page.dart';
 import 'status_bloc.dart';
 import 'status_module.dart';
@@ -83,6 +85,15 @@ class _TeamPageState extends State<TeamPage> {
         customHeaderLeft: !storageService.isMentor() ? true : false,
         showHeaderRight: true,
         onClickHeaderRight: () => _init(),
+        onClickBackButton: () {
+          Navigator.of(
+            context,
+          ).pushAndRemoveUntil(
+              SlideRightRoute(
+                widget: MentorModule(),
+              ),
+              (Route<dynamic> route) => false);
+        },
         onClickCustomHeaderLeft: () =>
             CustomDialog.show(context, _buildDialogContent(context), 110),
       ),
