@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../themes/color_palette.dart';
 import '../themes/spacing/linear_scale.dart';
-import '../themes/text/typography/h/h2.dart';
 import '../util/metrics.dart';
 import 'auto_resize_text.dart';
 import 'circle_icon.dart';
@@ -20,6 +19,7 @@ class RowInfo extends StatelessWidget {
   final Function onPress;
   final MainAxisAlignment rowMainAxisAlignment;
   final double containerSubtitletWidth;
+  final double containerTitletWidth;
 
   const RowInfo({
     Key key,
@@ -33,6 +33,7 @@ class RowInfo extends StatelessWidget {
     this.isSecondaryButton = false,
     this.rowMainAxisAlignment = MainAxisAlignment.spaceEvenly,
     this.containerSubtitletWidth = 40,
+    this.containerTitletWidth = 35,
   }) : super(key: key);
 
   @override
@@ -58,8 +59,14 @@ class RowInfo extends StatelessWidget {
                         padding: EdgeInsets.only(
                           left: space_dodger_blue,
                         ),
-                        child: H2(
+                        child: AutoResizeText(
                           text: title,
+                          containerTextWidth:
+                              Metrics.pw(context, containerTitletWidth),
+                          textAlign: TextAlign.left,
+                          textColor: black,
+                          fontSize: space_golden_dream,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Padding(

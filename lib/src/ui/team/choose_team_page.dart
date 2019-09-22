@@ -13,6 +13,7 @@ import '../../util/custom_dialog.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../widget/circle_icon.dart';
+import '../../widget/custom_progress_indicator.dart';
 import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
@@ -29,12 +30,17 @@ class ChooseTeamPage extends StatefulWidget {
 class _ChooseTeamPageState extends State<ChooseTeamPage> {
   var bloc = TeamModule.to.getBloc<TeamBloc>();
   static var storageService = locator<AppPreferencesService>();
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
-    bloc.listTeams();
+    _init();
 
     super.initState();
+  }
+
+  void _init() {
+    bloc.listTeams();
   }
 
   @override
@@ -58,167 +64,153 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
   Widget _bodyWidget(BuildContext context, TeamBloc bloc) {
     return SafeArea(
       child: Container(
-        width: Metrics.fullWidth(context),
-        child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: StreamBuilder<List<TeamModel>>(
-                  stream: bloc.getTeams,
-                  builder: (context, snapshot) {
-                    bool empyList =
-                        snapshot.hasError && snapshot.error.toString() == "204";
-                    bool handle404 =
-                        snapshot.hasError && snapshot.error.toString() == "404";
-                    return Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        handle404 ? ErrorAlert() : Container(),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: space_conifer,
-                            top: space_golden_dream,
-                            right: space_conifer,
-                          ),
-                          child: H4(
-                            text: "Choose your team:",
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: space_golden_dream,
-                            top: space_geraldine,
-                            right: space_golden_dream,
-                            // bottom: space_scooter,
-                          ),
-                          child:
-                              !empyList ? buildTeamsList(context) : Container(),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: space_geraldine,
-                            bottom: space_heliotrope,
-                          ),
-                          child: SecondaryButton(
-                            label: "Create team",
-                            onPress: () => Navigator.of(context).pushNamed(
-                              RoutesNames.createTeam,
+        child: StreamBuilder<List<TeamModel>>(
+            stream: bloc.getTeams,
+            builder: (context, snapshot) {
+              bool empyList =
+                  snapshot.hasError && snapshot.error.toString() == "204";
+              bool handle404 =
+                  snapshot.hasError && snapshot.error.toString() == "404";
+              return handle404
+                  ? Container(
+                      child: Column(
+                        children: <Widget>[
+                          ErrorAlert(),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: space_geraldine,
+                              // bottom: space_heliotrope,
                             ),
-                            width: Metrics.pw(context, 95),
+                            child: SecondaryButton(
+                              label: "Try Again",
+                              onPress: () => _init(),
+                              width: Metrics.pw(context, 95),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  : !empyList
+                      ? buildTeamsList(context, snapshot)
+                      : Container(
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: space_golden_dream,
+                                  top: space_geraldine,
+                                  right: space_golden_dream,
+                                ),
+                                child: SecondaryButton(
+                                  label: "Create a Team",
+                                  onPress: () =>
+                                      Navigator.of(context).pushNamed(
+                                    RoutesNames.createTeam,
+                                  ),
+                                  width: Metrics.pw(context, 95),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    );
-                  }),
-            ),
-          ],
-        ),
+                        );
+            }),
       ),
     );
   }
 
-  Widget buildTeamsList(BuildContext context) {
-    List<Map<String, dynamic>> teams = [
-      {
-        'photo': '',
-        'onPress': () {},
-        'title': 'Team Fire',
-        'subTitle': '5 participants',
-      },
-      {
-        'photo': '',
-        'onPress': () {},
-        'title': 'Team 999',
-        'subTitle': '3 participants',
-      },
-      {
-        'photo': '',
-        'onPress': () {},
-        'title': 'Team Inovative',
-        'subTitle': '1 participants',
-      },
-      {
-        'photo': '',
-        'onPress': () {},
-        'title': 'Team Garage',
-        'subTitle': '0 participants',
-      },
-      {
-        'photo': '',
-        'onPress': () {},
-        'title': 'Team Fire',
-        'subTitle': '5 participants',
-      },
-      {
-        'photo': '',
-        'onPress': () {},
-        'title': 'Team 999',
-        'subTitle': '3 participants',
-      },
-      {
-        'photo': '',
-        'onPress': () {},
-        'title': 'Team Inovative',
-        'subTitle': '1 participants',
-      },
-      {
-        'photo': '',
-        'onPress': () {},
-        'title': 'Team Garage',
-        'subTitle': '0 participants',
-      },
-      {
-        'photo': '',
-        'onPress': () {},
-        'title': 'Team Inovative',
-        'subTitle': '1 participants',
-      },
-      {
-        'photo': '',
-        'onPress': () {},
-        'title': 'Team Garage',
-        'subTitle': '0 participants',
-      },
-    ];
-
-    return Container(
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: teams.length,
-        itemBuilder: (context, index) {
-          var key = teams.elementAt(index);
-          return buildTeamsListItem(
-            context,
-            key,
-            teams,
-            index,
-          );
-        },
-      ),
-    );
+  Widget buildTeamsList(
+      BuildContext context, AsyncSnapshot<List<TeamModel>> snapshot) {
+    if (snapshot.hasData) {
+      return Padding(
+        padding: EdgeInsets.only(
+          left: space_golden_dream,
+          // top: space_golden_dream,
+          right: space_golden_dream,
+        ),
+        child: RefreshIndicator(
+          key: refreshKey,
+          onRefresh: refreshList,
+          color: purple,
+          backgroundColor: white,
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(),
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, index) {
+              TeamModel item = snapshot.data[index];
+              // var key = teams.elementAt(index);
+              return buildTeamsListItem(
+                context,
+                item,
+                snapshot.data,
+                index,
+              );
+            },
+          ),
+        ),
+      );
+    } else {
+      return Center(child: CustomProgressIndicator());
+    }
   }
 
   Widget buildTeamsListItem(
     BuildContext context,
-    Map<String, dynamic> key,
-    List<Map<String, dynamic>> teams,
+    TeamModel item,
+    List<TeamModel> teams,
     int index,
   ) {
     final bool isTheFirstPositionOfArray = index == 0;
-    return Padding(
+    final bool isTheLastPositionOfArray = index + 1 == teams.length;
+    return Container(
       padding: EdgeInsets.only(
         top: isTheFirstPositionOfArray ? 0.0 : space_golden_dream,
+        bottom: isTheLastPositionOfArray ? space_heliotrope : 0.0,
       ),
-      child: RowInfo(
-        icon: Icons.group,
-        iconColor: darkGrey,
-        circleColor: heavyGrey,
-        title: key['title'],
-        subTitle: key['subTitle'],
-        buttonLabel: "Join",
-        onPress: () =>
-            CustomDialog.show(context, _buildDialogContent(context), 170),
-        rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        children: <Widget>[
+          isTheFirstPositionOfArray
+              ? Padding(
+                  padding: EdgeInsets.only(
+                    left: space_conifer,
+                    top: space_golden_dream,
+                    right: space_conifer,
+                    bottom: space_golden_dream,
+                  ),
+                  child: H4(
+                    text: "Choose your team:",
+                  ),
+                )
+              : Container(),
+          RowInfo(
+            icon: Icons.group,
+            iconColor: darkGrey,
+            circleColor: heavyGrey,
+            title: item.name,
+            subTitle: item.users.length == 1
+                ? "${item.users.length} participant"
+                : "${item.users.length} participants",
+            buttonLabel: "Join",
+            onPress: () =>
+                CustomDialog.show(context, _buildDialogContent(context), 170),
+            rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          isTheLastPositionOfArray
+              ? Padding(
+                  padding: EdgeInsets.only(
+                    top: space_geraldine,
+                    // bottom: space_heliotrope,
+                  ),
+                  child: SecondaryButton(
+                    label: "Create team",
+                    onPress: () => Navigator.of(context).pushNamed(
+                      RoutesNames.createTeam,
+                    ),
+                    width: Metrics.pw(context, 95),
+                  ),
+                )
+              : Container(),
+        ],
       ),
     );
   }
@@ -309,5 +301,12 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
         ),
       ],
     );
+  }
+
+  Future<Null> refreshList() async {
+    refreshKey.currentState?.show(atTop: false);
+    _init();
+
+    return null;
   }
 }
