@@ -264,15 +264,15 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
                 updatedAt: item.updatedAt,
                 updatedAtColor: item.status == '' ? darkMustard : lightGrey,
                 about: '',
-                aboutColor: item.status == 'Killin it'
+                aboutColor: item.status == 'ok'
                     ? green
-                    : item.status == 'Need help' ? red : mustard,
-                iconColor: item.status == 'Killin it'
+                    : item.status == 'nok' ? red : mustard,
+                iconColor: item.status == 'ok'
                     ? green
-                    : item.status == 'Need help' ? red : mustard,
-                circleColor: item.status == 'Killin it'
+                    : item.status == 'nok' ? red : mustard,
+                circleColor: item.status == 'ok'
                     ? lightGreen
-                    : item.status == 'Need help' ? lightRed : lightMustard,
+                    : item.status == 'nok' ? lightRed : lightMustard,
               ),
             ),
           ),
