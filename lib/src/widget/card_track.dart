@@ -94,33 +94,41 @@ class CardTrack extends StatelessWidget {
         ),
         child: GestureDetector(
           onTap: () {},
-          child: photo != null
-              ? Container(
-                  padding: EdgeInsets.all(space_carmine),
-                  child: CachedNetworkImage(
-                    imageUrl: photo.toString(),
-                    fit: BoxFit.fitWidth,
-                    width: space_purple_rain,
-                    height: space_purple_rain,
-                    placeholder: (context, photo) => Container(
-                      width: space_portage,
-                      height: space_portage,
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.image,
+          child: GestureDetector(
+            onTap: () {},
+            child: photo != null
+                ? Container(
+                    padding: EdgeInsets.all(space_carmine),
+                    child:
+
+                        // PhotoView(
+                        //   imageProvider: NetworkImage(photo.toString()),
+                        // )
+                        CachedNetworkImage(
+                      imageUrl: photo.toString(),
+                      fit: BoxFit.fitWidth,
+                      width: space_purple_rain,
+                      height: space_purple_rain,
+                      placeholder: (context, photo) => Container(
+                        width: space_portage,
+                        height: space_portage,
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.image,
+                        ),
+                      ),
+                      errorWidget: (context, photo, error) => Container(
+                        width: space_portage,
+                        height: space_portage,
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.image,
+                        ),
                       ),
                     ),
-                    errorWidget: (context, photo, error) => Container(
-                      width: space_portage,
-                      height: space_portage,
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.image,
-                      ),
-                    ),
-                  ),
-                )
-              : Container(),
+                  )
+                : Container(),
+          ),
         ),
       ),
     );
