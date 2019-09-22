@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,6 +34,8 @@ class TeamPage extends StatefulWidget {
 class _TeamPageState extends State<TeamPage> {
   var bloc = StatusModule.to.getBloc<StatusBloc>();
   static var storageService = locator<AppPreferencesService>();
+  StreamSubscription listenTeamTrackResponseLoading;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -42,11 +46,23 @@ class _TeamPageState extends State<TeamPage> {
 
   void _init() {
     bloc.getTeamTrack();
+    listenTeamTrackResponseLoading = bloc.isShowLoading.listen((data) {
+      if (data) {
+        setState(() {
+          isLoading = data;
+        });
+      } else {
+        setState(() {
+          isLoading = data;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     BackButtonInterceptor.remove(myInterceptor);
+    listenTeamTrackResponseLoading.cancel();
     super.dispose();
   }
 
@@ -66,15 +82,20 @@ class _TeamPageState extends State<TeamPage> {
         context: context,
         customHeaderLeft: true,
         showHeaderRight: true,
-        onClickHeaderRight: () => Navigator.of(context).pushNamed(
-          RoutesNames.statusUpdate,
-          arguments: arguments,
-        ),
+        onClickHeaderRight: () => _init(),
         onClickCustomHeaderLeft: () =>
             CustomDialog.show(context, _buildDialogContent(context), 110),
       ),
       body: SingleChildScrollView(
         child: _bodyWidget(context, bloc),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context).pushNamed(
+          RoutesNames.statusUpdate,
+          arguments: arguments,
+        ),
+        child: Icon(Icons.send),
+        backgroundColor: purple,
       ),
     );
   }
@@ -183,34 +204,46 @@ class _TeamPageState extends State<TeamPage> {
                               ],
                             ),
                           )
-                        : !empyList
-                            ? buildTrackList(context, snapshot)
-                            : Container();
+                        : empyList
+                            ? Container()
+                            : isLoading
+                                ? Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: 10),
+                                      child: CustomProgressIndicator(
+                                        width: 50,
+                                        height: 50,
+                                      ),
+                                    ),
+                                  )
+                                : buildTrackList(context, snapshot);
                   }),
             ),
-            Padding(
-              padding: EdgeInsets.all(space_geraldine),
-              child: Column(
-                children: <Widget>[
-                  H4(
-                    text: "When you finish your ideation, press the",
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.refresh,
-                        color: purple,
-                      ),
-                      H4(
-                        text: "button to move to the next phase.",
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            !isLoading
+                ? Padding(
+                    padding: EdgeInsets.all(space_geraldine),
+                    child: Column(
+                      children: <Widget>[
+                        H4(
+                          text: "When you finish your ideation, press the",
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.send,
+                              color: purple,
+                            ),
+                            H4(
+                              text: "button to move to the next phase.",
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
