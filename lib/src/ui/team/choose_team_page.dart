@@ -6,11 +6,12 @@ import '../../shared/locator.dart';
 import '../../shared/models/team_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
+import '../../themes/text/typography/h/h2.dart';
 import '../../themes/text/typography/h/h4.dart';
+import '../../themes/text/typography/p/p1.dart';
 import '../../util/custom_dialog.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
-import '../../widget/auto_resize_text.dart';
 import '../../widget/circle_icon.dart';
 import '../../widget/custom_progress_indicator.dart';
 import '../../widget/error_alert.dart';
@@ -184,14 +185,8 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                   ),
                 )
               : Container(),
-          RowInfo(
-            icon: Icons.group,
-            iconColor: darkGrey,
-            circleColor: heavyGrey,
-            title: item.name,
-            subTitle: totalParticipants,
-            buttonLabel: "Join",
-            onPress: () => CustomDialog.show(
+          GestureDetector(
+            onTap: () => CustomDialog.show(
                 context,
                 _buildDialogContent(
                   context,
@@ -199,7 +194,26 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                   totalParticipants,
                 ),
                 170),
-            rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Container(
+              color: Colors.transparent,
+              child: RowInfo(
+                icon: Icons.group,
+                iconColor: darkGrey,
+                circleColor: heavyGrey,
+                title: item.name,
+                subTitle: totalParticipants,
+                buttonLabel: "Join",
+                onPress: () => CustomDialog.show(
+                    context,
+                    _buildDialogContent(
+                      context,
+                      item.name,
+                      totalParticipants,
+                    ),
+                    170),
+                rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+            ),
           ),
           isTheLastPositionOfArray
               ? Padding(
@@ -257,13 +271,8 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                               padding: EdgeInsets.only(
                                 left: space_dodger_blue,
                               ),
-                              child: AutoResizeText(
+                              child: H2(
                                 text: title,
-                                containerTextWidth: Metrics.pw(context, 40),
-                                textAlign: TextAlign.left,
-                                textColor: black,
-                                fontSize: space_golden_dream,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             Padding(
@@ -271,13 +280,8 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                                 left: space_dodger_blue,
                                 top: space_carmine,
                               ),
-                              child: AutoResizeText(
+                              child: P1(
                                 text: subTitle,
-                                containerTextWidth: Metrics.pw(context, 40),
-                                textAlign: TextAlign.left,
-                                textColor: black,
-                                fontSize: space_dodger_blue,
-                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
