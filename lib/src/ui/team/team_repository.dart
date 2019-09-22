@@ -49,4 +49,22 @@ class TeamRepository {
       // throw (e.responde.data); // if the API response a error.
     }
   }
+
+  Future<TeamModel> createTrack(Map<String, dynamic> data) async {
+    try {
+      var response = await _client.post("/tracks", data: data);
+      return TeamModel.fromJson(response.data);
+    } on DioError catch (e) {
+      throw (e.message);
+    }
+  }
+
+  Future<TeamModel> uploadPhoto(Map<String, dynamic> data) async {
+    try {
+      var response = await _client.post("/upload", data: data);
+      return TeamModel.fromJson(response.data);
+    } on DioError catch (e) {
+      throw (e.message);
+    }
+  }
 }

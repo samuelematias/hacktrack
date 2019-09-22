@@ -140,24 +140,20 @@ class TeamBloc extends BlocBase {
     }
   }
 
-  void getTeamTrack({String temId}) async {
-    print('LOL 2');
+  void getTeamTrack({String teamId}) async {
     try {
       _isShowLoading.add(true);
       var response = await repo
           .getTeamTrack(TeamModel(teamId: storageService.getTeamId()).toJson());
 
       if (response.length > 0) {
-        print('LOL 3 ${response.length}');
         _isShowLoading.add(false);
         getTracksIn.add(response);
       } else {
-        print('LOL 4 ${response.length}');
         _isShowLoading.add(false);
         getTracks.addError(204);
       }
     } catch (e) {
-      print('LOL $e');
       _isShowLoading.add(false);
       getTracks.addError(404);
     }

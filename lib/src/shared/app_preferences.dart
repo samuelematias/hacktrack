@@ -20,6 +20,7 @@ class AppPreferencesService {
   static const String PREFERENCES_TEAM_ID_KEY = "PREFERENCES_TEAM_ID_KEY";
   static const String PREFERENCES_TEAM_STAGE_KEY = "PREFERENCES_TEAM_STAGE_KEY";
   static const String PREFERENCES_USER_ID_KEY = "PREFERENCES_USER_ID_KEY";
+  static const String PREFERENCES_TRACK_ID_KEY = "PREFERENCES_TRACK_ID_KEY";
   static const String PREFERENCES_ACCESS_BY_CODE_KEY =
       "PREFERENCES_USER_ID_KEY";
 
@@ -125,6 +126,14 @@ class AppPreferencesService {
 
   String getTeamStage() {
     return _preferences.getString(PREFERENCES_TEAM_STAGE_KEY) ?? "";
+  }
+
+  setTrackId(String trackid) {
+    return _preferences.setString(PREFERENCES_TRACK_ID_KEY, trackid);
+  }
+
+  String getTrackId() {
+    return _preferences.getString(PREFERENCES_TRACK_ID_KEY) ?? "";
   }
 
   setUserId(String userId) {

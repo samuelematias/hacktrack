@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class TeamModel {
   String stage;
   List<String> users;
@@ -16,6 +18,12 @@ class TeamModel {
   List<String> files;
   String comment;
   String status;
+  File file;
+  String trackId;
+  int size;
+  String url;
+  String track;
+  String key;
 
   TeamModel({
     this.stage,
@@ -35,6 +43,12 @@ class TeamModel {
     this.files,
     this.comment,
     this.status,
+    this.file,
+    this.trackId,
+    this.size,
+    this.url,
+    this.track,
+    this.key,
   });
 
   TeamModel.fromJson(Map<String, dynamic> json) {
@@ -58,6 +72,10 @@ class TeamModel {
         : json['files'].length > 0 ? json['files'].cast<String>() : [];
     comment = json['comment'];
     status = json['status'];
+    size = json['size'];
+    url = json['url'];
+    track = json['track'];
+    key = json['key'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +85,11 @@ class TeamModel {
     data['teamId'] = this.teamId;
     data['hackaId'] = this.hackaId;
     data['name'] = this.name;
+    data['stage'] = this.stage;
+    data['status'] = this.status;
+    data['comment'] = this.comment;
+    data['file'] = this.file;
+    data['trackId'] = this.trackId;
     return data;
   }
 }

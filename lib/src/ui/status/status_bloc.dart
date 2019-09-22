@@ -2,8 +2,35 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:rxdart/rxdart.dart';
+
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
+import '../../shared/models/team_model.dart';
+import '../team/team_repository.dart';
 
 class StatusBloc extends BlocBase {
+  final TeamRepository repo;
+
+  StatusBloc(this.repo);
+
+  String trackStage = "";
+  String trackStatus = "";
+  String trackComment = "";
+  File photo1;
+
+  static var storageService = locator<AppPreferencesService>();
+
+  var _isShowLoading = BehaviorSubject<bool>();
+
+  var createTrackPost = BehaviorSubject<TeamModel>();
+  TeamModel get createTrackPostValue => createTrackPost.value;
+  Sink<TeamModel> get createTrackPostIn => createTrackPost.sink;
+
+  var uploadPhotoPost = BehaviorSubject<TeamModel>();
+  TeamModel get uploadPhotoPostValue => uploadPhotoPost.value;
+  Sink<TeamModel> get uploadPhotoPostIn => uploadPhotoPost.sink;
+
   StreamController<int> _streamController =
       new StreamController<int>.broadcast();
 
@@ -51,6 +78,8 @@ class StatusBloc extends BlocBase {
 
   Stream<String> get getStatusNok => _statusNokStreamController.stream;
 
+  Stream<bool> get isShowLoading => _isShowLoading.stream;
+
   @override
   void dispose() {
     super.dispose();
@@ -61,6 +90,52 @@ class StatusBloc extends BlocBase {
     _stageStreamController?.close();
     _statusOkStreamController?.close();
     _statusNokStreamController?.close();
+    _isShowLoading?.close();
+    createTrackPost?.close();
+    uploadPhotoPost?.close();
+  }
+
+  void createTrack() async {
+    try {
+      _isShowLoading.add(true);
+      var response = await repo.createTrack(TeamModel(
+        teamId: storageService.getTeamId(),
+        stage: trackStage,
+        status: trackStatus,
+        comment: trackComment,
+      ).toJson());
+      if (response.id != null) {
+        storageService.setTrackId(response.id);
+        _isShowLoading.add(false);
+        createTrackPostIn.add(response);
+      } else {
+        _isShowLoading.add(false);
+        createTrackPost.addError(404);
+      }
+    } catch (e) {
+      _isShowLoading.add(false);
+      createTrackPost.addError(404);
+    }
+  }
+
+  void uploadFoto(File _image) async {
+    try {
+      _isShowLoading.add(true);
+      var response = await repo.uploadPhoto(TeamModel(
+        file: _image,
+        trackId: storageService.getTrackId(),
+      ).toJson());
+      if (response.id != null) {
+        _isShowLoading.add(false);
+        uploadPhotoPostIn.add(response);
+      } else {
+        _isShowLoading.add(false);
+        uploadPhotoPost.addError(404);
+      }
+    } catch (e) {
+      _isShowLoading.add(false);
+      uploadPhotoPost.addError(404);
+    }
   }
 
   updatePhotoOne(File photo) {
@@ -95,10 +170,16 @@ class StatusBloc extends BlocBase {
     }
   }
 
-  validateUpdateButton(String comments) {
-    final bool commentsIsValid =
-        comments.isEmpty ? false : comments.trim().length > 0 ? true : false;
+  validateUpdateButton(String stage, String status, String comments) {
+    final bool stageIsValid =
+        stage.isEmpty ? false : stage.trim().length > 0 ? true : false;
+    final bool statusIsValid =
+        status.isEmpty ? false : status.trim().length > 0 ? true : false;
+    final bool commentsIsValid = comments == null || comments.isEmpty
+        ? false
+        : comments.trim().length > 0 ? true : false;
 
-    addValidateUpdate(commentsIsValid ? "ok" : "nok");
+    addValidateUpdate(
+        stageIsValid && statusIsValid && commentsIsValid ? "ok" : "nok");
   }
 }

@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../shared/app_preferences.dart';
+import '../../shared/locator.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
@@ -13,6 +16,7 @@ import '../../widget/dashed_box.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import 'status_bloc.dart';
+import 'status_module.dart';
 
 class StatusUpdatePage extends StatefulWidget {
   @override
@@ -20,6 +24,8 @@ class StatusUpdatePage extends StatefulWidget {
 }
 
 class _StatusUpdatePageState extends State<StatusUpdatePage> {
+  var bloc = StatusModule.to.getBloc<StatusBloc>();
+  static var storageService = locator<AppPreferencesService>();
   final _inputController = TextEditingController();
   double leftOverFlow = 20.0;
   double rightOverFlow = 20.0;
@@ -28,6 +34,9 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
   File _secondImage;
   File _thirdImage;
   File _fourthImage;
+  StreamSubscription listenStatusUpdateResponse;
+  StreamSubscription listenStatusUpdateResponseLoading;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -45,12 +54,36 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
         }
       },
     );
+
+    listenStatusUpdateResponse = bloc.createTrackPost.listen((data) {
+      if (data.id != null) {
+        // if (storageService.isMentor()) {
+        //   bloc.getTeamTrack();
+        // }
+
+        if (_firstImage != null) {
+          bloc.uploadFoto(_firstImage);
+        }
+      }
+    });
+    listenStatusUpdateResponseLoading = bloc.isShowLoading.listen((data) {
+      if (data) {
+        setState(() {
+          isLoading = data;
+        });
+      } else {
+        setState(() {
+          isLoading = data;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     KeyboardVisibilityNotification().dispose();
-    StatusBloc().dispose();
+    listenStatusUpdateResponse.cancel();
+    listenStatusUpdateResponseLoading.cancel();
     super.dispose();
   }
 
@@ -62,7 +95,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
         pageTitle: "Team Fire",
         context: context,
       ),
-      body: _bodyWidget(context, StatusBloc()),
+      body: _bodyWidget(context, bloc),
     );
   }
 
@@ -153,7 +186,15 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             GestureDetector(
-                              onTap: () => bloc.handleStatus("ok", ""),
+                              onTap: () {
+                                bloc.trackStatus = "ok";
+                                bloc.handleStatus("ok", "");
+                                bloc.validateUpdateButton(
+                                  bloc.trackStage,
+                                  "ok",
+                                  bloc.trackComment,
+                                );
+                              },
                               child: StreamBuilder<String>(
                                   stream: bloc.getStatusOk,
                                   builder: (context, snapshot) {
@@ -205,7 +246,15 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () => bloc.handleStatus("", "nok"),
+                              onTap: () {
+                                bloc.trackStatus = "nok";
+                                bloc.handleStatus("", "nok");
+                                bloc.validateUpdateButton(
+                                  bloc.trackStage,
+                                  "nok",
+                                  bloc.trackComment,
+                                );
+                              },
                               child: StreamBuilder<String>(
                                   stream: bloc.getStatusNok,
                                   builder: (context, snapshot) {
@@ -260,12 +309,17 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                           controller: _inputController,
                           onChanged: (String text) {
                             bloc.updateComment(text);
-                            bloc.validateUpdateButton(text);
+                            bloc.trackComment = text;
+                            bloc.validateUpdateButton(
+                              bloc.trackStage,
+                              bloc.trackStatus,
+                              text == null ? "" : text,
+                            );
                           },
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.done,
                           maxLines: 3,
-                          maxLength: 200,
+                          maxLength: 100,
                           style: TextStyle(
                             color: black,
                           ),
@@ -433,8 +487,9 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                         builder: (context, snapshot) {
                           return PrimaryButton(
                             label: "Update",
-                            onPress: () {},
+                            onPress: () => bloc.createTrack(),
                             isDisable: snapshot.data,
+                            isLoading: isLoading,
                           );
                         }),
                   ),
@@ -482,7 +537,13 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
               itemExtent: 30, //height of each item
               looping: false,
               onSelectedItemChanged: (int index) {
+                bloc.trackStage = _chooseSTage(index);
                 bloc.addStage(_chooseSTage(index));
+                bloc.validateUpdateButton(
+                  _chooseSTage(index),
+                  bloc.trackStatus,
+                  bloc.trackComment,
+                );
               },
             ),
           ),
