@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:crypto/crypto.dart';
+import 'package:path/path.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../shared/app_preferences.dart';
@@ -144,34 +147,39 @@ class StatusBloc extends BlocBase {
     }
   }
 
-  void uploadFoto(File _image) async {
-    try {
-      _isShowLoading.add(true);
-      var response = await repo.uploadPhoto(TeamModel(
-        file: _image,
-        trackId: storageService.getTrackId(),
-      ).toJson());
-      if (response.id != null) {
-        _isShowLoading.add(false);
-        uploadPhotoPostIn.add(response);
-      } else {
-        _isShowLoading.add(false);
-        uploadPhotoPost.addError(404);
-      }
-    } catch (e) {
-      _isShowLoading.add(false);
-      uploadPhotoPost.addError(404);
-    }
-  }
+  //Send to thee API. (NOT WORK)
+  // void uploadFoto(File _image) async {
+  //   var formData = FormData.from({
+  //     "trackId": storageService.getTrackId(),
+  //     "file": await MultipartFile.fromPath(
+  //       "file",
+  //       _image.path,
+  //     ),
+  //   });
 
-  // void uploadPhotoToS3() async{
   //   try {
-  //     var response = await _uploadToS3.send(
-  //       imagePathInS3Bucket:
-  //     );
-  //   } catch (e) {
-  //   }
+  //     var response = await repo.uploadPhoto(formData);
+  //   } catch (e) {}
   // }
+
+  void uploadPhotoToS3(File _image) async {
+    String nameFile =
+        '${md5.convert(utf8.encode(_image.path))}${extension(_image.path)}';
+    try {
+      _uploadToS3
+          .send(
+        imagePathInS3Bucket: '$nameFile',
+        imagePathOfPhone: _image.path,
+        nameFile: nameFile,
+        onSendProgress: (double val) => print('VAALLL $val'),
+      )
+          .then((link) {
+        print('LINK  $link');
+      }).catchError((r) {
+        print('ERROR  $r');
+      });
+    } catch (e) {}
+  }
 
   updatePhotoOne(File photo) {
     //On iOS, the Bloc dont add on stream.

@@ -9,21 +9,21 @@ import 'package:flutter/widgets.dart';
 import '../../shared/S3Constants.dart';
 
 class UploadToS3 {
-  Future<String> send(
-      {@required String imagePathOfPhone,
-      @required String imagePathInS3Bucket,
-      @required String nameFile,
-      @required Function onSendProgress}) async {
+  Future<String> send({
+    @required String imagePathOfPhone,
+    @required String imagePathInS3Bucket,
+    @required String nameFile,
+    @required Function onSendProgress,
+  }) async {
     final file = File(imagePathOfPhone);
     final length = await file.length();
-
     final policy = Policy.fromS3PreSignedPost(
         imagePathInS3Bucket, BUCKET_NAME_S3, ACCESS_ID_S3, 15, length,
         region: REGION_S3);
     final key = SigV4.calculateSigningKey(
         SECRED_ID_S3, policy.datetime, REGION_S3, 's3');
     final signature = SigV4.calculateSignature(key, policy.encode());
-
+    print('VEIO 1');
     Dio dio = Dio();
     FormData formData = FormData.from({
       'key': policy.key,
@@ -35,10 +35,10 @@ class UploadToS3 {
       'X-Amz-Signature': signature,
       'file': UploadFileInfo(file, nameFile)
     });
-    // await dio.postUri(Uri.parse(S3_ENDPOINT),
-    //     data: formData,
-    //     onSendProgress: (int p, int t) => onSendProgress(p / t));
-    // return '$S3_ENDPOINT/$imagePathInS3Bucket';
+    await dio.postUri(Uri.parse(S3_ENDPOINT),
+        data: formData,
+        onSendProgress: (int p, int t) => onSendProgress(p / t));
+    return '$S3_ENDPOINT/$imagePathInS3Bucket';
   }
 }
 

@@ -1,1 +1,1 @@
-const BASE_URL = "https://hacktrack-open.herokuapp.com/";
+const BASE_URL = "https://hacktrack-open.herokuapp.com";

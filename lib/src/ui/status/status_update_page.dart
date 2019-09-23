@@ -70,7 +70,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
         widget.arguments.onSuccess();
 
         if (_firstImage != null) {
-          bloc.uploadFoto(_firstImage);
+          // bloc.uploadFoto(_firstImage);
         }
       }
     });
@@ -495,7 +495,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                         builder: (context, snapshot) {
                           return PrimaryButton(
                             label: "Update",
-                            onPress: () => bloc.createTrack(),
+                            onPress: () => bloc.uploadPhotoToS3(_firstImage),
                             isDisable: snapshot.data,
                             isLoading: isLoading,
                           );

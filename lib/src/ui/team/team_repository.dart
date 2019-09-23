@@ -59,12 +59,12 @@ class TeamRepository {
     }
   }
 
-  Future<TeamModel> uploadPhoto(Map<String, dynamic> data) async {
-    try {
-      var response = await _client.post("/upload", data: data);
-      return TeamModel.fromJson(response.data);
-    } on DioError catch (e) {
-      throw (e.message);
-    }
-  }
+  // Future<TeamModel> uploadPhoto(FormData data) async {
+  //   try {
+  //     var response = await _client.post("/files/upload", data: data);
+  //     return TeamModel.fromJson(response.data);
+  //   } on DioError catch (e) {
+  //     throw (e.message);
+  //   }
+  // }
 }
