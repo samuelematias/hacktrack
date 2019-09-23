@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:hacktrack/src/ui/status/uploaderS3.dart';
 
 import '../../app_module.dart';
 import '../../shared/custom_dio/custom_dio.dart';
@@ -10,7 +11,9 @@ import 'team_page.dart';
 class StatusModule extends ModuleWidget {
   @override
   List<Bloc> get blocs => [
-        Bloc((i) => StatusBloc(StatusModule.to.getDependency<TeamRepository>()),
+        Bloc(
+            (i) => StatusBloc(
+                StatusModule.to.getDependency<TeamRepository>(), UploadToS3()),
             singleton: false),
       ];
 

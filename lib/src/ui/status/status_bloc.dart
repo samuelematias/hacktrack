@@ -8,11 +8,13 @@ import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
 import '../../shared/models/team_model.dart';
 import '../team/team_repository.dart';
+import 'uploaderS3.dart';
 
 class StatusBloc extends BlocBase {
   final TeamRepository repo;
+  final UploadToS3 _uploadToS3;
 
-  StatusBloc(this.repo);
+  StatusBloc(this.repo, this._uploadToS3);
 
   String trackStage = "";
   String trackStatus = "";
@@ -161,6 +163,15 @@ class StatusBloc extends BlocBase {
       uploadPhotoPost.addError(404);
     }
   }
+
+  // void uploadPhotoToS3() async{
+  //   try {
+  //     var response = await _uploadToS3.send(
+  //       imagePathInS3Bucket:
+  //     );
+  //   } catch (e) {
+  //   }
+  // }
 
   updatePhotoOne(File photo) {
     //On iOS, the Bloc dont add on stream.
