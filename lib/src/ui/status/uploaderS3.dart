@@ -32,7 +32,7 @@ class UploadToS3 {
       'X-Amz-Date': policy.datetime,
       'Policy': policy.encode(),
       'X-Amz-Signature': signature,
-      'file': UploadFileInfo(file, nameFile)
+      'file': UploadFileInfo(file, nameFile),
     });
     await dio.postUri(Uri.parse(S3_ENDPOINT),
         data: formData,

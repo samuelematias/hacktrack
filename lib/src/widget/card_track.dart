@@ -74,14 +74,16 @@ class CardTrack extends StatelessWidget {
                 fontWeight: FontWeight.normal,
               ),
             ),
-            GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 5.0,
-              children: _buildContentList(photos, context),
-            ),
+            photos.length > 0
+                ? GridView.count(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 5.0,
+                    children: _buildContentList(photos, context),
+                  )
+                : Container(),
           ],
         ),
       ),

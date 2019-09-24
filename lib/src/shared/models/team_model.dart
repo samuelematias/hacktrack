@@ -90,6 +90,7 @@ class TeamModel {
     data['comment'] = this.comment;
     data['file'] = this.file;
     data['trackId'] = this.trackId;
+    data['files'] = this.files;
     return data;
   }
 }

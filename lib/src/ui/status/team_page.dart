@@ -4,6 +4,7 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../data/helper_contents.dart';
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
 import '../../shared/models/team_model.dart';
@@ -115,39 +116,6 @@ class _TeamPageState extends State<TeamPage> {
   }
 
   Widget _bodyWidget(BuildContext context, StatusBloc bloc) {
-    List<Map<String, dynamic>> contents = [
-      {
-        "photo":
-            "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-        'title': 'Content 1',
-        "link": "https://flutter.dev"
-      },
-      {
-        "photo":
-            "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-        'title': 'Content 2',
-        "link": "https://flutter.dev"
-      },
-      {
-        "photo":
-            "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-        'title': 'Content 3',
-        "link": "https://flutter.dev"
-      },
-      {
-        "photo":
-            "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-        'title': 'Content 4',
-        "link": "https://flutter.dev"
-      },
-      {
-        "photo":
-            "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-        'title': 'Content 5',
-        "link": "https://flutter.dev"
-      },
-    ];
-
     return SafeArea(
       child: Container(
         child: Column(
@@ -181,7 +149,8 @@ class _TeamPageState extends State<TeamPage> {
                       )
                     : Container(),
                 !isMentor
-                    ? _buildContentHorizontalList(context, contents)
+                    ? _buildContentHorizontalList(context,
+                        _handleHelperContentType(storageService.getTeamStage()))
                     : Container(),
                 Padding(
                   padding: EdgeInsets.only(
@@ -420,5 +389,23 @@ class _TeamPageState extends State<TeamPage> {
         ),
       ],
     );
+  }
+
+  List<Map<String, dynamic>> _handleHelperContentType(String stage) {
+    if (stage == 'Ideation') {
+      return ideationContents;
+    } else if (stage == 'Problem Definition') {
+      return problemContents;
+    } else if (stage == 'Validation') {
+      return validationContents;
+    } else if (stage == 'Solution') {
+      return solutionContents;
+    } else if (stage == 'Product') {
+      return productContents;
+    } else if (stage == 'Pitch') {
+      return pitchContents;
+    } else {
+      return ideationContents;
+    }
   }
 }

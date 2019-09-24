@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../themes/color_palette.dart';
+import '../themes/images_gallery.dart';
 import '../themes/spacing/linear_scale.dart';
+import 'auto_resize_text.dart';
 import 'card_shadow.dart';
 
 class ContentCard extends StatelessWidget {
@@ -39,8 +42,8 @@ class ContentCard extends StatelessWidget {
                 width: space_scooter,
                 height: space_scooter,
                 alignment: Alignment.center,
-                child: Icon(
-                  Icons.image,
+                child: Image(
+                  image: AssetImage(imgTutorial3),
                 ),
               )
             : Container(
@@ -79,10 +82,14 @@ class ContentCard extends StatelessWidget {
         top: space_carmine,
         bottom: space_spring_green,
       ),
-      child: Text(
-        title ?? '',
+      child: AutoResizeText(
+        text: title ?? '',
+        containerTextWidth: 80,
+        maxLines: 2,
+        fontSize: space_golden_dream,
+        textColor: purple,
         textAlign: TextAlign.center,
-        style: Theme.of(context).accentTextTheme.button,
+        fontWeight: FontWeight.w600,
       ),
     );
   }

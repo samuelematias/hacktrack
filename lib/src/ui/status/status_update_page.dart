@@ -66,12 +66,13 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
         //   bloc.getTeamTrack();
         // }
         storageService.setTeamStage(data.stage);
+        FocusScope.of(context).requestFocus(FocusNode());
         Navigator.pop(context);
         widget.arguments.onSuccess();
 
-        if (_firstImage != null) {
-          // bloc.uploadFoto(_firstImage);
-        }
+        // if (_firstImage != null) {
+        //   // bloc.uploadFoto(_firstImage);
+        // }
       }
     });
     listenStatusUpdateResponseLoading = bloc.isShowLoading.listen((data) {
@@ -102,6 +103,12 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
       appBar: SecondaryAppBar(
         pageTitle: storageService.getTeamName(),
         context: context,
+        onClickBackButton: !isLoading
+            ? () {
+                FocusScope.of(context).requestFocus(FocusNode());
+                Navigator.pop(context);
+              }
+            : () {},
       ),
       body: _bodyWidget(context, bloc),
     );
@@ -134,7 +141,9 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () => _showPicker(context, bloc),
+                        onTap: !isLoading
+                            ? () => _showPicker(context, bloc)
+                            : () {},
                         child: Container(
                           margin: EdgeInsets.only(
                             left: space_golden_dream,
@@ -145,7 +154,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                           decoration: BoxDecoration(
                             color: Colors.transparent,
                             border: Border.all(
-                              color: grey,
+                              color: !isLoading ? grey : shadownGrey,
                               width: 2,
                             ),
                             borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -194,15 +203,17 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             GestureDetector(
-                              onTap: () {
-                                bloc.trackStatus = "ok";
-                                bloc.handleStatus("ok", "");
-                                bloc.validateUpdateButton(
-                                  bloc.trackStage,
-                                  "ok",
-                                  bloc.trackComment,
-                                );
-                              },
+                              onTap: !isLoading
+                                  ? () {
+                                      bloc.trackStatus = "ok";
+                                      bloc.handleStatus("ok", "");
+                                      bloc.validateUpdateButton(
+                                        bloc.trackStage,
+                                        "ok",
+                                        bloc.trackComment,
+                                      );
+                                    }
+                                  : () {},
                               child: StreamBuilder<String>(
                                   stream: bloc.getStatusOk,
                                   builder: (context, snapshot) {
@@ -254,15 +265,17 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                bloc.trackStatus = "nok";
-                                bloc.handleStatus("", "nok");
-                                bloc.validateUpdateButton(
-                                  bloc.trackStage,
-                                  "nok",
-                                  bloc.trackComment,
-                                );
-                              },
+                              onTap: !isLoading
+                                  ? () {
+                                      bloc.trackStatus = "nok";
+                                      bloc.handleStatus("", "nok");
+                                      bloc.validateUpdateButton(
+                                        bloc.trackStage,
+                                        "nok",
+                                        bloc.trackComment,
+                                      );
+                                    }
+                                  : () {},
                               child: StreamBuilder<String>(
                                   stream: bloc.getStatusNok,
                                   builder: (context, snapshot) {
@@ -314,6 +327,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                           right: space_golden_dream,
                         ),
                         child: TextField(
+                          enabled: !isLoading,
                           controller: _inputController,
                           onChanged: (String text) {
                             bloc.updateComment(text);
@@ -359,14 +373,18 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   GestureDetector(
-                                    onTap: () {
-                                      return CustomImagePicker.show(context,
-                                          (File imageCropped) {
-                                        setState(() {
-                                          _firstImage = imageCropped;
-                                        });
-                                      }, false);
-                                    },
+                                    onTap: !isLoading
+                                        ? () {
+                                            return CustomImagePicker.show(
+                                                context, (File imageCropped) {
+                                              bloc.arrayPhotos
+                                                  .add(imageCropped);
+                                              setState(() {
+                                                _firstImage = imageCropped;
+                                              });
+                                            }, false);
+                                          }
+                                        : () {},
                                     child: DashedBox(
                                       child: Center(
                                         child: _firstImage != null
@@ -388,15 +406,22 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      return CustomImagePicker.show(context,
-                                          (File imageCropped) {
-                                        setState(() {
-                                          _secondImage = imageCropped;
-                                        });
-                                      }, false);
-                                    },
+                                    onTap: _firstImage != null && !isLoading
+                                        ? () {
+                                            return CustomImagePicker.show(
+                                                context, (File imageCropped) {
+                                              bloc.arrayPhotos
+                                                  .add(imageCropped);
+                                              setState(() {
+                                                _secondImage = imageCropped;
+                                              });
+                                            }, false);
+                                          }
+                                        : () {},
                                     child: DashedBox(
+                                      dasheColor: _firstImage != null
+                                          ? grey
+                                          : shadownGrey,
                                       child: Center(
                                         child: _secondImage != null
                                             ? Container(
@@ -411,21 +436,33 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                               )
                                             : Icon(
                                                 Icons.image,
-                                                color: grey,
+                                                color: _firstImage != null
+                                                    ? grey
+                                                    : shadownGrey,
                                               ),
                                       ),
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      return CustomImagePicker.show(context,
-                                          (File imageCropped) {
-                                        setState(() {
-                                          _thirdImage = imageCropped;
-                                        });
-                                      }, false);
-                                    },
+                                    onTap: _firstImage != null &&
+                                            _secondImage != null &&
+                                            !isLoading
+                                        ? () {
+                                            return CustomImagePicker.show(
+                                                context, (File imageCropped) {
+                                              bloc.arrayPhotos
+                                                  .add(imageCropped);
+                                              setState(() {
+                                                _thirdImage = imageCropped;
+                                              });
+                                            }, false);
+                                          }
+                                        : () {},
                                     child: DashedBox(
+                                      dasheColor: _firstImage != null &&
+                                              _secondImage != null
+                                          ? grey
+                                          : shadownGrey,
                                       child: Center(
                                         child: _thirdImage != null
                                             ? Container(
@@ -440,21 +477,36 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                               )
                                             : Icon(
                                                 Icons.image,
-                                                color: grey,
+                                                color: _firstImage != null &&
+                                                        _secondImage != null
+                                                    ? grey
+                                                    : shadownGrey,
                                               ),
                                       ),
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      return CustomImagePicker.show(context,
-                                          (File imageCropped) {
-                                        setState(() {
-                                          _fourthImage = imageCropped;
-                                        });
-                                      }, false);
-                                    },
+                                    onTap: _firstImage != null &&
+                                            _secondImage != null &&
+                                            _thirdImage != null &&
+                                            !isLoading
+                                        ? () {
+                                            return CustomImagePicker.show(
+                                                context, (File imageCropped) {
+                                              bloc.arrayPhotos
+                                                  .add(imageCropped);
+                                              setState(() {
+                                                _fourthImage = imageCropped;
+                                              });
+                                            }, false);
+                                          }
+                                        : () {},
                                     child: DashedBox(
+                                      dasheColor: _firstImage != null &&
+                                              _secondImage != null &&
+                                              _thirdImage != null
+                                          ? grey
+                                          : shadownGrey,
                                       child: Center(
                                         child: _fourthImage != null
                                             ? Container(
@@ -469,7 +521,11 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                               )
                                             : Icon(
                                                 Icons.image,
-                                                color: grey,
+                                                color: _firstImage != null &&
+                                                        _secondImage != null &&
+                                                        _thirdImage != null
+                                                    ? grey
+                                                    : shadownGrey,
                                               ),
                                       ),
                                     ),
@@ -495,7 +551,13 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                         builder: (context, snapshot) {
                           return PrimaryButton(
                             label: "Update",
-                            onPress: () => bloc.uploadPhotoToS3(_firstImage),
+                            onPress: () {
+                              if (_firstImage != null) {
+                                bloc.uploadPhotoToS3();
+                              } else {
+                                bloc.createTrack();
+                              }
+                            },
                             isDisable: snapshot.data,
                             isLoading: isLoading,
                           );

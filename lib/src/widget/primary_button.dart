@@ -31,7 +31,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isDisable == "ok" ? onPress : () {},
+      onTap: isDisable == "ok" || !isLoading ? onPress : () {},
       child: Container(
         width: width,
         height: height,

@@ -23,6 +23,8 @@ class StatusBloc extends BlocBase {
   String trackStatus = "";
   String trackComment = "";
   File photo1;
+  List arrayPhotos = [];
+  List<String> arrayPhotosLinkUploaded = [];
 
   static var storageService = locator<AppPreferencesService>();
 
@@ -124,14 +126,44 @@ class StatusBloc extends BlocBase {
     }
   }
 
+  void uploadPhotoToS3() async {
+    _isShowLoading.add(true);
+    arrayPhotos.forEach((_image) {
+      String nameFile =
+          '${md5.convert(utf8.encode(_image.path))}${extension(_image.path)}';
+      try {
+        _uploadToS3
+            .send(
+          imagePathInS3Bucket: 'images/$nameFile',
+          imagePathOfPhone: _image.path,
+          nameFile: nameFile,
+          onSendProgress: (double val) => {},
+        )
+            .then((link) {
+          arrayPhotosLinkUploaded.add(link);
+          if (arrayPhotosLinkUploaded.length == arrayPhotos.length) {
+            return createTrack();
+          }
+          // arrayPhotos.add(link);
+        }).catchError((r) {
+          _isShowLoading.add(false);
+          createTrackPost.addError(404);
+        });
+      } catch (e) {
+        _isShowLoading.add(false);
+        createTrackPost.addError(404);
+      }
+    });
+  }
+
   void createTrack() async {
     try {
-      _isShowLoading.add(true);
       var response = await repo.createTrack(TeamModel(
         teamId: storageService.getTeamId(),
         stage: trackStage,
         status: trackStatus,
         comment: trackComment,
+        files: arrayPhotosLinkUploaded,
       ).toJson());
       if (response.id != null) {
         storageService.setTrackId(response.id);
@@ -139,52 +171,12 @@ class StatusBloc extends BlocBase {
         createTrackPostIn.add(response);
       } else {
         _isShowLoading.add(false);
-        createTrackPost.addError(404);
+        createTrackPost.addError(response);
       }
     } catch (e) {
       _isShowLoading.add(false);
-      createTrackPost.addError(404);
+      createTrackPost.addError(e);
     }
-  }
-
-  //Send to thee API. (NOT WORK)
-  // void uploadFoto(File _image) async {
-  //   var formData = FormData.from({
-  //     "trackId": storageService.getTrackId(),
-  //     "file": await MultipartFile.fromPath(
-  //       "file",
-  //       _image.path,
-  //     ),
-  //   });
-
-  //   try {
-  //     var response = await repo.uploadPhoto(formData);
-  //   } catch (e) {}
-  // }
-
-  void uploadPhotoToS3(File _image) async {
-    String nameFile =
-        '${md5.convert(utf8.encode(_image.path))}${extension(_image.path)}';
-    try {
-      _uploadToS3
-          .send(
-            imagePathInS3Bucket: '$nameFile',
-            imagePathOfPhone: _image.path,
-            nameFile: nameFile,
-            onSendProgress: (double val) => print('VAALLL $val'),
-          )
-          .then((link) {})
-          .catchError((r) {});
-    } catch (e) {}
-  }
-
-  updatePhotoOne(File photo) {
-    //On iOS, the Bloc dont add on stream.
-    addPhotoOne(photo);
-    //handle errors:
-    // (text == null || text == "")
-    //     ? _textController.sink.addError("Invalid value entered!")
-    //     : _textController.sink.add(text);
   }
 
   updateComment(String text) {

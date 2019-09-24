@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../themes/text/typography/p/p5.dart';
 
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
 import '../../themes/images_gallery.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
-import '../../themes/text/typography/p/p1.dart';
+import '../../themes/text/typography/p/p5.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../widget/empty_appbar.dart';
