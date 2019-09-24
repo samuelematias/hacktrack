@@ -227,7 +227,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                   onEditingComplete: () {
                                     FocusScope.of(context)
                                         .requestFocus(FocusNode());
-                                    Timer(Duration(seconds: 1), () {
+                                    Timer(Duration(milliseconds: 500), () {
                                       Navigator.of(context).push(
                                         CustomModal(
                                           context: context,
