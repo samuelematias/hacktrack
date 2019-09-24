@@ -188,7 +188,7 @@ class StatusBloc extends BlocBase {
   }
 
   updateStage(String text) {
-    addStage(text.isEmpty ? "Ideation" : text);
+    addStage(text);
   }
 
   handleStatus(String buttonOk, String buttonNok) {

@@ -12,7 +12,9 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_image_picker.dart';
+import '../../util/custom_modal.dart';
 import '../../util/metrics.dart';
+import '../../widget/auto_resize_text.dart';
 import '../../widget/dashed_box.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
@@ -142,7 +144,13 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                       ),
                       GestureDetector(
                         onTap: !isLoading
-                            ? () => _showPicker(context, bloc)
+                            ? () => Navigator.of(context).push(
+                                  CustomModal(
+                                    context: context,
+                                    modalContent: modalContent(),
+                                    overlayHeight: 50.0,
+                                  ),
+                                )
                             : () {},
                         child: Container(
                           margin: EdgeInsets.only(
@@ -176,7 +184,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                                             return H4(
                                               text: snapshot.hasData
                                                   ? snapshot.data
-                                                  : "Ideation",
+                                                  : "Choose your phase",
                                             );
                                           }),
                                     ),
@@ -573,71 +581,64 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
     );
   }
 
-  Future _showPicker(BuildContext context, StatusBloc bloc) {
-    return showModalBottomSheet(
-      context: context,
-      builder: (BuildContext builder) {
-        return GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            color: Colors.transparent,
-            child: CupertinoPicker(
-              backgroundColor: Colors.white,
-              children: <Widget>[
-                Container(
-                  child: H4(
-                    text: "Ideation",
-                  ),
-                ),
-                H4(
-                  text: "Problem Definition",
-                ),
-                H4(
-                  text: "Validation",
-                ),
-                H4(
-                  text: "Solution",
-                ),
-                H4(
-                  text: "Product",
-                ),
-                H4(
-                  text: "Pitch",
-                ),
-              ],
-              itemExtent: 30, //height of each item
-              looping: false,
-              onSelectedItemChanged: (int index) {
-                bloc.trackStage = _chooseSTage(index);
-                bloc.addStage(_chooseSTage(index));
-                bloc.validateUpdateButton(
-                  _chooseSTage(index),
-                  bloc.trackStatus,
-                  bloc.trackComment,
-                );
-              },
-            ),
-          ),
-        );
-      },
+  Widget modalContent() {
+    List stages = [
+      "Ideation",
+      "Problem Definition",
+      "Validation",
+      "Solution",
+      "Product",
+      "Pitch",
+    ];
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(space_fire_bush),
+        child: GridView.count(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          crossAxisCount: 3,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 5.0,
+          children: _buildContentList(stages, context),
+        ),
+      ),
     );
   }
 
-  String _chooseSTage(int index) {
-    if (index == 0) {
-      return "Ideation";
-    } else if (index == 1) {
-      return "Problem Definition";
-    } else if (index == 2) {
-      return "Validation";
-    } else if (index == 3) {
-      return "Solution";
-    } else if (index == 4) {
-      return "Product";
-    } else if (index == 5) {
-      return "Pitch";
-    } else {
-      return "Ideation";
-    }
+  List<Widget> _buildContentList(List stages, BuildContext context) {
+    return stages.map((data) => _buildContentListItem(data)).toList();
+  }
+
+  Widget _buildContentListItem(String stage) {
+    return GestureDetector(
+      onTap: () {
+        bloc.trackStage = stage;
+        bloc.addStage(stage);
+        bloc.validateUpdateButton(
+          stage,
+          bloc.trackStatus,
+          bloc.trackComment,
+        );
+        Navigator.pop(context);
+      },
+      child: Container(
+        width: 100,
+        height: 50,
+        decoration: BoxDecoration(
+          color: red,
+          borderRadius: BorderRadius.all(Radius.circular(3)),
+          border: Border.all(color: purple, width: 2),
+        ),
+        child: AutoResizeText(
+          text: stage,
+          containerTextWidth: 50,
+          textAlign: TextAlign.center,
+          textColor: bloc.trackStage == stage ? purple : black,
+          maxLines: 2,
+          fontSize: space_golden_dream,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
   }
 }

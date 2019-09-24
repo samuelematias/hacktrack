@@ -94,7 +94,7 @@ class CustomModal extends PageRouteBuilder {
                           width: Metrics.size(context, 40.0),
                           height: Metrics.size(context, 4.0),
                           decoration: BoxDecoration(
-                            color: lightGrey,
+                            color: grey,
                             borderRadius: BorderRadius.all(Radius.circular(6)),
                           ),
                         ),
