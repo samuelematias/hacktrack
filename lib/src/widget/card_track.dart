@@ -1,10 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 
 import '../themes/color_palette.dart';
 import '../themes/spacing/linear_scale.dart';
+import '../ui/team/show_photo.dart';
+import '../util/metrics.dart';
+import '../util/scale_route_transition.dart';
 import 'auto_resize_text.dart';
 import 'card_shadow.dart';
+import 'custom_progress_indicator.dart';
 
 class CardTrack extends StatelessWidget {
   final String photo;
@@ -75,7 +80,7 @@ class CardTrack extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 5.0,
-              children: _buildContentList(photos),
+              children: _buildContentList(photos, context),
             ),
           ],
         ),
@@ -83,54 +88,63 @@ class CardTrack extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildContentList(List photos) {
-    return photos.map((data) => _buildContentListItem(data)).toList();
+  List<Widget> _buildContentList(List photos, BuildContext context) {
+    return photos.map((data) => _buildContentListItem(data, context)).toList();
   }
 
-  Widget _buildContentListItem(String photo) {
+  Widget _buildContentListItem(String photo, BuildContext context) {
     return Card(
       child: Padding(
         padding: EdgeInsets.only(
           top: space_dodger_blue,
         ),
         child: GestureDetector(
-          onTap: () {},
-          child: GestureDetector(
-            onTap: () {},
-            child: photo != null
-                ? Container(
-                    padding: EdgeInsets.all(space_carmine),
-                    child:
-
-                        // PhotoView(
-                        //   imageProvider: NetworkImage(photo.toString()),
-                        // )
-                        CachedNetworkImage(
-                      imageUrl: photo.toString(),
-                      fit: BoxFit.fitWidth,
-                      width: space_purple_rain,
-                      height: space_purple_rain,
-                      placeholder: (context, photo) => Container(
-                        width: space_portage,
-                        height: space_portage,
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.image,
-                        ),
-                      ),
-                      errorWidget: (context, photo, error) => Container(
-                        width: space_portage,
-                        height: space_portage,
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.image,
-                        ),
+          onTap: () => Navigator.push(
+            context,
+            ScaleRoute(
+                widget: ShowPhoto(
+              photoLink: photo.toString(),
+            )),
+          ),
+          child: photo != null
+              ? Container(
+                  padding: EdgeInsets.all(space_carmine),
+                  child: CachedNetworkImage(
+                    imageUrl: photo.toString(),
+                    fit: BoxFit.fitWidth,
+                    width: space_purple_rain,
+                    height: space_purple_rain,
+                    placeholder: (context, photo) => Container(
+                      width: space_portage,
+                      height: space_portage,
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.image,
                       ),
                     ),
-                  )
-                : Container(),
-          ),
+                    errorWidget: (context, photo, error) => Container(
+                      width: space_portage,
+                      height: space_portage,
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.image,
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
         ),
+      ),
+    );
+  }
+
+  Widget modalPhotoView(String photo, BuildContext context) {
+    return Container(
+      height: Metrics.ph(context, 50),
+      child: PhotoView(
+        loadingChild: CustomProgressIndicator(),
+        imageProvider: NetworkImage(photo.toString()),
+        // backgroundDecoration: Bpx,
       ),
     );
   }

@@ -60,7 +60,6 @@ class MentorBloc extends BlocBase {
         getTeams.addError(204);
       }
     } catch (e) {
-      print("LOL $e");
       _isShowLoading.add(false);
       getTeams.addError(404);
     }

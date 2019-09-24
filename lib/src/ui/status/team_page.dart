@@ -38,6 +38,7 @@ class _TeamPageState extends State<TeamPage> {
   static var storageService = locator<AppPreferencesService>();
   StreamSubscription listenTeamTrackResponseLoading;
   bool isLoading = false;
+  bool isMentor = storageService.isMentor();
 
   @override
   void initState() {
@@ -80,7 +81,9 @@ class _TeamPageState extends State<TeamPage> {
     return Scaffold(
       backgroundColor: white,
       appBar: SecondaryAppBar(
-        pageTitle: storageService.getHackathonName(),
+        pageTitle: !isMentor
+            ? storageService.getHackathonName()
+            : storageService.getTeamName(),
         context: context,
         customHeaderLeft: !storageService.isMentor() ? true : false,
         showHeaderRight: true,
@@ -105,7 +108,7 @@ class _TeamPageState extends State<TeamPage> {
           RoutesNames.statusUpdate,
           arguments: arguments,
         ),
-        child: Icon(Icons.send),
+        child: Icon(Icons.add),
         backgroundColor: purple,
       ),
     );
@@ -153,7 +156,10 @@ class _TeamPageState extends State<TeamPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
+                Container(
+                  width: Metrics.fullWidth(context),
+                  alignment:
+                      !isMentor ? Alignment.centerLeft : Alignment.center,
                   padding: EdgeInsets.only(
                     left: space_dodger_blue,
                     top: space_golden_dream,
@@ -163,16 +169,20 @@ class _TeamPageState extends State<TeamPage> {
                     text: "${storageService.getTeamStage()} PHASE",
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: space_dodger_blue,
-                    top: space_dodger_blue,
-                  ),
-                  child: H4(
-                    text: "Helpful content for this phase:",
-                  ),
-                ),
-                _buildContentHorizontalList(context, contents),
+                !isMentor
+                    ? Padding(
+                        padding: EdgeInsets.only(
+                          left: space_dodger_blue,
+                          top: space_dodger_blue,
+                        ),
+                        child: H4(
+                          text: "Helpful content for this phase:",
+                        ),
+                      )
+                    : Container(),
+                !isMentor
+                    ? _buildContentHorizontalList(context, contents)
+                    : Container(),
                 Padding(
                   padding: EdgeInsets.only(
                     left: space_dodger_blue,
@@ -243,7 +253,7 @@ class _TeamPageState extends State<TeamPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Icon(
-                              Icons.send,
+                              Icons.add,
                               color: purple,
                             ),
                             H4(

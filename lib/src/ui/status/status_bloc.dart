@@ -168,16 +168,13 @@ class StatusBloc extends BlocBase {
     try {
       _uploadToS3
           .send(
-        imagePathInS3Bucket: '$nameFile',
-        imagePathOfPhone: _image.path,
-        nameFile: nameFile,
-        onSendProgress: (double val) => print('VAALLL $val'),
-      )
-          .then((link) {
-        print('LINK  $link');
-      }).catchError((r) {
-        print('ERROR  $r');
-      });
+            imagePathInS3Bucket: '$nameFile',
+            imagePathOfPhone: _image.path,
+            nameFile: nameFile,
+            onSendProgress: (double val) => print('VAALLL $val'),
+          )
+          .then((link) {})
+          .catchError((r) {});
     } catch (e) {}
   }
 

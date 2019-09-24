@@ -244,6 +244,7 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
             onTap: () {
               storageService.setTeamId(item.id);
               storageService.setTeamStage(item.stage);
+              storageService.setTeamName(item.name);
               Navigator.of(
                 context,
               ).pushAndRemoveUntil(
@@ -273,6 +274,19 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
                 circleColor: item.status == 'ok'
                     ? lightGreen
                     : item.status == 'nok' ? lightRed : lightMustard,
+                onPress: () {
+                  storageService.setTeamId(item.id);
+                  storageService.setTeamStage(item.stage);
+                  storageService.setTeamName(item.name);
+                  Navigator.of(
+                    context,
+                  ).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => StatusModule(),
+                      ),
+                      (Route<dynamic> route) => false);
+                  // Navigator.of(context).pushNamed(RoutesNames.team);
+                },
               ),
             ),
           ),

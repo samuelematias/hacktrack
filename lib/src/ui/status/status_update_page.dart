@@ -100,7 +100,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
     return Scaffold(
       backgroundColor: white,
       appBar: SecondaryAppBar(
-        pageTitle: "Team Fire",
+        pageTitle: storageService.getTeamName(),
         context: context,
       ),
       body: _bodyWidget(context, bloc),

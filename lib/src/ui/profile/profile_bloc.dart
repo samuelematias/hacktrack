@@ -97,6 +97,8 @@ class ProfileBloc extends BlocBase {
 
       if (response.id != null) {
         _isShowLoading.add(false);
+        storageService.setIsUserLogged(isMentorCode);
+        storageService.setIsMentor(isMentorCode);
         storageService.setUserId(response.id);
         userPostIn.add(response);
       } else {

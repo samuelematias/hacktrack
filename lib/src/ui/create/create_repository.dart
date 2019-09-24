@@ -19,7 +19,6 @@ class CreateRepository {
   }
 
   Future<UserModel> createUser(Map<String, dynamic> data) async {
-    print('Data: $data');
     try {
       var response = await _client.post("/users", data: data);
       return UserModel.fromJson(response.data);

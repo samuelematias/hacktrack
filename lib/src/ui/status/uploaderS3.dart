@@ -23,7 +23,6 @@ class UploadToS3 {
     final key = SigV4.calculateSigningKey(
         SECRED_ID_S3, policy.datetime, REGION_S3, 's3');
     final signature = SigV4.calculateSignature(key, policy.encode());
-    print('VEIO 1');
     Dio dio = Dio();
     FormData formData = FormData.from({
       'key': policy.key,

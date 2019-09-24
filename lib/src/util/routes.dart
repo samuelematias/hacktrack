@@ -11,6 +11,7 @@ import '../ui/start/start_module.dart';
 import '../ui/status/status_module.dart';
 import '../ui/status/status_update_page.dart';
 import '../ui/team/create_team_page.dart';
+import '../ui/team/show_photo.dart';
 import '../ui/team/team_module.dart';
 
 class Routes extends MaterialPageRoute {
@@ -57,6 +58,9 @@ class Routes extends MaterialPageRoute {
                 StatusUpdateArguments arguments = settings.arguments;
                 return StatusUpdatePage(arguments: arguments);
                 break;
+              case RoutesNames.showPhoto:
+                return ShowPhoto();
+                break;
               default:
                 break;
             }
@@ -77,4 +81,5 @@ class RoutesNames {
   static const String mentorOnboarding = '/mentor/onboarding';
   static const String mentorDashboard = '/mentor/dashboard';
   static const String statusUpdate = '/status';
+  static const String showPhoto = '/phoyo';
 }

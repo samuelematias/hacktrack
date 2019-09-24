@@ -19,6 +19,7 @@ class CardTrackTeam extends StatelessWidget {
   final Color circleColor;
   final String teamName;
   final String teamCount;
+  final Function onPress;
 
   const CardTrackTeam({
     Key key,
@@ -33,6 +34,7 @@ class CardTrackTeam extends StatelessWidget {
     this.circleColor = const Color(0xfff8dbb4),
     this.teamName = '',
     this.teamCount = '',
+    this.onPress,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class CardTrackTeam extends StatelessWidget {
         color: isDashed ? grey : Colors.transparent,
         strokeWidth: 1,
         child: Container(
+          color: Colors.transparent,
           padding: EdgeInsets.only(
             top: space_golden_dream,
             bottom: space_golden_dream,
@@ -72,7 +75,7 @@ class CardTrackTeam extends StatelessWidget {
                     title: teamName,
                     subTitle: teamCount,
                     buttonLabel: "Open",
-                    onPress: () {},
+                    onPress: onPress,
                     rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                     containerSubtitletWidth: 30,
                   ),

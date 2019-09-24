@@ -72,7 +72,6 @@ class TeamBloc extends BlocBase {
       _isShowLoading.add(true);
       var response = await repo.getTeams(
           TeamModel(hackaId: storageService.getHackathonId()).toJson());
-      print('LOL? ${response.length}');
       if (response.length > 0) {
         _isShowLoading.add(false);
         getTeamsIn.add(response);
@@ -81,7 +80,6 @@ class TeamBloc extends BlocBase {
         getTeams.addError(204);
       }
     } catch (e) {
-      print("LOL $e");
       _isShowLoading.add(false);
       getTeams.addError(404);
     }
@@ -95,7 +93,9 @@ class TeamBloc extends BlocBase {
         teamId: teamId,
       ).toJson());
       if (response.id != null) {
+        storageService.setTeamName(response.name);
         storageService.setIsUserLogged(true);
+        storageService.setIsMentor(false);
         storageService.setTeamId(teamId);
         storageService.setTeamStage(response.stage);
         _isShowLoading.add(false);
@@ -120,7 +120,9 @@ class TeamBloc extends BlocBase {
         name: teamName,
       ).toJson());
       if (response.id != null) {
+        storageService.setTeamName(response.name);
         storageService.setIsUserLogged(true);
+        storageService.setIsMentor(false);
         storageService.setTeamId(response.id);
         storageService.setTeamStage(response.stage);
         _isShowLoading.add(false);

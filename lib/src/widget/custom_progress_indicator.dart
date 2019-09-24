@@ -7,9 +7,10 @@ class CustomProgressIndicator extends SizedBox {
     double width = 30.0,
     double height = 30.0,
     double strokeWidth = 2.0,
+    Color bg = Colors.white,
   }) : super(
           child: CircularProgressIndicator(
-            backgroundColor: Colors.white,
+            backgroundColor: bg,
             valueColor: AlwaysStoppedAnimation<Color>(purple),
             strokeWidth: strokeWidth,
           ),

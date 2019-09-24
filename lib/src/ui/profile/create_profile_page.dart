@@ -62,7 +62,6 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
     listenUserResponse = bloc.userPost.listen((data) {
       if (data.id != null) {
         if (storageService.isMentor()) {
-          storageService.setIsUserLogged(true);
           Navigator.of(
             context,
           ).pushAndRemoveUntil(
