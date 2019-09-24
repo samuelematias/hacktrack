@@ -42,6 +42,9 @@ class _StartPageState extends State<StartPage> {
             Center(
               child: Image(
                 image: AssetImage(logo),
+                fit: BoxFit.contain,
+                // width: 500,
+                // height: 100,
               ),
             ),
             Column(
@@ -50,7 +53,7 @@ class _StartPageState extends State<StartPage> {
                   padding: EdgeInsets.all(space_spring_green),
                   child: H1(
                     text:
-                        "Welcome to HackTrack, the ultimate hackathon manager.",
+                        "Welcome to HackTrack,  the ultimate hackathon manager.",
                   ),
                 ),
                 Padding(
