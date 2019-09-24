@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
@@ -9,14 +10,17 @@ import '../../shared/models/team_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/images_gallery.dart';
 import '../../themes/spacing/linear_scale.dart';
+import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/h/h3.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../util/custom_dialog.dart';
+import '../../util/custom_modal.dart';
 import '../../util/metrics.dart';
 import '../../widget/card_track_team.dart';
 import '../../widget/custom_progress_indicator.dart';
 import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
+import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
 import '../start/start_page.dart';
@@ -35,6 +39,8 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
   var refreshKey = GlobalKey<RefreshIndicatorState>();
   StreamSubscription listenListTeamResponseLoading;
   bool isLoading = false;
+  String _mentorsCode = storageService.getMentorCode();
+  String _participantsCode = storageService.getParticipantCode();
 
   @override
   void initState() {
@@ -77,9 +83,17 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
         pageTitle: storageService.getHackathonName(),
         context: context,
         showHeaderRight: true,
-        hideHeaderLeft: true,
+        customHeaderLeft: true,
+        iconHeaderLeft: Icons.content_paste,
         iconHeaderRight: Icons.settings,
         iconHeaderRightColor: grey,
+        onClickCustomHeaderLeft: () => Navigator.of(context).push(
+          CustomModal(
+            context: context,
+            modalContent: modalContent(),
+            overlayHeight: 50.0,
+          ),
+        ),
         onClickHeaderRight: () =>
             CustomDialog.show(context, _buildDialogContent(context), 110),
       ),
@@ -355,5 +369,73 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
     _init();
 
     return null;
+  }
+
+  Widget modalContent() {
+    return Center(
+      child: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                left: space_conifer,
+                top: space_golden_dream,
+                right: space_conifer,
+              ),
+              child: H1(
+                text: "Invite people using these access codes:",
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: space_dodger_blue,
+                top: space_golden_dream,
+                right: space_dodger_blue,
+              ),
+              child: RowInfo(
+                icon: Icons.star,
+                iconColor: mustard,
+                circleColor: lightMustard,
+                title: "Mentors:",
+                subTitle: _mentorsCode,
+                buttonLabel: "Copy",
+                isSecondaryButton: true,
+                rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                onPress: () {
+                  Clipboard.setData(
+                    ClipboardData(text: _mentorsCode),
+                  );
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: space_dodger_blue,
+                top: space_fire_bush,
+                right: space_dodger_blue,
+              ),
+              child: RowInfo(
+                icon: Icons.person,
+                iconColor: purple,
+                circleColor: lightPurple,
+                title: "Participants:",
+                subTitle: _participantsCode,
+                buttonLabel: "Copy",
+                isSecondaryButton: true,
+                rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                onPress: () {
+                  Clipboard.setData(
+                    ClipboardData(text: _participantsCode),
+                  );
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

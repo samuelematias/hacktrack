@@ -462,6 +462,9 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
         );
 
         Navigator.pop(context);
+        Timer(Duration(milliseconds: 500), () {
+          FocusScope.of(context).requestFocus(_focusNode4);
+        });
       },
       child: Container(
         width: 100,

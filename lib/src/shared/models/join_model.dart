@@ -5,6 +5,8 @@ class JoinModel {
   bool isMentor;
   String status;
   String code;
+  String mentorLink;
+  String participantLink;
 
   JoinModel({
     this.id,
@@ -13,6 +15,8 @@ class JoinModel {
     this.isMentor,
     this.status,
     this.code,
+    this.mentorLink,
+    this.participantLink,
   });
 
   JoinModel.fromJson(Map<String, dynamic> json) {
@@ -21,6 +25,8 @@ class JoinModel {
     identifier = json['identifier'];
     isMentor = json['isMentor'];
     status = json['status'];
+    mentorLink = json['mentorLink'];
+    participantLink = json['participantLink'];
   }
 
   Map<String, dynamic> toJson() {

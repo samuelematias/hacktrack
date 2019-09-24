@@ -14,6 +14,7 @@ class SecondaryAppBar extends AppBar {
     Function onClickBackButton,
     Function onClickCustomHeaderLeft,
     Function onClickHeaderRight,
+    IconData iconHeaderLeft = Icons.settings,
     IconData iconHeaderRight = Icons.refresh,
     Color iconHeaderRightColor = const Color(0xff3071ff),
   }) : super(
@@ -31,7 +32,7 @@ class SecondaryAppBar extends AppBar {
                     customHeaderLeft
                         ? IconButton(
                             icon: Icon(
-                              Icons.settings,
+                              iconHeaderLeft,
                               color: grey,
                             ),
                             onPressed: () => onClickCustomHeaderLeft(),
