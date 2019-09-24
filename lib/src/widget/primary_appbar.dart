@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../themes/color_palette.dart';
-import '../themes/spacing/linear_scale.dart';
+import '../themes/images_gallery.dart';
 
 class PrimaryAppBar extends AppBar {
   PrimaryAppBar({
@@ -13,10 +13,10 @@ class PrimaryAppBar extends AppBar {
           iconTheme: IconThemeData(
             color: grey, //change your color here
           ),
-          title: Icon(
-            Icons.computer,
-            color: purple,
-            size: space_portage,
+          title: Image(
+            image: AssetImage(imgLogoSymbol),
+            fit: BoxFit.contain,
+            height: 30,
           ),
           leading: IconButton(
             icon: Icon(

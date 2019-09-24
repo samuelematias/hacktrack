@@ -10,7 +10,9 @@ import '../../shared/models/user_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h4.dart';
+import '../../util/custom_modal.dart';
 import '../../util/metrics.dart';
+import '../../widget/auto_resize_text.dart';
 import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
@@ -222,12 +224,19 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                       _inputController4.text,
                                     );
                                   },
-                                  onEditingComplete: () => _showPicker(
-                                    context,
-                                    bloc,
-                                    dataIsEmpty:
-                                        snapshot.data == '' ? true : false,
-                                  ),
+                                  onEditingComplete: () {
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
+                                    Timer(Duration(seconds: 1), () {
+                                      Navigator.of(context).push(
+                                        CustomModal(
+                                          context: context,
+                                          modalContent: modalContent(),
+                                          overlayHeight: 50.0,
+                                        ),
+                                      );
+                                    });
+                                  },
                                   // autofocus: true,
                                   keyboardType: TextInputType.emailAddress,
                                   textInputAction: TextInputAction.next,
@@ -264,12 +273,12 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                 return GestureDetector(
                                   onTap: !isLoading
                                       ? () {
-                                          _showPicker(
-                                            context,
-                                            bloc,
-                                            dataIsEmpty: snapshot.data == ''
-                                                ? true
-                                                : false,
+                                          Navigator.of(context).push(
+                                            CustomModal(
+                                              context: context,
+                                              modalContent: modalContent(),
+                                              overlayHeight: 50.0,
+                                            ),
                                           );
                                         }
                                       : () {},
@@ -303,7 +312,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                                 child: Text(
                                                   snapshot.data != ''
                                                       ? snapshot.data
-                                                      : "Role",
+                                                      : "Choose your Role",
                                                   style: TextStyle(
                                                     color: black,
                                                     fontWeight: FontWeight.w400,
@@ -413,68 +422,65 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
     );
   }
 
-  Future _showPicker(BuildContext context, ProfileBloc bloc,
-      {bool dataIsEmpty}) {
-    return showModalBottomSheet(
-      context: context,
-      builder: (BuildContext builder) {
-        return GestureDetector(
-          onTap: () {
-            // if (dataIsEmpty) {
-            //   bloc.userRole = _chooseSTage(0);
-            //   bloc.updateUserRole(_chooseSTage(0));
-            // }
-            FocusScope.of(context).requestFocus(_focusNode4);
-            Navigator.pop(context);
-          },
-          child: Container(
-            color: Colors.transparent,
-            child: CupertinoPicker(
-              backgroundColor: Colors.white,
-              children: <Widget>[
-                H4(
-                  text: "Developer",
-                ),
-                H4(
-                  text: "Design",
-                ),
-                H4(
-                  text: "Product",
-                ),
-                H4(
-                  text: "Business",
-                ),
-              ],
-              itemExtent: 30, //height of each item
-              looping: false,
-              onSelectedItemChanged: (int index) {
-                bloc.userRole = _chooseSTage(index);
-                bloc.updateUserRole(_chooseSTage(index));
-                bloc.validateCreateProfileButton(
-                  _inputController1.text,
-                  _inputController2.text,
-                  _chooseSTage(index),
-                  _inputController4.text,
-                );
-              },
-            ),
-          ),
-        );
-      },
+  Widget modalContent() {
+    List roles = [
+      "Developer",
+      "Design",
+      "Product",
+      "Business",
+      "Other",
+    ];
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(space_fire_bush),
+        child: GridView.count(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          crossAxisCount: 3,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 5.0,
+          children: _buildContentList(roles, context),
+        ),
+      ),
     );
   }
 
-  String _chooseSTage(int index) {
-    if (index == 0) {
-      return "Developer";
-    } else if (index == 1) {
-      return "Design";
-    } else if (index == 2) {
-      return "Product";
-    } else if (index == 3) {
-      return "Business";
-    } else {
-      return "Other";
-    }
+  List<Widget> _buildContentList(List roles, BuildContext context) {
+    return roles.map((data) => _buildContentListItem(data)).toList();
+  }
+
+  Widget _buildContentListItem(String role) {
+    return GestureDetector(
+      onTap: () {
+        bloc.userRole = role;
+        bloc.updateUserRole(role);
+        bloc.validateCreateProfileButton(
+          _inputController1.text,
+          _inputController2.text,
+          role,
+          _inputController4.text,
+        );
+
+        Navigator.pop(context);
+      },
+      child: Container(
+        width: 100,
+        height: 50,
+        decoration: BoxDecoration(
+          color: red,
+          borderRadius: BorderRadius.all(Radius.circular(3)),
+          border: Border.all(color: purple, width: 2),
+        ),
+        child: AutoResizeText(
+          text: role,
+          containerTextWidth: 50,
+          textAlign: TextAlign.center,
+          textColor: bloc.userRole == role ? purple : black,
+          maxLines: 2,
+          fontSize: space_golden_dream,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
   }
 }

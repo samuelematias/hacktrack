@@ -129,7 +129,8 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                                   right: space_conifer,
                                 ),
                                 child: H1(
-                                  text: "Create your hackathon handle name:",
+                                  text:
+                                      "Create your hackathon and handle name:",
                                 ),
                               ),
                               Padding(
