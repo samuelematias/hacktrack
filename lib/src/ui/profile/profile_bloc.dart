@@ -125,7 +125,7 @@ class ProfileBloc extends BlocBase {
   }
 
   updateUserRole(String text) {
-    addUserRole(text.isEmpty ? "Developer" : text);
+    addUserBio(text.isEmpty ? null : text.trim().length > 0 ? text : null);
   }
 
   updateUserBio(String text) {
