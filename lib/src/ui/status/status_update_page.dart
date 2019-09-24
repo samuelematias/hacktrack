@@ -552,6 +552,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                           return PrimaryButton(
                             label: "Update",
                             onPress: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
                               if (_firstImage != null) {
                                 bloc.uploadPhotoToS3();
                               } else {

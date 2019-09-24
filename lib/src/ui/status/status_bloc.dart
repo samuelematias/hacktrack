@@ -114,6 +114,7 @@ class StatusBloc extends BlocBase {
           .getTeamTrack(TeamModel(teamId: storageService.getTeamId()).toJson());
 
       if (response.length > 0) {
+        storageService.setTeamStage(response[0].stage);
         _isShowLoading.add(false);
         getTracksIn.add(response);
       } else {
@@ -157,6 +158,7 @@ class StatusBloc extends BlocBase {
   }
 
   void createTrack() async {
+    _isShowLoading.add(true);
     try {
       var response = await repo.createTrack(TeamModel(
         teamId: storageService.getTeamId(),
