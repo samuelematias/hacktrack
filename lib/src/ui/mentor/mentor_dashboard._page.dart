@@ -252,7 +252,6 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
                     builder: (BuildContext context) => StatusModule(),
                   ),
                   (Route<dynamic> route) => false);
-              // Navigator.of(context).pushNamed(RoutesNames.team);
             },
             child: Container(
               width: Metrics.fullWidth(context),
@@ -262,8 +261,14 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
                 teamName: item.name,
                 teamCount: totalParticipants,
                 stage: item.stage,
-                updatedAt: item.updatedAt,
-                updatedAtColor: item.status == '' ? darkMustard : lightGrey,
+                updatedAt: item.status == 'ok'
+                    ? "Everything is ok with this team :)"
+                    : item.status == 'nok'
+                        ? "This team is in trouble!"
+                        : "No team updates yet!",
+                updatedAtColor: item.status == 'ok'
+                    ? green
+                    : item.status == 'nok' ? red : mustard,
                 about: '',
                 aboutColor: item.status == 'ok'
                     ? green
