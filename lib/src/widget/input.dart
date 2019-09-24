@@ -11,7 +11,7 @@ class Input extends TextField {
     Function onEditingComplete,
     bool autofocus = false,
     TextInputAction textInputAction = TextInputAction.done,
-    Color borderSideColorOnFocus = const Color(0xff6558f5),
+    Color borderSideColorOnFocus = const Color(0xff3071ff),
     Color borderSideUnFocus = const Color(0xff293845),
   }) : super(
           focusNode: focusNode,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../themes/text/typography/p/p5.dart';
 
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
-import '../../themes/color_palette.dart';
+import '../../themes/images_gallery.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/p/p1.dart';
@@ -40,10 +41,8 @@ class _StartPageState extends State<StartPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Center(
-              child: Icon(
-                Icons.computer,
-                color: purple,
-                size: space_magic_mint,
+              child: Image(
+                image: AssetImage(logo),
               ),
             ),
             Column(
@@ -57,10 +56,10 @@ class _StartPageState extends State<StartPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                    left: space_fire_bush,
+                    left: space_spring_green,
                     top: space_golden_dream,
                   ),
-                  child: P1(
+                  child: P5(
                     text:
                         "Bring every status report to a real time platform, shared by mentors and participants during the event.",
                   ),

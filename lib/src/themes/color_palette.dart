@@ -4,7 +4,7 @@ import '../util/convert.dart';
 
 Color black = Convert.hexToDartColor('#293845');
 Color white = Convert.hexToDartColor('#FFFFFF');
-Color purple = Convert.hexToDartColor('#6558F5');
+Color purple = Convert.hexToDartColor('#3071FF');
 Color lightPurple = Convert.hexToDartColor('#C7C3FA');
 Color grey = Convert.hexToDartColor('#C3CFD9');
 Color lightGrey = Convert.hexToDartColor('#788896');

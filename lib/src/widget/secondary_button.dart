@@ -19,7 +19,7 @@ class SecondaryButton extends StatelessWidget {
     this.width = 250.0,
     this.height = 40.0,
     this.buttonColor = Colors.white,
-    this.labelColor = const Color(0xff6558f5),
+    this.labelColor = const Color(0xff3071ff),
   }) : super(key: key);
 
   @override

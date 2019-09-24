@@ -1,9 +1,9 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
 
 import '../../themes/color_palette.dart';
+import '../../themes/images_gallery.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/p/p4.dart';
@@ -147,29 +147,8 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
                     Padding(
                       padding: EdgeInsets.all(space_spring_green),
                       child: Container(
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-                          fit: BoxFit.fitWidth,
-                          height: space_purple_rain,
-                          placeholder: (context, photo) => Container(
-                            width: space_purple_rain,
-                            height: space_purple_rain,
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.image,
-                              size: space_conifer,
-                            ),
-                          ),
-                          errorWidget: (context, photo, error) => Container(
-                            width: space_purple_rain,
-                            height: space_purple_rain,
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.image,
-                              size: space_conifer,
-                            ),
-                          ),
+                        child: Image(
+                          image: AssetImage(imgTutorial1),
                         ),
                       ),
                     ),
@@ -182,29 +161,8 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
                     Padding(
                       padding: EdgeInsets.all(space_spring_green),
                       child: Container(
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-                          fit: BoxFit.fitWidth,
-                          height: space_purple_rain,
-                          placeholder: (context, photo) => Container(
-                            width: space_purple_rain,
-                            height: space_purple_rain,
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.image,
-                              size: space_conifer,
-                            ),
-                          ),
-                          errorWidget: (context, photo, error) => Container(
-                            width: space_purple_rain,
-                            height: space_purple_rain,
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.image,
-                              size: space_conifer,
-                            ),
-                          ),
+                        child: Image(
+                          image: AssetImage(imgTutorial2),
                         ),
                       ),
                     ),
@@ -245,28 +203,12 @@ class MentorOnboardingPageState extends State<MentorOnboardingPage> {
                           Padding(
                             padding: EdgeInsets.all(space_spring_green),
                             child: Container(
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://ak2.picdn.net/shutterstock/videos/1014004172/thumb/1.jpg",
-                                fit: BoxFit.fitWidth,
-                                placeholder: (context, photo) => Container(
-                                  width: space_purple_rain,
-                                  height: space_purple_rain,
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    Icons.image,
-                                    size: space_conifer,
-                                  ),
-                                ),
-                                errorWidget: (context, photo, error) =>
-                                    Container(
-                                  width: space_purple_rain,
-                                  height: space_purple_rain,
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    Icons.image,
-                                    size: space_conifer,
-                                  ),
+                              height: Metrics.ph(context, 50),
+                              child: Center(
+                                child: Image(
+                                  image: AssetImage(imgTutorial3),
+                                  fit: BoxFit.fitHeight,
+                                  height: 250,
                                 ),
                               ),
                             ),

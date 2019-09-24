@@ -15,7 +15,7 @@ class SecondaryAppBar extends AppBar {
     Function onClickCustomHeaderLeft,
     Function onClickHeaderRight,
     IconData iconHeaderRight = Icons.refresh,
-    Color iconHeaderRightColor = const Color(0xff6558f5),
+    Color iconHeaderRightColor = const Color(0xff3071ff),
   }) : super(
           iconTheme: IconThemeData(
             color: grey, //change your color here

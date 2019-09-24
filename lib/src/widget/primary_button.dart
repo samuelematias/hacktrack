@@ -18,11 +18,11 @@ class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     Key key,
     @required this.onPress,
-    this.borderColor = const Color(0xff6558f5),
+    this.borderColor = const Color(0xff3071ff),
     this.label = '',
     this.width = 250.0,
     this.height = 40.0,
-    this.buttonColor = const Color(0xff6558f5),
+    this.buttonColor = const Color(0xff3071ff),
     this.labelColor = Colors.white,
     this.isDisable = "ok",
     this.isLoading = false,
