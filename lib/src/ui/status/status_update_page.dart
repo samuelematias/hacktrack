@@ -7,6 +7,7 @@ import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
+import '../../shared/models/team_model.dart';
 import '../../shared/screen_arguments.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
@@ -16,6 +17,7 @@ import '../../util/custom_modal.dart';
 import '../../util/metrics.dart';
 import '../../widget/auto_resize_text.dart';
 import '../../widget/dashed_box.dart';
+import '../../widget/error_alert.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/secondary_appbar.dart';
 import 'status_bloc.dart';
@@ -34,6 +36,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
   var bloc = StatusModule.to.getBloc<StatusBloc>();
   static var storageService = locator<AppPreferencesService>();
   final _inputController = TextEditingController();
+  FocusNode _focusNode = FocusNode();
   double leftOverFlow = 20.0;
   double rightOverFlow = 20.0;
   double bottomOverFlow = 25.0;
@@ -44,6 +47,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
   StreamSubscription listenStatusUpdateResponse;
   StreamSubscription listenStatusUpdateResponseLoading;
   bool isLoading = false;
+  bool isFocus = false;
 
   @override
   void initState() {
@@ -54,27 +58,22 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
           leftOverFlow = -5.0;
           rightOverFlow = -5.0;
           bottomOverFlow = 0.0;
+          isFocus = true;
         } else {
           leftOverFlow = 20.0;
           rightOverFlow = 20.0;
           bottomOverFlow = 25.0;
+          isFocus = false;
         }
       },
     );
 
     listenStatusUpdateResponse = bloc.createTrackPost.listen((data) {
       if (data.id != null) {
-        // if (storageService.isMentor()) {
-        //   bloc.getTeamTrack();
-        // }
         storageService.setTeamStage(data.stage);
         FocusScope.of(context).requestFocus(FocusNode());
         Navigator.pop(context);
         widget.arguments.onSuccess();
-
-        // if (_firstImage != null) {
-        //   // bloc.uploadFoto(_firstImage);
-        // }
       }
     });
     listenStatusUpdateResponseLoading = bloc.isShowLoading.listen((data) {
@@ -132,18 +131,29 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(
-                          left: space_conifer,
-                          top: space_golden_dream,
-                          right: space_conifer,
-                        ),
-                        child: H4(
-                          text: "Update your status",
-                        ),
-                      ),
+                      StreamBuilder<TeamModel>(
+                          stream: bloc.createTrackPost,
+                          builder: (context, snapshot) {
+                            bool handle404 = snapshot.hasError &&
+                                snapshot.error.toString() == "404";
+                            return Column(
+                              children: <Widget>[
+                                handle404 ? ErrorAlert() : Container(),
+                                Container(
+                                  padding: EdgeInsets.only(
+                                    left: space_conifer,
+                                    top: space_golden_dream,
+                                    right: space_conifer,
+                                  ),
+                                  child: H4(
+                                    text: "Update your status",
+                                  ),
+                                ),
+                              ],
+                            );
+                          }),
                       GestureDetector(
-                        onTap: !isLoading
+                        onTap: !isLoading && !isFocus
                             ? () => Navigator.of(context).push(
                                   CustomModal(
                                     context: context,
@@ -337,6 +347,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                         child: TextField(
                           enabled: !isLoading,
                           controller: _inputController,
+                          focusNode: _focusNode,
                           onChanged: (String text) {
                             bloc.updateComment(text);
                             bloc.trackComment = text;

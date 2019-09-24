@@ -173,11 +173,11 @@ class StatusBloc extends BlocBase {
         createTrackPostIn.add(response);
       } else {
         _isShowLoading.add(false);
-        createTrackPost.addError(response);
+        createTrackPost.addError(404);
       }
     } catch (e) {
       _isShowLoading.add(false);
-      createTrackPost.addError(e);
+      createTrackPost.addError(404);
     }
   }
 
