@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
-import '../themes/color_palette.dart';
 import '../themes/spacing/linear_scale.dart';
 import '../ui/team/show_photo.dart';
 import '../util/metrics.dart';
@@ -16,6 +15,7 @@ class CardTrack extends StatelessWidget {
   final String stage;
   final String status;
   final String updatedAt;
+  final Color updatedAtColor;
   final String about;
   final Color aboutColor;
   final List photos;
@@ -28,6 +28,7 @@ class CardTrack extends StatelessWidget {
     this.updatedAt = '',
     this.about = '',
     this.aboutColor = const Color(0xff293845),
+    this.updatedAtColor = const Color(0xffe8833a),
     this.photos,
   }) : super(key: key);
   @override
@@ -56,7 +57,7 @@ class CardTrack extends StatelessWidget {
                   text: updatedAt,
                   containerTextWidth: 185,
                   textAlign: TextAlign.right,
-                  textColor: lightGrey,
+                  textColor: updatedAtColor,
                   fontSize: space_dodger_blue,
                 )
               ],

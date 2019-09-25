@@ -332,7 +332,14 @@ class _TeamPageState extends State<TeamPage> {
           photos: files,
           stage: item.stage,
           status: item.status,
-          updatedAt: item.updatedAt,
+          updatedAt: item.status == 'ok'
+              ? "Everything is ok with this team :)"
+              : item.status == 'nok'
+                  ? "This team is in trouble!"
+                  : "No team updates yet!",
+          updatedAtColor: item.status == 'ok'
+              ? green
+              : item.status == 'nok' ? red : mustard,
           about: item.comment,
           aboutColor:
               item.status == 'ok' ? green : item.status == 'nok' ? red : black,

@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 class CustomIntercetors extends InterceptorsWrapper {
   @override
   onRequest(RequestOptions options) {
-    // print("REQUEST[${options.method}] => PATH: ${options.path}");
     print(
         ' Request Path : [${options.method}] ${options.baseUrl}${options.path}');
     print(' Request Data : ${options.data.toString()}');
@@ -16,7 +15,6 @@ class CustomIntercetors extends InterceptorsWrapper {
   onResponse(Response response) {
     //200
     //201
-    // print("RESPONSE[${response.statusCode}] => PATH: ${response.request.path}");
     print(
         ' Response Path : [${response.request.method}] ${response.request.baseUrl}${response.request.path} Request Data : ${response.request.data.toString()}');
     print(' Response statusCode : ${response.statusCode}');
@@ -28,7 +26,6 @@ class CustomIntercetors extends InterceptorsWrapper {
   onError(DioError error) {
     //Exception
     print("ERROR[${error.response.statusCode}] => PATH: ${error.request.path}");
-    // if (e.response.statusCode == 404) return DioError(message: "Erro interno");
     print(
         ' Error Path : [${error.response.request.method}] ${error.response.request.baseUrl}${error.response.request.path} Request Data : ${error.response.request.data.toString()}');
     print(' Error statusCode : ${error.response.statusCode}');

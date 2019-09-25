@@ -84,15 +84,17 @@ class ProfileBloc extends BlocBase {
 
   void createUser() async {
     try {
-      String code = storageService.getMentorCode();
-      var isMentorCode = code.contains('mentor');
+      String code = storageService.getJoinCode();
+      var isMentorCode =
+          code.contains('mentor') || storageService.isCreateHackathonSuccess();
       _isShowLoading.add(true);
       var response = await repo.createUser(UserModel(
         hackathon: storageService.getHackathonId(),
         name: userName,
         email: userEmail,
-        role: userRole,
+        role: storageService.isCreateHackathonSuccess() ? 'Owner' : userRole,
         isMentor: isMentorCode,
+        bio: userBio,
       ).toJson());
 
       if (response.id != null) {

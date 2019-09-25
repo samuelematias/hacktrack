@@ -14,7 +14,6 @@ import '../../util/metrics.dart';
 import '../../widget/error_alert.dart';
 import '../../widget/primary_appbar.dart';
 import '../../widget/primary_button.dart';
-import '../mentor/mentor_onboarding_page.dart';
 import '../profile/profile_module.dart';
 import 'join_bloc.dart';
 import 'join_module.dart';
@@ -53,23 +52,13 @@ class _JoinPageState extends State<JoinPage> {
     );
     listenValidateCodeResponse = bloc.getValidateCode.listen((data) {
       if (data.status == "ok") {
-        if (data.isMentor) {
-          Navigator.of(
-            context,
-          ).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (BuildContext context) => MentorOnboardingPage(),
-              ),
-              (Route<dynamic> route) => false);
-        } else {
-          Navigator.of(
-            context,
-          ).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (BuildContext context) => ProfileModule(),
-              ),
-              (Route<dynamic> route) => false);
-        }
+        Navigator.of(
+          context,
+        ).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (BuildContext context) => ProfileModule(),
+            ),
+            (Route<dynamic> route) => false);
       }
     });
     listenValidateCodeResponseLoading = bloc.isShowLoading.listen((data) {

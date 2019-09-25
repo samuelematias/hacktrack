@@ -44,6 +44,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   StreamSubscription listenUserResponse;
   StreamSubscription listenUserResponseLoading;
   bool isLoading = false;
+  bool isOwner = storageService.isCreateHackathonSuccess();
 
   @override
   void initState() {
@@ -128,7 +129,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
           children: <Widget>[
             SingleChildScrollView(
               child: Container(
-                height: 500,
+                height: !isOwner ? 525 : 425,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
@@ -172,7 +173,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                               bloc.validateCreateProfileButton(
                                 text,
                                 _inputController2.text,
-                                _inputController3.text,
+                                isOwner ? 'Owner' : _inputController3.text,
                                 _inputController4.text,
                               );
                             },
@@ -220,13 +221,15 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                     bloc.validateCreateProfileButton(
                                       _inputController1.text,
                                       text,
-                                      _inputController3.text,
+                                      isOwner
+                                          ? 'Owner'
+                                          : _inputController3.text,
                                       _inputController4.text,
                                     );
                                   },
                                   onEditingComplete: () =>
-                                      FocusScope.of(context)
-                                          .requestFocus(_focusNode3),
+                                      FocusScope.of(context).requestFocus(
+                                          !isOwner ? _focusNode3 : _focusNode4),
                                   // autofocus: true,
                                   keyboardType: TextInputType.emailAddress,
                                   textInputAction: TextInputAction.next,
@@ -250,55 +253,57 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                 );
                               }),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: space_geraldine,
-                            top: space_golden_dream,
-                            right: space_geraldine,
-                          ),
-                          child: StreamBuilder<String>(
-                              stream: bloc.getValidateCreateProfile,
-                              builder: (context, snapshot) {
-                                return TextField(
-                                  enabled: !isLoading,
-                                  focusNode: _focusNode3,
-                                  controller: _inputController3,
-                                  onChanged: (String text) {
-                                    bloc.userRole = text;
-                                    bloc.updateUserRole(text);
-                                    bloc.validateCreateProfileButton(
-                                      _inputController1.text,
-                                      _inputController2.text,
-                                      text,
-                                      _inputController4.text,
-                                    );
-                                  },
-                                  onEditingComplete: () =>
-                                      FocusScope.of(context)
-                                          .requestFocus(_focusNode4),
-                                  maxLength: 20,
-                                  keyboardType: TextInputType.text,
-                                  textInputAction: TextInputAction.next,
-                                  style: TextStyle(
-                                    color: black,
-                                  ),
-                                  decoration: InputDecoration(
-                                    labelText: "Your Role",
-                                    labelStyle: TextStyle(color: black),
-                                    border: OutlineInputBorder(),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: purple, width: 2.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: black, width: 1.0),
-                                    ),
-                                    fillColor: black,
-                                  ),
-                                );
-                              }),
-                        ),
+                        !isOwner
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                  left: space_geraldine,
+                                  top: space_golden_dream,
+                                  right: space_geraldine,
+                                ),
+                                child: StreamBuilder<String>(
+                                    stream: bloc.getValidateCreateProfile,
+                                    builder: (context, snapshot) {
+                                      return TextField(
+                                        enabled: !isLoading,
+                                        focusNode: _focusNode3,
+                                        controller: _inputController3,
+                                        onChanged: (String text) {
+                                          bloc.userRole = text;
+                                          bloc.updateUserRole(text);
+                                          bloc.validateCreateProfileButton(
+                                            _inputController1.text,
+                                            _inputController2.text,
+                                            text,
+                                            _inputController4.text,
+                                          );
+                                        },
+                                        onEditingComplete: () =>
+                                            FocusScope.of(context)
+                                                .requestFocus(_focusNode4),
+                                        maxLength: 20,
+                                        keyboardType: TextInputType.text,
+                                        textInputAction: TextInputAction.next,
+                                        style: TextStyle(
+                                          color: black,
+                                        ),
+                                        decoration: InputDecoration(
+                                          labelText: "Your Role",
+                                          labelStyle: TextStyle(color: black),
+                                          border: OutlineInputBorder(),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: purple, width: 2.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: black, width: 1.0),
+                                          ),
+                                          fillColor: black,
+                                        ),
+                                      );
+                                    }),
+                              )
+                            : Container(),
                         Padding(
                           padding: EdgeInsets.only(
                             left: space_geraldine,
@@ -318,7 +323,9 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                     bloc.validateCreateProfileButton(
                                       _inputController1.text,
                                       _inputController2.text,
-                                      _inputController3.text,
+                                      isOwner
+                                          ? 'Owner'
+                                          : _inputController3.text,
                                       text,
                                     );
                                   },
