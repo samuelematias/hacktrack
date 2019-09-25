@@ -46,7 +46,7 @@ Have a question about this product? [Ask the Makers](https://www.producthunt.com
 
 - ✅ **Join the Hackathon as Participant and Join a Team**: With the participant code provided by the hackathon creator or the hackathon mentor himself, you can join the hackathon and then join a team 😃. If you want check how, watch this video 👉🏾 https://vimeo.com/362304104;
 
-- ✅ **Join the Hackathon as a Mentor**: With the mentor code provided by the hackathon creator, you can mentor that hackathon and track all hackathon teams 😉. If you want check how, watch this video 👉🏾 https://vimeo.com/362306524;
+- ✅ **Join the Hackathon as a Mentor**: With the mentor code provided by the hackathon creator, you can mentor that hackathon and track all hackathon teams 😉 . If you want check how, watch this video 👉🏾 https://vimeo.com/362306524;
 
 - ✅ **Report Status as a Team**: Based on startup weekend's 0 to hero, each team can report on their team's progress status using these 0 to hero statuses, so that the Mentor can know when a team needs help 🆘. If you want check how, watch this video 👉🏾 https://vimeo.com/362308001;
 
