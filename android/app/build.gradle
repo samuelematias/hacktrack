@@ -54,10 +54,10 @@ android {
 
    signingConfigs {
        release {
-           keyAlias "key"
-           keyPassword "ht1234"
-           storeFile file("/Users/samuelmataraso/workspace/my_stuffs/Hackathons/open_shawee/mobile/hacktrack/android/app/key.jks")
-           storePassword "ht1234"
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile file(keystoreProperties['storeFile'])
+           storePassword keystoreProperties['storePassword']
        }
    }
    buildTypes {
