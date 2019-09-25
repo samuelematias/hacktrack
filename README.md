@@ -81,7 +81,7 @@ Have a question about this product? [Ask the Makers](https://www.producthunt.com
 
 Due to bureaucratic points, the app is not yet in stores, more will be very soon 🤞🏾👍🏾!
 <br/>
-So stay tuned to our Product Hunt page 📑👍🏾!
+So stay tuned to our [Product Hunt](https://www.producthunt.com/posts/hackatrack) page 📑👍🏾!
 
 <!-- final considerations END-->
 
