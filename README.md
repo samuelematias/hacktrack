@@ -31,12 +31,12 @@ That's why we created hackatrack, a platform that connects everyone in the hacka
 
 Hackatrack app is ready for launch! We are waiting for store review and as soon as we are on we will share the link with you guys.
 
-We are happy to receive feedback and answer any Qs about the project and its future! :)
+We are happy to receive [feedback](https://www.producthunt.com/posts/hackatrack) and answer any Qs about the project and its future! :)
 
-## What is this app for? ??
+## Our mission with HackaTrack
 
 Our mission is to reduce stress and improve productivity in hackathons with an status update platform in which all the teams share their progress with all the mentors, so they can give precise mentoring at the right moment, keeping everyone in the same page
-Have a question about this product? [Ask the Makers](https://www.producthunt.com/posts/hackatrack#comment-body)
+Have a question about this product? [Ask the Makers](https://www.producthunt.com/posts/hackatrack#comment-body).
 
 ## Features
 
@@ -46,7 +46,7 @@ Have a question about this product? [Ask the Makers](https://www.producthunt.com
 
 - ✅ **Join the Hackathon as Participant and Join a Team**: With the participant code provided by the hackathon creator or the hackathon mentor himself, you can join the hackathon and then join a team 😃. If you want check how, watch this video 👉🏾 https://vimeo.com/362304104;
 
-- ✅ **Join the Hackathon as a Mentor**: With the mentor code provided by the hackathon creator, you can mentor that hackathon and track all hackathon teams 😉 . If you want check how, watch this video 👉🏾 https://vimeo.com/362306524;
+- ✅ **Join the Hackathon as a Mentor**: With the mentor code provided by the hackathon creator, you can mentor that hackathon and track all hackathon teams 😉. If you want check how, watch this video 👉🏾 https://vimeo.com/362306524;
 
 - ✅ **Report Status as a Team**: Based on startup weekend's 0 to hero, each team can report on their team's progress status using these 0 to hero statuses, so that the Mentor can know when a team needs help 🆘. If you want check how, watch this video 👉🏾 https://vimeo.com/362308001;
 
