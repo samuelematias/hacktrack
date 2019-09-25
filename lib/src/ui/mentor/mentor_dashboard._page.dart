@@ -84,20 +84,25 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
         context: context,
         showHeaderRight: true,
         customHeaderLeft: true,
-        iconHeaderLeft: Icons.content_paste,
-        iconHeaderRight: Icons.settings,
-        iconHeaderRightColor: grey,
-        onClickCustomHeaderLeft: () => Navigator.of(context).push(
+        onClickCustomHeaderLeft: () =>
+            CustomDialog.show(context, _buildDialogContent(context), 110),
+        onClickHeaderRight: () => _init(),
+      ),
+      body: _bodyWidget(context, bloc),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context).push(
           CustomModal(
             context: context,
             modalContent: modalContent(),
             overlayHeight: 50.0,
           ),
         ),
-        onClickHeaderRight: () =>
-            CustomDialog.show(context, _buildDialogContent(context), 110),
+        child: Icon(
+          Icons.content_paste,
+          color: white,
+        ),
+        backgroundColor: purple,
       ),
-      body: _bodyWidget(context, bloc),
     );
   }
 

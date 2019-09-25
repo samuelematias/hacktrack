@@ -95,6 +95,8 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
         pageTitle: storageService.getHackathonName(),
         hideHeaderLeft: true,
         context: context,
+        showHeaderRight: true,
+        onClickHeaderRight: () => _init(),
       ),
       body: _bodyWidget(context, bloc),
     );
