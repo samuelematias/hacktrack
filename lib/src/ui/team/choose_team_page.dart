@@ -23,6 +23,7 @@ import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
+import '../start/start_page.dart';
 import '../status/status_module.dart';
 import 'team_bloc.dart';
 import 'team_module.dart';
@@ -93,10 +94,13 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
       backgroundColor: white,
       appBar: SecondaryAppBar(
         pageTitle: storageService.getHackathonName(),
-        hideHeaderLeft: true,
+        // hideHeaderLeft: true,
         context: context,
         showHeaderRight: true,
         onClickHeaderRight: () => _init(),
+        customHeaderLeft: true,
+        onClickCustomHeaderLeft: () => CustomDialog.show(
+            context, _buildDialogLeaveHackaContent(context), 110),
       ),
       body: _bodyWidget(context, bloc),
     );
@@ -423,5 +427,55 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
     _init();
 
     return null;
+  }
+
+  Widget _buildDialogLeaveHackaContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(
+            bottom: space_golden_dream,
+          ),
+          child: H4(
+            text: "Are your sure you want to exit the hackathon?",
+          ),
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SecondaryButton(
+                    label: "Cancel",
+                    onPress: () => Navigator.pop(context),
+                    width: 100,
+                  ),
+                  PrimaryButton(
+                    label: "Exit",
+                    onPress: () {
+                      storageService.clear();
+                      Navigator.pop(context);
+                      return Navigator.of(
+                        context,
+                      ).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => StartPage(),
+                          ),
+                          (Route<dynamic> route) => false);
+                    },
+                    width: 100,
+                    borderColor: red,
+                    buttonColor: red,
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
