@@ -12,6 +12,7 @@
     <img alt="HackTrack - Create Hacka" height="620" src="https://media.giphy.com/media/ZEfKU8JQSuv3dd6jUz/giphy.gif" />
     <img alt="HackTrack - Join Hacka" height="620" src="https://media.giphy.com/media/XDWU4ocQEiUVFQht1e/giphy.gif" />
     <img alt="HackTrack - Report Status" height="620" src="https://media.giphy.com/media/LPOFOO0BvQQPTICkBP/giphy.gif" />
+    <img alt="HackTrack - Hackathon Monitor" height="620" src="https://media.giphy.com/media/ZFEwgdzJtZuxTpYLcR/giphy.gif" />
   </a>
 </p>
 <!-- show case/gif section END-->
@@ -35,7 +36,7 @@ We are happy to receive feedback and answer any Qs about the project and its fut
 ## What is this app for? ??
 
 Our mission is to reduce stress and improve productivity in hackathons with an status update platform in which all the teams share their progress with all the mentors, so they can give precise mentoring at the right moment, keeping everyone in the same page
-Have a question about this product? [devPleno](https://www.producthunt.com/posts/hackatrack#comment-body)
+Have a question about this product? [Ask the Makers](https://www.producthunt.com/posts/hackatrack#comment-body)
 
 ## Features
 
