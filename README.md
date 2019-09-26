@@ -69,7 +69,7 @@ Have a question about this product? [Ask the Makers](https://www.producthunt.com
 
 **On Monitor and Landing page**:
 
-- [ReactJs](https://reactjs.org/) 🏾 [Project Repository](https://github.com/pedrojsn96/hack-track-monitor)
+- [ReactJs](https://reactjs.org/) 👉🏾 [Project Repository](https://github.com/pedrojsn96/hack-track-monitor)
 
 <br/>
 
