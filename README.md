@@ -87,7 +87,7 @@ So stay tuned to our [Product Hunt](https://www.producthunt.com/posts/hackatrack
 
 <br/>
 
-## The Team
+## Team
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
