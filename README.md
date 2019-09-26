@@ -87,14 +87,23 @@ So stay tuned to our [Product Hunt](https://www.producthunt.com/posts/hackatrack
 
 <br/>
 
-<!-- about us -->
+## Contributors
 
-<!-- ## Author
+Thanks goes to these wonderful people ([emoji key](https://github.com/all-contributors/all-contributors#emoji-key)):
 
-Follow me on Twitter: [@samuelmataraso](https://twitter.com/samuelmataraso)
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table>
+  <tr>
+    <td align="center"><a href="https://twitter.com/samuelmataraso"><img src="https://imgur.com/l3wbz23" width="100px;" alt="Samuca"/><br /><sub><b>Samuca</b></sub></a><br /><a href="#github-samuca"title="Code">💻</a></td>
+    <!-- <td align="center"><a href="https://ferrannp.com/"><img src="https://avatars2.githubusercontent.com/u/774577?v=4" width="100px;" alt="Ferran Negre"/><br /><sub><b>Ferran Negre</b></sub></a><br /><a href="#ideas-ferrannp" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/callstack/react-native-paper/commits?author=ferrannp" title="Code">💻</a></td>
+    <td align="center"><a href="http://dawidurbaniak.pl"><img src="https://avatars3.githubusercontent.com/u/18584155?v=4" width="100px;" alt="Dawid"/><br /><sub><b>Dawid</b></sub></a><br /><a href="#ideas-Trancever" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/callstack/react-native-paper/commits?author=Trancever" title="Code">💻</a> <a href="https://github.com/callstack/react-native-paper/commits?author=Trancever" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://twitter.com/esemesek"><img src="https://avatars2.githubusercontent.com/u/9092510?v=4" width="100px;" alt="Kacper Wiszczuk"/><br /><sub><b>Kacper Wiszczuk</b></sub></a><br /><a href="#ideas-Esemesek" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/callstack/react-native-paper/commits?author=Esemesek" title="Code">💻</a></td>
+    <td align="center"><a href="https://medium.com/@_happiryu"><img src="https://avatars1.githubusercontent.com/u/22746080?v=4" width="100px;" alt="Luke Walczak"/><br /><sub><b>Luke Walczak</b></sub></a><br /><a href="https://github.com/callstack/react-native-paper/commits?author=lukewalczak" title="Code">💻</a> <a href="https://github.com/callstack/react-native-paper/commits?author=lukewalczak" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/ahmedlhanafy"><img src="https://avatars2.githubusercontent.com/u/7052827?v=4" width="100px;" alt="Ahmed Elhanafy"/><br /><sub><b>Ahmed Elhanafy</b></sub></a><br /><a href="#ideas-ahmedlhanafy" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/callstack/react-native-paper/commits?author=ahmedlhanafy" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/kpsroka"><img src="https://avatars0.githubusercontent.com/u/24893014?v=4" width="100px;" alt="K. P. Sroka"/><br /><sub><b>K. P. Sroka</b></sub></a><br /><a href="https://github.com/callstack/react-native-paper/commits?author=kpsroka" title="Code">💻</a> <a href="https://github.com/callstack/react-native-paper/commits?author=kpsroka" title="Documentation">📖</a></td> -->
 
-<a href="https://twitter.com/samuelmataraso" target="_blank"><img src="https://twitter.com/samuelmataraso/profile_image?size=original" height="100" /></a>
+  </tr>
+</table>
 
-<br/> -->
-
-<!-- about us END-->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
