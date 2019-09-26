@@ -95,11 +95,11 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 <!-- prettier-ignore -->
 <table>
   <tr>
-    <td align="center"><a href="https://twitter.com/samuelmataraso"><img src="https://i.imgur.com/l3wbz23.jpg" width="100px;" alt="Samuel Matias"/><br /><sub><b>Samuca</b></sub></a><br /><a href="https://github.com/samuelmataraso"title="Code">💻</a></td>
-    <td align="center"><a href="https://twitter.com/pedrojsn96"><img src="https://i.imgur.com/VuujzeL.jpg" width="100px;" alt="Pedro Neto"/><br /><sub><b>Samuca</b></sub></a><br /><a href="https://github.com/pedrojsn96"title="Code">💻</a></td>
-     <td align="center"><a href=""><img src="https://i.imgur.com/7o85nCs.jpg" width="100px;" alt="Luis Barroso"/><br /><sub><b>Samuca</b></sub></a><br /><a href="https://github.com/luisbarroso"title="Code">💻</a></td>
-    <td align="center"><a href="https://twitter.com/pjbacelar"><img src="https://i.imgur.com/JKy7cll.jpg" width="100px;" alt="Pedro Bacerlar"/><br /><sub><b>Samuca</b></sub></a><br /><a href=""title="Design">🎨</a></td>
-    <td align="center"><a href=""><img src="https://i.imgur.com/4kGRWdN.jpg" width="100px;" alt="João Ventura"/><br /><sub><b>Samuca</b></sub></a><br /><a href=""title="Design">🎨</a></td>
+    <td align="center"><a href="https://twitter.com/samuelmataraso"><img src="https://i.imgur.com/l3wbz23.jpg" width="100px;" alt="Samuel Matias"/><br /><sub><b>Samuel Matias</b></sub></a><br /><a href="https://github.com/samuelmataraso"title="Code">💻</a></td>
+    <td align="center"><a href="https://twitter.com/pedrojsn96"><img src="https://i.imgur.com/VuujzeL.jpg" width="100px;" alt="Pedro Neto"/><br /><sub><b>Pedro Neto</b></sub></a><br /><a href="https://github.com/pedrojsn96"title="Code">💻</a></td>
+     <td align="center"><a href=""><img src="https://i.imgur.com/7o85nCs.jpg" width="100px;" alt="Luis Barroso"/><br /><sub><b>Luis Barroso</b></sub></a><br /><a href="https://github.com/luisbarroso"title="Code">💻</a></td>
+    <td align="center"><a href="https://twitter.com/pjbacelar"><img src="https://i.imgur.com/JKy7cll.jpg" width="100px;" alt="Pedro Bacerlar"/><br /><sub><b>Pedro Bacelar</b></sub></a><br /><a href=""title="Design">🎨</a></td>
+    <td align="center"><a href=""><img src="https://i.imgur.com/4kGRWdN.jpg" width="100px;" alt="João Ventura"/><br /><sub><b>João Ventura</b></sub></a><br /><a href=""title="Design">🎨</a></td>
   </tr>
 </table>
 
