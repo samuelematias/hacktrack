@@ -61,15 +61,15 @@ Have a question about this product? [Ask the Makers](https://www.producthunt.com
 
 **On Mobile App**:
 
-- [Flutter](https://flutter.dev/)
+- [Flutter](https://flutter.dev/) 👉🏾 [This same Repository 😆](https://github.com/samuelmataraso/hacktrack)
 
 **On BackEnd**:
 
-- [NodeJS](https://nodejs.org/en/)
+- [NodeJS](https://nodejs.org/en/) 👉🏾 [Project Repository](https://github.com/pedrojsn96/hack-track)
 
 **On Monitor and Landing page**:
 
-- [ReactJs](https://reactjs.org/)
+- [ReactJs](https://reactjs.org/) 🏾 [Project Repository](https://github.com/pedrojsn96/hack-track-monitor)
 
 <br/>
 
@@ -87,9 +87,9 @@ So stay tuned to our [Product Hunt](https://www.producthunt.com/posts/hackatrack
 
 <br/>
 
-## Contributors
+## The Team
 
-Thanks goes to these wonderful people ([emoji key](https://github.com/all-contributors/all-contributors#emoji-key)):
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
@@ -97,9 +97,9 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
   <tr>
     <td align="center"><a href="https://twitter.com/samuelmataraso"><img src="https://i.imgur.com/l3wbz23.jpg" width="100px;" alt="Samuel Matias"/><br /><sub><b>Samuel Matias</b></sub></a><br /><a href="https://github.com/samuelmataraso"title="Code">💻</a></td>
     <td align="center"><a href="https://twitter.com/pedrojsn96"><img src="https://i.imgur.com/VuujzeL.jpg" width="100px;" alt="Pedro Neto"/><br /><sub><b>Pedro Neto</b></sub></a><br /><a href="https://github.com/pedrojsn96"title="Code">💻</a></td>
-     <td align="center"><a href=""><img src="https://i.imgur.com/7o85nCs.jpg" width="100px;" alt="Luis Barroso"/><br /><sub><b>Luis Barroso</b></sub></a><br /><a href="https://github.com/luisbarroso"title="Code">💻</a></td>
-    <td align="center"><a href="https://twitter.com/pjbacelar"><img src="https://i.imgur.com/JKy7cll.jpg" width="100px;" alt="Pedro Bacerlar"/><br /><sub><b>Pedro Bacelar</b></sub></a><br /><a href=""title="Design">🎨</a></td>
-    <td align="center"><a href=""><img src="https://i.imgur.com/4kGRWdN.jpg" width="100px;" alt="João Ventura"/><br /><sub><b>João Ventura</b></sub></a><br /><a href=""title="Design">🎨</a></td>
+     <td align="center"><a href="https://www.linkedin.com/in/luis-barroso-9a0508129/"><img src="https://i.imgur.com/7o85nCs.jpg" width="100px;" alt="Luis Barroso"/><br /><sub><b>Luis Barroso</b></sub></a><br /><a href="https://github.com/luismesquita"title="Code">💻</a></td>
+    <td align="center"><a href="https://twitter.com/pjbacelar"><img src="https://i.imgur.com/JKy7cll.jpg" width="100px;" alt="Pedro Bacerlar"/><br /><sub><b>Pedro Bacelar</b></sub></a><br /><a href="https://www.linkedin.com/in/pjbacelar/"title="Design">🎨</a></td>
+    <td align="center"><a href="https://www.linkedin.com/in/joaovntr/"><img src="https://i.imgur.com/4kGRWdN.jpg" width="100px;" alt="João Ventura"/><br /><sub><b>João Ventura</b></sub></a><br /><a href="https://www.linkedin.com/in/joaovntr/"title="Design">🎨</a></td>
   </tr>
 </table>
 
