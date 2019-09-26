@@ -215,7 +215,8 @@ class _TeamPageState extends State<TeamPage> {
                     child: Column(
                       children: <Widget>[
                         H4(
-                          text: "When you finish your ideation, press the",
+                          text:
+                              "When you need to report your status, press the",
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,7 +227,7 @@ class _TeamPageState extends State<TeamPage> {
                               color: purple,
                             ),
                             H4(
-                              text: "button to move to the next phase.",
+                              text: "button to report",
                             ),
                           ],
                         ),
