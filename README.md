@@ -99,7 +99,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://twitter.com/pedrojsn96"><img src="https://i.imgur.com/VuujzeL.jpg" width="100px;" alt="Pedro Neto"/><br /><sub><b>Pedro Neto</b></sub></a><br /><a href="https://github.com/pedrojsn96"title="Code">💻</a></td>
      <td align="center"><a href="https://twitter.com/LuisBar38718057"><img src="https://i.imgur.com/7o85nCs.jpg" width="100px;" alt="Luis Barroso"/><br /><sub><b>Luis Barroso</b></sub></a><br /><a href="https://github.com/luismesquita"title="Code">💻</a></td>
     <td align="center"><a href="https://twitter.com/pjbacelar"><img src="https://i.imgur.com/JKy7cll.jpg" width="100px;" alt="Pedro Bacerlar"/><br /><sub><b>Pedro Bacelar</b></sub></a><br /><a href="https://www.behance.net/pjbacelar?tracking_source=search%7Cpjbacelar"title="Design">🎨</a></td>
-    <td align="center"><a href="https://www.linkedin.com/in/joaovntr/"><img src="https://i.imgur.com/4kGRWdN.jpg" width="100px;" alt="João Ventura"/><br /><sub><b>João Ventura</b></sub></a><br /><a href="https://www.linkedin.com/in/joaovntr/"title="Design">🎨</a></td>
+    <td align="center"><a href="https://www.linkedin.com/in/joaovntr/"><img src="https://i.imgur.com/4kGRWdN.jpg" width="100px;" alt="João Ventura"/><br /><sub><b>João Ventura</b></sub></a><br /><a href="https://www.behance.net/joaovntr?tracking_source=search%7Cjo%C3%A3o%20ventura"title="Design">🎨</a></td>
   </tr>
 </table>
 
