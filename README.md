@@ -33,7 +33,7 @@ Hackatrack app is ready for launch! We are waiting for store review and as soon 
 
 We are happy to receive [feedback](https://www.producthunt.com/posts/hackatrack) and answer any Qs about the project and its future! 🙂
 
-## Our mission with HackaTrack
+## Our mission
 
 Our mission is to reduce stress and improve productivity in hackathons with an status update platform in which all the teams share their progress with all the mentors, so they can give precise mentoring at the right moment, keeping everyone in the same page
 Have a question about this product? [Ask the Makers](https://www.producthunt.com/posts/hackatrack#comment-body).
