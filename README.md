@@ -31,7 +31,7 @@ That's why we created hackatrack, a platform that connects everyone in the hacka
 
 Hackatrack app is ready for launch! We are waiting for store review and as soon as we are on we will share the link with you guys.
 
-We are happy to receive [feedback](https://www.producthunt.com/posts/hackatrack) and answer any Qs about the project and its future! :)
+We are happy to receive [feedback](https://www.producthunt.com/posts/hackatrack) and answer any Qs about the project and its future! 🙂
 
 ## Our mission with HackaTrack
 
