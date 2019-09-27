@@ -51,7 +51,7 @@ Have a question about this product? [Ask the Makers](https://www.producthunt.com
 - ✅ **Report Status as a Team**: Based on startup weekend's 0 to hero, each team can report on their team's progress status using these 0 to hero statuses, so that the Mentor can know when a team needs help 🆘. If you want check how, watch this video 👉🏾 [Report Status as a Team](https://vimeo.com/362308001);
 
 - ✅ **Help a Team and Report Status to a Team as a Mentor**: Every mentor will be able to track each team's progress through the platform and by the time he visits a team he can know what that team has done by looking at each team's status report history separately.
-  Even the mentor can give a report to the team if the mentor visit to the team has solved the team problem or not, so this report will also be in the team's report status history, helping both the team and the other mentors. that will help this mentor knowing where each team is at 📝.If you want check how, watch this video 👉🏾 [Join the Hackathon as a Mentor](https://vimeo.com/362309121);
+  Even the mentor can give a report to the team if the mentor visit to the team has solved the team problem or not, so this report will also be in the team's report status history, helping both the team and the other mentors. that will help this mentor knowing where each team is at 📝.If you want check how, watch this video 👉🏾 [Help a Team and Report Status to a Team as a Mentor](https://vimeo.com/362309121);
 
 - ✅ **The Hackathon Monitor (Real Time)**: Each stage change (0 to Hero) of each Team can be viewed on a Real Time Monitor! 🖥 . If you want check how, watch this video 👉🏾 [The Hackathon Monitor (Real Time)](https://vimeo.com/362375089);
 
