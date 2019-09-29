@@ -22,6 +22,12 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to your camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs access to your microphone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Gostaria de ter acesso à sua galeria de fotos para alterar a foto do seu perfil</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,11 +47,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSCameraUsageDescription</key>
-	<string>This app needs access to your camera</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Gostaria de ter acesso à sua galeria de fotos para alterar a foto do seu perfil</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app needs access to your microphone</string>
 </dict>
 </plist>

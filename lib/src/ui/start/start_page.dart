@@ -43,8 +43,6 @@ class _StartPageState extends State<StartPage> {
               child: Image(
                 image: AssetImage(logo),
                 fit: BoxFit.contain,
-                // width: 500,
-                // height: 100,
               ),
             ),
             Column(
