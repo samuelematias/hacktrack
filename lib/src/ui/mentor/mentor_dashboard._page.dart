@@ -378,67 +378,70 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
 
   Widget modalContent() {
     return Center(
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(
-                left: space_conifer,
-                top: space_golden_dream,
-                right: space_conifer,
+      child: GestureDetector(
+        onHorizontalDragDown: (e) => Navigator.pop(context),
+        child: Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(
+                  left: space_conifer,
+                  top: space_golden_dream,
+                  right: space_conifer,
+                ),
+                child: H1(
+                  text: "Invite people using these access codes:",
+                ),
               ),
-              child: H1(
-                text: "Invite people using these access codes:",
+              Padding(
+                padding: EdgeInsets.only(
+                  left: space_dodger_blue,
+                  top: space_golden_dream,
+                  right: space_dodger_blue,
+                ),
+                child: RowInfo(
+                  icon: Icons.star,
+                  iconColor: mustard,
+                  circleColor: lightMustard,
+                  title: "Mentors:",
+                  subTitle: _mentorsCode,
+                  buttonLabel: "Copy",
+                  isSecondaryButton: true,
+                  rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  onPress: () {
+                    Clipboard.setData(
+                      ClipboardData(text: _mentorsCode),
+                    );
+                    Navigator.pop(context);
+                  },
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: space_dodger_blue,
-                top: space_golden_dream,
-                right: space_dodger_blue,
+              Padding(
+                padding: EdgeInsets.only(
+                  left: space_dodger_blue,
+                  top: space_fire_bush,
+                  right: space_dodger_blue,
+                ),
+                child: RowInfo(
+                  icon: Icons.person,
+                  iconColor: purple,
+                  circleColor: lightPurple,
+                  title: "Participants:",
+                  subTitle: _participantsCode,
+                  buttonLabel: "Copy",
+                  isSecondaryButton: true,
+                  rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  onPress: () {
+                    Clipboard.setData(
+                      ClipboardData(text: _participantsCode),
+                    );
+                    Navigator.pop(context);
+                  },
+                ),
               ),
-              child: RowInfo(
-                icon: Icons.star,
-                iconColor: mustard,
-                circleColor: lightMustard,
-                title: "Mentors:",
-                subTitle: _mentorsCode,
-                buttonLabel: "Copy",
-                isSecondaryButton: true,
-                rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
-                onPress: () {
-                  Clipboard.setData(
-                    ClipboardData(text: _mentorsCode),
-                  );
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: space_dodger_blue,
-                top: space_fire_bush,
-                right: space_dodger_blue,
-              ),
-              child: RowInfo(
-                icon: Icons.person,
-                iconColor: purple,
-                circleColor: lightPurple,
-                title: "Participants:",
-                subTitle: _participantsCode,
-                buttonLabel: "Copy",
-                isSecondaryButton: true,
-                rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
-                onPress: () {
-                  Clipboard.setData(
-                    ClipboardData(text: _participantsCode),
-                  );
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
