@@ -173,7 +173,7 @@ class _JoinPageState extends State<JoinPage> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          left: space_heliotrope,
+                          left: Dimens.messagePaddingLeft,
                           top: space_dodger_blue,
                           right: space_heliotrope,
                         ),
@@ -214,4 +214,9 @@ class _JoinPageState extends State<JoinPage> {
       ),
     );
   }
+}
+
+class Dimens {
+  //Random Dimessions that you need to use in the code.
+  static const double messagePaddingLeft = 26.0;
 }

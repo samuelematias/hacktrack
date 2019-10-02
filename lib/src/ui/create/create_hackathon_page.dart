@@ -184,7 +184,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                  left: space_heliotrope,
+                                  left: Dimens.messagePaddingLeft,
                                   top: space_dodger_blue,
                                   right: space_heliotrope,
                                 ),
@@ -257,7 +257,7 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(
-                              left: space_heliotrope,
+                              left: Dimens.messagePaddingLeft,
                               top: space_dodger_blue,
                               right: space_heliotrope,
                             ),
@@ -299,4 +299,9 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
       ),
     );
   }
+}
+
+class Dimens {
+  //Random Dimessions that you need to use in the code.
+  static const double messagePaddingLeft = 26.0;
 }
