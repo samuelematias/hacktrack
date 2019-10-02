@@ -19,6 +19,7 @@ import '../../util/metrics.dart';
 import '../../widget/card_track_team.dart';
 import '../../widget/custom_progress_indicator.dart';
 import '../../widget/error_alert.dart';
+import '../../widget/flash_message.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
@@ -413,7 +414,11 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
                     Clipboard.setData(
                       ClipboardData(text: _mentorsCode),
                     );
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    _showCenterFlash(
+                      'Mentor',
+                      position: FlashPosition.top,
+                    );
                   },
                 ),
               ),
@@ -436,7 +441,11 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
                     Clipboard.setData(
                       ClipboardData(text: _participantsCode),
                     );
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    _showCenterFlash(
+                      'Participant',
+                      position: FlashPosition.top,
+                    );
                   },
                 ),
               ),
@@ -444,6 +453,38 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showCenterFlash(
+    String text, {
+    FlashPosition position = FlashPosition.center,
+    Alignment alignment,
+  }) {
+    showFlash(
+      context: context,
+      duration: Duration(seconds: 1),
+      builder: (_, controller) {
+        return FlashMessage(
+          controller: controller,
+          backgroundColor: heavyBlack,
+          position: position,
+          alignment: alignment,
+          style: FlashStyle.grounded,
+          enableDrag: false,
+          onTap: () => controller.dismiss(),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: DefaultTextStyle(
+              style: TextStyle(color: Colors.white),
+              child: Text(
+                '$text Code Copied!',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

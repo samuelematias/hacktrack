@@ -21,3 +21,4 @@ Color lightMustard = Convert.hexToDartColor('#F8DBB4');
 Color darkMustard = Convert.hexToDartColor('#E8833A');
 Color overlay = Color.fromRGBO(0, 0, 0, 0.24);
 Color overlay35 = Color.fromRGBO(0, 0, 0, 0.35);
+const Color heavyBlack = Color(0xFF3E3E3E);

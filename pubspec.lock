@@ -106,13 +106,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
-  flash:
-    dependency: "direct main"
-    description:
-      name: flash
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0+2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -353,5 +346,5 @@ packages:
     source: hosted
     version: "2.0.8"
 sdks:
-  dart: ">=2.4.0 <3.0.0"
+  dart: ">=2.2.2 <3.0.0"
   flutter: ">=1.5.9-pre.94 <2.0.0"

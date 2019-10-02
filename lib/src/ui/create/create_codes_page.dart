@@ -9,6 +9,7 @@ import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
+import '../../widget/flash_message.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
@@ -96,6 +97,10 @@ class _CreateCodesPageState extends State<CreateCodesPage> {
                           Clipboard.setData(
                             ClipboardData(text: _mentorsCode),
                           );
+                          _showCenterFlash(
+                            'Mentor',
+                            position: FlashPosition.top,
+                          );
                         },
                       ),
                     ),
@@ -117,6 +122,10 @@ class _CreateCodesPageState extends State<CreateCodesPage> {
                         onPress: () {
                           Clipboard.setData(
                             ClipboardData(text: _participantsCode),
+                          );
+                          _showCenterFlash(
+                            'Participant',
+                            position: FlashPosition.top,
                           );
                         },
                       ),
@@ -144,6 +153,38 @@ class _CreateCodesPageState extends State<CreateCodesPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showCenterFlash(
+    String text, {
+    FlashPosition position = FlashPosition.center,
+    Alignment alignment,
+  }) {
+    showFlash(
+      context: context,
+      duration: Duration(seconds: 1),
+      builder: (_, controller) {
+        return FlashMessage(
+          controller: controller,
+          backgroundColor: heavyBlack,
+          position: position,
+          alignment: alignment,
+          style: FlashStyle.grounded,
+          enableDrag: false,
+          onTap: () => controller.dismiss(),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: DefaultTextStyle(
+              style: TextStyle(color: Colors.white),
+              child: Text(
+                '$text Code Copied!',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
