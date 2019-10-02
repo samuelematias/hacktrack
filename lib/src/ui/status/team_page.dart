@@ -134,7 +134,7 @@ class _TeamPageState extends State<TeamPage> {
                     bottom: space_spring_green,
                   ),
                   child: H1(
-                    text: "${storageService.getTeamStage()} PHASE",
+                    text: "${storageService.getTeamStage()} Phase",
                   ),
                 ),
                 !isMentor
