@@ -144,7 +144,8 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                                   controller: _inputController1,
                                   onChanged: (String text) {
                                     bloc.updateIdentifier(text);
-                                    bloc.identifier = text;
+                                    bloc.identifier =
+                                        text.replaceAll(new RegExp(r"\ "), "");
                                     bloc.validateCreateHackathonButton(
                                       text,
                                       _inputController2.text,
