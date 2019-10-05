@@ -9,13 +9,13 @@ import '../../shared/models/team_model.dart';
 import '../../themes/color_palette.dart';
 import '../../themes/images_gallery.dart';
 import '../../themes/spacing/linear_scale.dart';
-import '../../themes/text/typography/h/h2.dart';
 import '../../themes/text/typography/h/h3.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../themes/text/typography/p/p1.dart';
 import '../../util/custom_dialog.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
+import '../../widget/auto_resize_text.dart';
 import '../../widget/circle_icon.dart';
 import '../../widget/custom_progress_indicator.dart';
 import '../../widget/error_alert.dart';
@@ -369,8 +369,13 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                               padding: EdgeInsets.only(
                                 left: space_dodger_blue,
                               ),
-                              child: H2(
+                              child: AutoResizeText(
                                 text: title,
+                                containerTextWidth: 150,
+                                textAlign: TextAlign.left,
+                                textColor: black,
+                                fontSize: space_golden_dream,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             Padding(
