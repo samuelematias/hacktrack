@@ -52,21 +52,22 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
   @override
   void initState() {
     super.initState();
-    KeyboardVisibilityNotification().addNewListener(
-      onChange: (bool visible) {
-        if (visible) {
-          leftOverFlow = -5.0;
-          rightOverFlow = -5.0;
-          bottomOverFlow = 0.0;
-          isFocus = true;
-        } else {
-          leftOverFlow = 20.0;
-          rightOverFlow = 20.0;
-          bottomOverFlow = 25.0;
-          isFocus = false;
-        }
-      },
-    );
+    _focusNode.addListener(_focusNodeListener);
+    // KeyboardVisibilityNotification().addNewListener(
+    //   onChange: (bool visible) {
+    //     if (visible) {
+    //       leftOverFlow = -5.0;
+    //       rightOverFlow = -5.0;
+    //       bottomOverFlow = 0.0;
+    //       isFocus = true;
+    //     } else {
+    //       leftOverFlow = 20.0;
+    //       rightOverFlow = 20.0;
+    //       bottomOverFlow = 25.0;
+    //       isFocus = false;
+    //     }
+    //   },
+    // );
 
     listenStatusUpdateResponse = bloc.createTrackPost.listen((data) {
       if (data.id != null) {
@@ -91,10 +92,25 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
 
   @override
   void dispose() {
-    KeyboardVisibilityNotification().dispose();
+    _focusNode.removeListener(_focusNodeListener);
+    // KeyboardVisibilityNotification().dispose();
     listenStatusUpdateResponse.cancel();
     listenStatusUpdateResponseLoading.cancel();
     super.dispose();
+  }
+
+  Future<Null> _focusNodeListener() async {
+    if (_focusNode.hasFocus) {
+      leftOverFlow = -5.0;
+      rightOverFlow = -5.0;
+      bottomOverFlow = 0.0;
+      isFocus = true;
+    } else {
+      leftOverFlow = 20.0;
+      rightOverFlow = 20.0;
+      bottomOverFlow = 25.0;
+      isFocus = false;
+    }
   }
 
   @override
