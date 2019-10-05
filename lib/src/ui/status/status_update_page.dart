@@ -360,7 +360,7 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.done,
                           maxLines: 3,
-                          maxLength: 100,
+                          maxLength: 250,
                           style: TextStyle(
                             color: black,
                           ),

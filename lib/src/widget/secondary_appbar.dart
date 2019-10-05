@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../themes/color_palette.dart';
+import '../themes/spacing/linear_scale.dart';
+import 'auto_resize_text.dart';
 
 class SecondaryAppBar extends AppBar {
   SecondaryAppBar({
@@ -21,10 +23,13 @@ class SecondaryAppBar extends AppBar {
           iconTheme: IconThemeData(
             color: grey, //change your color here
           ),
-          title: Text(
-            pageTitle,
+          title: AutoResizeText(
+            text: pageTitle,
+            containerTextWidth: 185,
             textAlign: TextAlign.center,
-            style: Theme.of(context).accentTextTheme.headline,
+            textColor: black,
+            fontSize: space_fire_bush,
+            fontWeight: FontWeight.w600,
           ),
           leading: !hideHeaderLeft
               ? Row(

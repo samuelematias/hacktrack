@@ -153,7 +153,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                   },
                                   autofocus: true,
                                   keyboardType: TextInputType.text,
-                                  maxLength: 15,
+                                  maxLength: 25,
                                   style: TextStyle(
                                     color: black,
                                   ),
