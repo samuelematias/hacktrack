@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../shared/app_preferences.dart';
 import '../../shared/locator.dart';
@@ -53,21 +52,6 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
   void initState() {
     super.initState();
     _focusNode.addListener(_focusNodeListener);
-    // KeyboardVisibilityNotification().addNewListener(
-    //   onChange: (bool visible) {
-    //     if (visible) {
-    //       leftOverFlow = -5.0;
-    //       rightOverFlow = -5.0;
-    //       bottomOverFlow = 0.0;
-    //       isFocus = true;
-    //     } else {
-    //       leftOverFlow = 20.0;
-    //       rightOverFlow = 20.0;
-    //       bottomOverFlow = 25.0;
-    //       isFocus = false;
-    //     }
-    //   },
-    // );
 
     listenStatusUpdateResponse = bloc.createTrackPost.listen((data) {
       if (data.id != null) {
@@ -93,7 +77,6 @@ class _StatusUpdatePageState extends State<StatusUpdatePage> {
   @override
   void dispose() {
     _focusNode.removeListener(_focusNodeListener);
-    // KeyboardVisibilityNotification().dispose();
     listenStatusUpdateResponse.cancel();
     listenStatusUpdateResponseLoading.cancel();
     super.dispose();
