@@ -13,7 +13,7 @@ import '../../themes/color_palette.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/h/h4.dart';
-import '../../util/custom_dialog.dart';
+import '../../util/custom_modal.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../util/slide_right_transition.dart';
@@ -21,11 +21,10 @@ import '../../widget/card_track.dart';
 import '../../widget/content_card.dart';
 import '../../widget/custom_progress_indicator.dart';
 import '../../widget/error_alert.dart';
-import '../../widget/primary_button.dart';
+import '../../widget/exit_hackathon.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
 import '../mentor/mentor_module.dart';
-import '../start/start_page.dart';
 import 'status_bloc.dart';
 import 'status_module.dart';
 
@@ -98,8 +97,19 @@ class _TeamPageState extends State<TeamPage> {
               ),
               (Route<dynamic> route) => false);
         },
-        onClickCustomHeaderLeft: () =>
-            CustomDialog.show(context, _buildDialogContent(context), 110),
+        onClickCustomHeaderLeft: () => Navigator.of(context).push(
+          CustomModal(
+            context: context,
+            modalContent: ExitHackathon(),
+            overlayHeight: 35.0,
+            modalContentHeight: 150,
+            modalContentWidth: Metrics.pw(context, 80),
+            modalContentBottomLeft: 4.0,
+            modalContentBottomRight: 4.0,
+            useFade: true,
+            transitionDuration: Duration(milliseconds: 100),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: _bodyWidget(context, bloc),
@@ -346,56 +356,6 @@ class _TeamPageState extends State<TeamPage> {
               item.status == 'ok' ? green : item.status == 'nok' ? red : black,
         ),
       ),
-    );
-  }
-
-  Widget _buildDialogContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(
-            bottom: space_golden_dream,
-          ),
-          child: H4(
-            text: "Are your sure you want to exit the hackathon?",
-          ),
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SecondaryButton(
-                    label: "Cancel",
-                    onPress: () => Navigator.pop(context),
-                    width: 100,
-                  ),
-                  PrimaryButton(
-                    label: "Exit",
-                    onPress: () {
-                      storageService.clear();
-                      Navigator.pop(context);
-                      return Navigator.of(
-                        context,
-                      ).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => StartPage(),
-                          ),
-                          (Route<dynamic> route) => false);
-                    },
-                    width: 100,
-                    borderColor: red,
-                    buttonColor: red,
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 

@@ -12,18 +12,18 @@ import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h3.dart';
 import '../../themes/text/typography/h/h4.dart';
 import '../../themes/text/typography/p/p1.dart';
-import '../../util/custom_dialog.dart';
+import '../../util/custom_modal.dart';
 import '../../util/metrics.dart';
 import '../../util/routes.dart';
 import '../../widget/auto_resize_text.dart';
 import '../../widget/circle_icon.dart';
 import '../../widget/custom_progress_indicator.dart';
 import '../../widget/error_alert.dart';
+import '../../widget/exit_hackathon.dart';
 import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
-import '../start/start_page.dart';
 import '../status/status_module.dart';
 import 'team_bloc.dart';
 import 'team_module.dart';
@@ -46,7 +46,6 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
     _init();
     listenJoinTeamResponse = bloc.joinTeamPost.listen((data) {
       if (data.id != null) {
-        // Navigator.of(context).pushNamed(RoutesNames.team);
         Navigator.of(
           context,
         ).pushAndRemoveUntil(
@@ -54,13 +53,6 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
               builder: (BuildContext context) => StatusModule(),
             ),
             (Route<dynamic> route) => false);
-        // Navigator.of(
-        //   context,
-        // ).pushAndRemoveUntil(
-        //     MaterialPageRoute(
-        //       builder: (BuildContext context) => TeamPage(),
-        //     ),
-        //     (Route<dynamic> route) => false);
       }
     });
     listenJoinTeamResponseLoading = bloc.isShowLoading.listen((data) {
@@ -99,8 +91,19 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
         showHeaderRight: true,
         onClickHeaderRight: () => _init(),
         customHeaderLeft: true,
-        onClickCustomHeaderLeft: () => CustomDialog.show(
-            context, _buildDialogLeaveHackaContent(context), 110),
+        onClickCustomHeaderLeft: () => Navigator.of(context).push(
+          CustomModal(
+            context: context,
+            modalContent: ExitHackathon(),
+            overlayHeight: 35.0,
+            modalContentHeight: 150,
+            modalContentWidth: Metrics.pw(context, 80),
+            modalContentBottomLeft: 4.0,
+            modalContentBottomRight: 4.0,
+            useFade: true,
+            transitionDuration: Duration(milliseconds: 100),
+          ),
+        ),
       ),
       body: _bodyWidget(context, bloc),
     );
@@ -282,15 +285,23 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                 )
               : Container(),
           GestureDetector(
-            onTap: () => CustomDialog.show(
-                context,
-                _buildDialogContent(
-                  context,
+            onTap: () => Navigator.of(context).push(
+              CustomModal(
+                context: context,
+                modalContent: modalContent(
                   item.id,
                   item.name,
                   totalParticipants,
                 ),
-                170),
+                overlayHeight: 35.0,
+                modalContentHeight: 200,
+                modalContentWidth: Metrics.pw(context, 80),
+                modalContentBottomLeft: 4.0,
+                modalContentBottomRight: 4.0,
+                useFade: true,
+                transitionDuration: Duration(milliseconds: 100),
+              ),
+            ),
             child: Container(
               color: Colors.transparent,
               child: RowInfo(
@@ -300,15 +311,23 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                 title: item.name,
                 subTitle: totalParticipants,
                 buttonLabel: "Join",
-                onPress: () => CustomDialog.show(
-                    context,
-                    _buildDialogContent(
-                      context,
+                onPress: () => Navigator.of(context).push(
+                  CustomModal(
+                    context: context,
+                    modalContent: modalContent(
                       item.id,
                       item.name,
                       totalParticipants,
                     ),
-                    170),
+                    overlayHeight: 35.0,
+                    modalContentHeight: 200,
+                    modalContentWidth: Metrics.pw(context, 80),
+                    modalContentBottomLeft: 4.0,
+                    modalContentBottomRight: 4.0,
+                    useFade: true,
+                    transitionDuration: Duration(milliseconds: 100),
+                  ),
+                ),
                 rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
             ),
@@ -333,14 +352,31 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
     );
   }
 
-  Widget _buildDialogContent(
-      BuildContext context, String teamId, String title, String subTitle) {
+  Future<Null> refreshList() async {
+    refreshKey.currentState?.show(atTop: false);
+    _init();
+
+    return null;
+  }
+
+  Widget modalContent(
+    String teamId,
+    String title,
+    String subTitle,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        H4(
-          text: "Are your sure you want to join this team?",
+        Padding(
+          padding: EdgeInsets.only(
+            left: space_conifer,
+            top: space_golden_dream,
+            right: space_conifer,
+          ),
+          child: H4(
+            text: "Are your sure you want to join this team?",
+          ),
         ),
         Padding(
           padding: EdgeInsets.only(
@@ -401,7 +437,7 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
           children: <Widget>[
             Expanded(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   SecondaryButton(
                     label: "Cancel",
@@ -417,63 +453,6 @@ class _ChooseTeamPageState extends State<ChooseTeamPage> {
                       Navigator.pop(context);
                     },
                     width: 100,
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Future<Null> refreshList() async {
-    refreshKey.currentState?.show(atTop: false);
-    _init();
-
-    return null;
-  }
-
-  Widget _buildDialogLeaveHackaContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(
-            bottom: space_golden_dream,
-          ),
-          child: H4(
-            text: "Are your sure you want to exit the hackathon?",
-          ),
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SecondaryButton(
-                    label: "Cancel",
-                    onPress: () => Navigator.pop(context),
-                    width: 100,
-                  ),
-                  PrimaryButton(
-                    label: "Exit",
-                    onPress: () {
-                      storageService.clear();
-                      Navigator.pop(context);
-                      return Navigator.of(
-                        context,
-                      ).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => StartPage(),
-                          ),
-                          (Route<dynamic> route) => false);
-                    },
-                    width: 100,
-                    borderColor: red,
-                    buttonColor: red,
                   )
                 ],
               ),

@@ -12,19 +12,16 @@ import '../../themes/images_gallery.dart';
 import '../../themes/spacing/linear_scale.dart';
 import '../../themes/text/typography/h/h1.dart';
 import '../../themes/text/typography/h/h3.dart';
-import '../../themes/text/typography/h/h4.dart';
-import '../../util/custom_dialog.dart';
 import '../../util/custom_modal.dart';
 import '../../util/metrics.dart';
 import '../../widget/card_track_team.dart';
 import '../../widget/custom_progress_indicator.dart';
 import '../../widget/error_alert.dart';
+import '../../widget/exit_hackathon.dart';
 import '../../widget/flash_message.dart';
-import '../../widget/primary_button.dart';
 import '../../widget/row_info.dart';
 import '../../widget/secondary_appbar.dart';
 import '../../widget/secondary_button.dart';
-import '../start/start_page.dart';
 import '../status/status_module.dart';
 import 'mentor_bloc.dart';
 import 'mentor_module.dart';
@@ -85,8 +82,19 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
         context: context,
         showHeaderRight: true,
         customHeaderLeft: true,
-        onClickCustomHeaderLeft: () =>
-            CustomDialog.show(context, _buildDialogContent(context), 110),
+        onClickCustomHeaderLeft: () => Navigator.of(context).push(
+          CustomModal(
+            context: context,
+            modalContent: ExitHackathon(),
+            overlayHeight: 35.0,
+            modalContentHeight: 150,
+            modalContentWidth: Metrics.pw(context, 80),
+            modalContentBottomLeft: 4.0,
+            modalContentBottomRight: 4.0,
+            useFade: true,
+            transitionDuration: Duration(milliseconds: 100),
+          ),
+        ),
         onClickHeaderRight: () => _init(),
       ),
       body: _bodyWidget(context, bloc),
@@ -317,56 +325,6 @@ class _MentorDashboardPageState extends State<MentorDashboardPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildDialogContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(
-            bottom: space_golden_dream,
-          ),
-          child: H4(
-            text: "Are your sure you want to exit the hackathon?",
-          ),
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SecondaryButton(
-                    label: "Cancel",
-                    onPress: () => Navigator.pop(context),
-                    width: 100,
-                  ),
-                  PrimaryButton(
-                    label: "Exit",
-                    onPress: () {
-                      storageService.clear();
-                      Navigator.pop(context);
-                      return Navigator.of(
-                        context,
-                      ).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => StartPage(),
-                          ),
-                          (Route<dynamic> route) => false);
-                    },
-                    width: 100,
-                    borderColor: red,
-                    buttonColor: red,
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 

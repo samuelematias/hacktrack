@@ -167,17 +167,19 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                                     border: OutlineInputBorder(),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: handleNameAlreadyExist
-                                              ? red
-                                              : purple,
-                                          width: 2.0),
+                                        color: handleNameAlreadyExist
+                                            ? red
+                                            : purple,
+                                        width: 2.0,
+                                      ),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: handleNameAlreadyExist
-                                              ? red
-                                              : black,
-                                          width: 1.0),
+                                        color: handleNameAlreadyExist
+                                            ? red
+                                            : black,
+                                        width: 1.0,
+                                      ),
                                     ),
                                     fillColor: black,
                                   ),
@@ -245,11 +247,15 @@ class _CreateHackathonPageState extends State<CreateHackathonPage> {
                                       border: OutlineInputBorder(),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: purple, width: 2.0),
+                                          color: purple,
+                                          width: 2.0,
+                                        ),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: black, width: 1.0),
+                                          color: black,
+                                          width: 1.0,
+                                        ),
                                       ),
                                       fillColor: black,
                                     ),
