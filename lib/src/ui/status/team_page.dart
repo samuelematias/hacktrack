@@ -92,10 +92,11 @@ class _TeamPageState extends State<TeamPage> {
           Navigator.of(
             context,
           ).pushAndRemoveUntil(
-              SlideRightRoute(
-                widget: MentorModule(),
-              ),
-              (Route<dynamic> route) => false);
+            SlideRightRoute(
+              widget: MentorModule(),
+            ),
+            (Route<dynamic> route) => false,
+          );
         },
         onClickCustomHeaderLeft: () => Navigator.of(context).push(
           CustomModal(
