@@ -31,12 +31,12 @@ That's why we created hackatrack, a platform that connects everyone in the hacka
 
 Hackatrack app is ready for launch! We are waiting for store review and as soon as we are on we will share the link with you guys.
 
-We are happy to receive [feedback](https://www.producthunt.com/posts/hackatrack) and answer any Qs about the project and its future! 🙂
+We are happy to receive [feedback](https://www.producthunt.com/posts/hackatrack-1) and answer any Qs about the project and its future! 🙂
 
 ## Our mission
 
 Our mission is to reduce stress and improve productivity in hackathons with an status update platform in which all the teams share their progress with all the mentors, so they can give precise mentoring at the right moment, keeping everyone in the same page
-Have a question about this product? [Ask the Makers](https://www.producthunt.com/posts/hackatrack#comment-body).
+Have a question about this product? [Ask the Makers](https://www.producthunt.com/posts/hackatrack-1#comment-body).
 
 ## Features
 
@@ -81,7 +81,7 @@ Have a question about this product? [Ask the Makers](https://www.producthunt.com
 
 Due to bureaucratic points, the app is not yet in stores, more will be very soon 🤞🏾👍🏾!
 <br/>
-So stay tuned to our [Product Hunt](https://www.producthunt.com/posts/hackatrack) page 📑👍🏾!
+So stay tuned to our [Product Hunt](https://www.producthunt.com/posts/hackatrack-1) page 📑👍🏾!
 
 <!-- final considerations END-->
 
